@@ -1,0 +1,312 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\mario1.png	255	255	255
+20	textures\misc.png	176	224	248
+-1	source\SuperMarioBros3Map1-1BG_bank.png	255	255	255
+[TILE_MAP_DATA]
+source\Map\Scene1.txt
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# BIG MARIO HAVE TAIL
+# idle right
+11001	212	443	233	471	0
+# walk right
+11002	262	443	284	471	0
+11003	291	443	314	470	0	
+# idle left
+11005	173	443	194	471	0
+# walk left
+11006	122	443	144	471	0
+11007	92	443	115	470	0
+# sitting left
+11011	12	438	34	466	0
+# sitting right
+11012	372	438	394	466	0
+# stop right
+11016	175	482	191	512	0
+# stop left
+11017	215	482	231	512	0
+# fly right
+11021	331	443	354	470	0
+# fly left
+11022	52	443	75	470	0
+# falling right
+11031	211	603	234	631	0
+# falling left
+11032	172	603	195	631	0
+# attack right
+11041	236	443	259	471	0
+11042	355	483	378	511	0
+11043	147	443	170	471	0
+11044	390	483	413	511	0
+# attack left
+11043	147	443	170	471	0
+11042	355	483	371	511	0
+11041	236	443	259	471	0
+11044	390	483	406	511	0
+# running right
+110002	211	523	235	551	0
+110003	251	523	275	551	0
+110004	291	523	315	550	0
+# running left
+110006	171	523	195	551	0
+110007	131	523	155	551	0
+110008	91	523	115	551	0
+# flying when running right
+110211	371	603	395	630	0	
+# flying when running left
+110221	11	603	35	630	0
+# falling down slownly right (mario tail down) 
+110310	251	603	274	633	0
+# falling down slownly left   (mario tail down)
+110320	132	603	155	630	0
+# =========-----End BIG MARIO HAVE TAIL-------========
+# BIG MARIO 
+# idle right
+10001	216	243	230	270	0
+# walk
+10002	255	243	271	270	0		
+10003	295	244	311	270	0
+# idle left
+10011	176	243	190	270	0
+#walk
+10012	135	243	151	270	0
+10013	95	244	111	270	0
+# sitting left
+10050	16	240	30	266	0
+# sitting right
+10051	376	240	390	266	0
+# stop right
+10060	175	283	191	311	0
+# stop left
+10061	215	283	231	311	0
+# fly right
+10070	335	244	351	270	0
+# fly left
+10071	55	244	71	270	0
+# running right
+100001	213	323	232	350	0
+100002	253	323	272	350	0
+100003	293	324	312	350	0
+# running left
+100012	174	323	193	350	0
+100013	134	323	153	350	0
+100014	94	324	113	350	0
+# flying when running right
+100701	333	364	352	390	0
+# flying when running left
+100711	54	364	73	390	0
+# =========-----End BIG MARIO-------========
+# die 
+10099	375	209	391	224	0
+# SMALL MARIO
+# idle small right
+10021	217	89	229	104	0
+# walk
+10022	256	89	271	104	0
+10023	255	169	271	185	0
+# idle small left
+10031	177	89	189	104	0
+# walk
+10032	135	89	150	104	0
+10033	135	169	150	185	0
+# stop right
+10080	176	129	190	145	0
+# stop left
+10081	216	129	230	145	0
+# fly right
+10085	335	89	351	104	0
+# fly left
+10086	55	89	71	104	0
+# running right
+10040	215	169	231	184	0
+10041	255	169	271	184	0
+# running left
+10042	175	169	191	184	0
+10043	135	169	151	184	0
+# flying when running right
+100850	215	209	231	225	0
+# flying when running left
+100860	175	209	191	225	0
+
+
+
+#QUESTION BRICK
+40001	300	117	316	133	20
+40002	318	117	334	133	20
+40003	336	117	352	133	20
+40004	355	117	370	133	20
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+# ==== MARIO =========
+#idle BIG right
+400	10001	100
+#idle BIG left
+401	10011	100
+#idle small right
+402	10021	100
+#idle small left
+403	10031	100
+#idle big have tail right
+404	11001	100
+#idle big have tail left
+405	11005	100
+
+#walk right big
+500	10001	100	10002	100	10003	100
+#walk left big
+501	10011	100	10012	100	10013	100
+#walk right small
+502	10021	100	10022	100	10023	100
+#walk left small
+503	10031	100	10032	100	10033	100
+#walk right big have tail
+504	11001	100	11002	100	11003	100
+#walk left big have tail
+505	11005	100	11006	100	11007	100
+#die
+599	10099	100
+#sitting big left	(BIG)
+415	10050	100
+#sitting big right	(BIG)
+416	10051	100
+#fly big right 	(BIG)
+430	10070	200
+#fly big left 	(BIG)
+431	10071	200
+# falling right	(BIG)
+4300	10003	100
+# falling left	(BIG)
+4301	10013	100
+
+#stop right 	(BIG) 
+450	10060	100
+#stop left	(BIG)	 
+451	10061	100
+# running right		(BIG)
+4321	100001	100	100002	100	100003	100
+# running left		(BIG)
+4322	100012	100	100013	100	100014	100
+# flying when running right	(BIG)
+4331	100701	100
+# flying when running left	(BIG)
+4332	100711	100
+
+
+#sitting big left	(BIG_TAIL)
+417	11012	100
+#sitting big right	(BIG_TAIL)
+418	11011	100
+#fly big right 		(BIG_TAIL)
+432	11016	100
+#fly big left 		(BIG_TAIL)
+433	11017	100
+#stop right 		(BIG_TAIL) 
+452	11021	100
+#stop left		(BIG_TAIL)	 
+453	11022	100
+# falling right		(BIG_TAIL)
+4302	11031	100
+# falling left		(BIG_TAIL)
+4303	11032	100
+# attacking right	(BIG_TAIL)
+4311	11041	1000	11042	1000	11043	1000	11044	1000	11041	1000
+# attacking left	(BIG_TAIL)
+4312	11043	100	11042	100	11041	100	11044	100	11043	100
+# running right		(BIG_TAIL)
+4323	110002	100	110003	100	110004	100
+# running left		(BIG_TAIL)
+4324	110006	100	110007	100	110008	100
+# flying when running right	(BIG_TAIL)
+4333	110211	100
+# flying when running left	(BIG_TAIL)
+4334	110221	100
+# falling down slownly right
+43020	110310	100	11003	100	11031	100
+# falling down slownly left
+43021	110320	100	11007	100	11032	100
+
+#stop right 	(SMALL)
+460	10080	100
+#stop left	(SMALL)
+461	10081	100
+#fly big right 	(SMALL)
+440	10085	100
+#fly big left 	(SMALL)
+441	10086	100
+# running right	(SMALL)
+510	10040	100	10041	100
+# running left	(SMALL)
+511	10042	100	10043	100
+# flying when running right		(SMALL)
+4400	100850	100
+# flying when running left		(SMALL)	
+4410	100860	100
+
+# ==== QUESTION BRICK =========
+602	40001	1000	40001	100	40002	100	40003	100	40004	100
+
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# MARIO
+1	400	401	402	403	500	501	502	503	599 	415	416	430	431	450	451	460	461	440	441	404	405	504	505	417	418	432	433	452	453	4300	4301	4302	4303	4311	4312	510	511	4321	4322	4323	4324	4331	4332	4333	4334	4400	4410	43020	43021
+# QUESTION BRICK 
+22	602
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera
+# MARIO
+0	32	386	1
+# GROUND 
+#type   x	y	andi	width	height	state
+4	0	-1	0	2816	1	0
+4	-1	0	0	1	432	0
+4	2817	0	0	1	432	0
+4	0	416	0	624	16	0
+4	240	368	0	48	1	1
+4	272	336	0	48	1	1
+4	352	366	0	32	48	0
+4	400	368	0	80	1	1
+4	464	336	0	64	1	1
+4	512	384	0	96	1	1
+4	512	304	0	64	1	1
+4	624	400	0	464	32	0
+4	1312	142	0	64	1	1
+4	1408	192	0	64	16	0
+4	1152	416	0	354	16	0
+4	1264	382	0	112	1	1
+4	1296	352	0	110	1	1
+4	1328	320	0	110	1	1
+4	1488	176	0	208	16	0
+4	1504	336	0	32	16	0
+4	1536	416	0	80	16	0
+4	1568	400	0	48	16	0
+4	1584	384	0	32	16	0
+4	1600	368	0	16	16	0
+4	1664	368	0	16	16	0
+4	1664	384	0	32	16	0
+4	1664	400	0	48	16	0
+4	1662	416	0	578	16	0
+4	1792	384	0	32	32	0
+4	1856	368	0	32	48	0
+4	2144	368	0	48	1	1
+4	2176	270	0	48	1	1
+4	2256	112	0	32	208	0
+4	2320	384	0	32	32	0
+4	2256	416	0	560	16	0
+4	2256	368	0	32	48	0
+
+# --- CAMERA ---
+#type x	y	ani_set_id	w	h
+5	0	240	0	176	192
+
+# --- MAP CAMERA ---
+#type x	y	ani_set_id	w	h
+6	0	0	0	2816	432
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+#5	0	115	98	0	148	150	1
