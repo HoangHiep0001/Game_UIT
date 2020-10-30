@@ -16,6 +16,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 	a = 0;
+	a_stop = 0;
+	time_stop = 0;
 
 	start_x = x; 
 	start_y = y; 
@@ -35,16 +37,38 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+	
+	if (a == 0 && a_stop != 0) //giam toc
+	{
+		vx -= a_stop * dt;
+		if (nx > 0)
+		{
+			if (vx < 0)
+			{
+				a_stop = 0;
+				vx = 0;
+			}
+		}
+		else
+		{
+			if (vx > 0)
+			{
+				a_stop = 0;
+				vx = 0;
+			}
+		}
+	}
 
-	// Simple fall down
-	if (abs(vx) > MARIO_WALKING_SPEED_MAX)
+	if (abs(vx) > MARIO_WALKING_SPEED_MAX)	// tang toc
 		vx = vx;
 	else
 		vx += a * dt;
 
-
-	vy += MARIO_GRAVITY*dt;
-
+	// Simple fall down
+	if (state != MARIO_STATE_FLYLING)
+	{
+		vy += MARIO_GRAVITY * dt;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -89,7 +113,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		y += min_ty*dy + ny*0.4f;
 		
 
-		if (nx != 0)vx = 0;
 		// Collision logic with other objects
 		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -134,21 +157,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<Ground*>(e->obj))
 			{
 
-				if (e->ny < 0)
+				if (e->ny < 0)	// xet tu tren xuong, dat nao cung dung len duoc
 					vy = 0;
-				if (e->ny > 0)
-					y += dy;
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)// xet tu duoi len, chi co state = 1 moi nhay xuyen duoc
+				{
+					if (e->ny > 0)
+						y += dy;
+				}
+				else vy = 0;
 				if (e->nx != 0)
 				{
-					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
-					{
-						x += dx;
-					}
-					else 
+					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0) 
 					{
 						vx = 0;
 						a = 0;
 					}
+					else 
+					{
+						x += dx;
+					}
+	 				y += dy;
 				}
 
 			}
@@ -208,6 +236,18 @@ void CMario::Render()
 					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_IDLE_LEFT;
 					break;
+				case MARIO_STATE_STOP:
+					if (nx < 0)
+						ani = MARIO_ANI_BIG_STOP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_STOP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FLY:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FLY_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FLY_IDLE_LEFT;
+					break;
 				}
 
 			}
@@ -241,6 +281,18 @@ void CMario::Render()
 				default:
 					if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 					else ani = MARIO_ANI_SMALL_IDLE_LEFT;
+					break;
+				case MARIO_STATE_STOP:
+					if (nx < 0)
+						ani = MARIO_ANI_SMALL_STOP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_SMALL_STOP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FLY:
+					if (nx > 0)
+						ani = MARIO_ANI_SMALL_FLY_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_SMALL_FLY_IDLE_LEFT;
 					break;
 				}
 			}
@@ -287,16 +339,175 @@ void CMario::Render()
 					if (nx > 0) ani = MARIO_ANI_BIG_FOX_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_FOX_IDLE_LEFT;
 					break;
+				case MARIO_STATE_STOP:
+					if (nx < 0)
+						ani = MARIO_ANI_BIG_FOX_STOP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_STOP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FLY:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FLY_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FLY_IDLE_LEFT;
+					break;
+				case MARIO_STATE_ATTACK:
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_LEFT;
+					}
+					break;
+				case MARIO_STATE_FLYLING:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FLYLING_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FLYLING_IDLE_LEFT;
+					break;
 				}
 			}
 			
 		}
+		else if (apperance== MARIO_FIRE)
+		{
+			if (level == MARIO_LEVEL_BIG)
+			{
+				switch (state)
+				{
+				case MARIO_STATE_IDLE:
+					if (nx > 0) ani = MARIO_ANI_BIG_FIRE_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_FIRE_IDLE_LEFT;
+					break;
+				case MARIO_STATE_WALKING_RIGHT:
+					ani = MARIO_ANI_BIG_FIRE_WALKING_RIGHT;
+					break;
+				case MARIO_STATE_WALKING_RIGHT_FAST:
+					ani = MARIO_ANI_BIG_FIRE_WALKING_FAST_RIGHT;
+					break;
+				case MARIO_STATE_WALKING_LEFT:
+					ani = MARIO_ANI_BIG_FIRE_WALKING_LEFT;
+					break;
+				case MARIO_STATE_WALKING_LEFT_FAST:
+					ani = MARIO_ANI_BIG_FIRE_WALKING_FAST_LEFT;
+					break;
+				case MARIO_STATE_JUMP:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_JUMP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_JUMP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_SIT:
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FIRE_SIT_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FIRE_SIT_LEFT;
+					}
+					break;
+				default:
+					if (nx > 0) ani = MARIO_ANI_BIG_FIRE_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_FIRE_IDLE_LEFT;
+					break;
+				case MARIO_STATE_STOP:
+					if (nx < 0)
+						ani = MARIO_ANI_BIG_FIRE_STOP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_STOP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FLY:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_FLY_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_FLY_IDLE_LEFT;
+					break;
+				}
+			}
+		}
+		else if (apperance==MARIO_FOX_FIRE)
+			{
+			if (level == MARIO_LEVEL_BIG)
+			{
+				switch (state)
+				{
+				case MARIO_STATE_IDLE:
+					if (nx > 0) ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_LEFT;
+					break;
+				case MARIO_STATE_WALKING_RIGHT:
+					ani = MARIO_ANI_BIG_FOX_FIRE_WALKING_RIGHT;
+					break;
+				case MARIO_STATE_WALKING_RIGHT_FAST:
+					ani = MARIO_ANI_BIG_FOX_FIRE_WALKING_FAST_RIGHT;
+					break;
+				case MARIO_STATE_WALKING_LEFT:
+					ani = MARIO_ANI_BIG_FOX_FIRE_WALKING_LEFT;
+					break;
+				case MARIO_STATE_WALKING_LEFT_FAST:
+					ani = MARIO_ANI_BIG_FOX_FIRE_WALKING_FAST_LEFT;
+					break;
+				case MARIO_STATE_JUMP:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_JUMP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_JUMP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_SIT:
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FOX_FIRE_SIT_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FOX_FIRE_SIT_LEFT;
+					}
+					break;
+				default:
+					if (nx > 0) ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_LEFT;
+					break;
+				case MARIO_STATE_STOP:
+					if (nx < 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_STOP_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_STOP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FLY:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLY_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLY_IDLE_LEFT;
+					break;
+				case MARIO_STATE_ATTACK:
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_LEFT;
+					}
+					break;
+				case MARIO_STATE_FLYLING:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_LEFT;
+					break;
+				}
+			}
+		}
+	
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMario::ChangeApperance(int apperance_change)
@@ -307,7 +518,7 @@ void CMario::ChangeApperance(int apperance_change)
 void CMario::SetState(int state)
 {
 	CGameObject::SetState(state);
-	a = 0;
+	a = 0;	
 	isSit = false;
 	switch (state)
 	{
@@ -329,7 +540,10 @@ void CMario::SetState(int state)
 			vy = -MARIO_JUMP_SPEED_Y;
 		break; 
 	case MARIO_STATE_IDLE: 
-		vx = 0;
+		if (a_stop == 0)
+		{
+			vx = 0;
+		}
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
@@ -337,14 +551,29 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT_FAST:
 		nx = 1;
 		a= MARIO_ACCELERATION;
+		a_stop = MARIO_ACCELERATION_STOP;
 		break;
 	case MARIO_STATE_WALKING_LEFT_FAST:
 		nx = -1;
 		a = -MARIO_ACCELERATION;
+		a_stop = -MARIO_ACCELERATION_STOP;
 		break;
 	case MARIO_STATE_SIT:
 		vx = 0;
 		this->isSit = true;
+		break;
+	case MARIO_STATE_STOP:
+		time_stop = GetTickCount64();
+		vx = 0;
+		break;
+	case MARIO_STATE_FLYLING:
+		a_stop = 0;
+		if (nx > 0)
+		{
+ 			vx = MARIO_FLYING_SPEED_X;
+		}
+		else vx = -MARIO_FLYING_SPEED_X;
+		vy = -MARIO_FLYLING_SPEED_Y;
 		break;
 
 	}
@@ -355,17 +584,28 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	left = x;
 	top = y; 
 
-	if (level==MARIO_LEVEL_BIG)
+	switch (level)
 	{
-		if(state == MARIO_STATE_SIT)
-			top = y + SIT_BBOX_OFFSET;
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
-	}
-	else
-	{
+	case MARIO_LEVEL_SMALL:
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+		break;
+	case MARIO_LEVEL_BIG:
+		if (apperance == MARIO_NORMAL || apperance == MARIO_FIRE)
+		{
+			if (state == MARIO_STATE_SIT)
+				top = y + SIT_BBOX_OFFSET;
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		}
+		else
+		{
+			if (state == MARIO_STATE_SIT)
+				top = y + SIT_BBOX_OFFSET;
+			right = x + MARIO_FOX_BBOX_WIDTH;
+			bottom = y + MARIO_FOX_BBOX_HEIGHT - MARIO_FOX_BBOX_OFFSET;
+		}
+		break;
 	}
 }
 

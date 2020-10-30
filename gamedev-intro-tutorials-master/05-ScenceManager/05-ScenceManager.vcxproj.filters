@@ -90,6 +90,9 @@
     <ClCompile Include="Map.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Object\StaticOject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Object\StaticOject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

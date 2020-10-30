@@ -195,13 +195,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
-		{	
-			float r = atof(tokens[4].c_str());
-			float b = atof(tokens[5].c_str());
-			int scene_id = atoi(tokens[6].c_str());
-			obj = new CPortal(x, y, r, b, scene_id);
-		}
-		break;
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		obj = new CPortal(x, y, r, b, scene_id);
+	}
+	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -398,7 +398,15 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		mario->SetState(MARIO_STATE_JUMP);
+		if (abs(mario->GetV()) >= MARIO_WALKING_SPEED_MAX &&
+			(mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE))
+		{
+			mario->SetState(MARIO_STATE_FLYLING);
+		}
+		else
+		{
+			mario->SetState(MARIO_STATE_JUMP);
+		}
 		break;
 	case DIK_A: 
 		mario->Reset();
@@ -408,6 +416,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_K:
 		mario->ChangeApperance(MARIO_FOX);
+		break;
+	case DIK_J:
+		mario->ChangeApperance(MARIO_FIRE);
+		break;
+	case DIK_I:
+		mario->ChangeApperance(MARIO_FOX_FIRE);
+		break;
+	case DIK_M:
+		mario->SetState(MARIO_STATE_FLY);
+		break;
+	case DIK_N:
+		mario->SetState(MARIO_STATE_ATTACK);// TOC DDO QUYA
 		break;
 	}
 }
@@ -429,32 +449,52 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if (mario->GetState() != MARIO_STATE_JUMP)
+		if (mario->GetState() != MARIO_STATE_FLYLING)
 		{
-			if (game->IsKeyDown(DIK_LSHIFT))
+			if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
 			{
-				mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
+				mario->SetState(MARIO_STATE_STOP); // dang di thi chuyen sang trang thai danh tay
 			}
-			else
+			else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO) // gettickcount64 la ham lay thoi gian hien tai
 			{
-				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+				if (mario->GetState() != MARIO_STATE_JUMP)
+				{
+					if (game->IsKeyDown(DIK_LSHIFT))
+					{
+						mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
+					}
+					else
+					{
+						mario->SetState(MARIO_STATE_WALKING_RIGHT);
+					}
+				}
 			}
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		if (mario->GetState() != MARIO_STATE_JUMP)
+		if (mario->GetState() != MARIO_STATE_FLYLING)
 		{
-			if (game->IsKeyDown(DIK_LSHIFT))
+			if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
 			{
-				mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+				mario->SetState(MARIO_STATE_STOP);
 			}
-			else mario->SetState(MARIO_STATE_WALKING_LEFT);
+			else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
+			{
+				if (mario->GetState() != MARIO_STATE_JUMP)
+				{
+					if (game->IsKeyDown(DIK_LSHIFT))
+					{
+						mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+					}
+					else mario->SetState(MARIO_STATE_WALKING_LEFT);
+				}
+			}
 		}
 	}
 	else
 	{
-		if (mario->GetState() != MARIO_STATE_JUMP)
+		if (mario->GetState() != MARIO_STATE_JUMP )
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}

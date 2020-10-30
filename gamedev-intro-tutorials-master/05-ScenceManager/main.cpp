@@ -23,7 +23,6 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
-
 #include "PlayScence.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -34,7 +33,7 @@
 #define SCREEN_HEIGHT 260
 
 
-#define MAX_FRAME_RATE 80
+#define MAX_FRAME_RATE 40
 
 CGame *game;
 

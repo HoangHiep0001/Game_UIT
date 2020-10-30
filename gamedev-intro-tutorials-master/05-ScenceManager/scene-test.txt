@@ -7,12 +7,12 @@
 source\Map\Scene1.txt
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-# BIG MARIO HAVE TAIL
+# ===-BIG MARIO HAVE FOX--===
 # idle right
 11001	212	443	233	471	0
 # walk right
 11002	262	443	284	471	0
-11003	291	443	314	470	0	
+11003	291	443	314	470	0
 # idle left
 11005	173	443	194	471	0
 # walk left
@@ -26,9 +26,9 @@ source\Map\Scene1.txt
 11016	175	482	191	512	0
 # stop left
 11017	215	482	231	512	0
-# fly right
+# jump right
 11021	331	443	354	470	0
-# fly left
+# jump left
 11022	52	443	75	470	0
 # falling right
 11031	211	603	234	631	0
@@ -52,15 +52,23 @@ source\Map\Scene1.txt
 110006	171	523	195	551	0
 110007	131	523	155	551	0
 110008	91	523	115	551	0
-# flying when running right
+# jumping when running right
 110211	371	603	395	630	0	
-# flying when running left
+# jumping when running left
 110221	11	603	35	630	0
-# falling down slownly right (mario tail down) 
+# falling down slownly right ROI XUONG
 110310	251	603	274	633	0
-# falling down slownly left   (mario tail down)
+# falling down slownly left   ROI XUONG
 110320	132	603	155	630	0
-# =========-----End BIG MARIO HAVE TAIL-------========
+#flyling up right (mario fox)
+110330	291	603	314	631	0
+110331	331	603	354	631	0
+110332	371	603	394	631	0
+flyling up left   (mario fox)
+110340	91	603	114	631	0
+110341	51	603	74	631	0
+110342	11	603	34	631	0
+# =========-----End BIG MARIO HAVE FOX-------========
 # BIG MARIO 
 # idle right
 10001	216	243	230	270	0
@@ -80,9 +88,9 @@ source\Map\Scene1.txt
 10060	175	283	191	311	0
 # stop left
 10061	215	283	231	311	0
-# fly right
+# jump right
 10070	335	244	351	270	0
-# fly left
+# jump left
 10071	55	244	71	270	0
 # running right
 100001	213	323	232	350	0
@@ -92,14 +100,14 @@ source\Map\Scene1.txt
 100012	174	323	193	350	0
 100013	134	323	153	350	0
 100014	94	324	113	350	0
-# flying when running right
+# jumping when running right
 100701	333	364	352	390	0
-# flying when running left
+# jumping when running left
 100711	54	364	73	390	0
 # =========-----End BIG MARIO-------========
 # die 
 10099	375	209	391	224	0
-# SMALL MARIO
+# ======--SMALL MARIO--===============
 # idle small right
 10021	217	89	229	104	0
 # walk
@@ -114,9 +122,9 @@ source\Map\Scene1.txt
 10080	176	129	190	145	0
 # stop left
 10081	216	129	230	145	0
-# fly right
+# jump right
 10085	335	89	351	104	0
-# fly left
+# jump left
 10086	55	89	71	104	0
 # running right
 10040	215	169	231	184	0
@@ -124,18 +132,109 @@ source\Map\Scene1.txt
 # running left
 10042	175	169	191	184	0
 10043	135	169	151	184	0
-# flying when running right
+# jumping when running right
 100850	215	209	231	225	0
-# flying when running left
+# jumping when running left
 100860	175	209	191	225	0
+# =================-------end small mario-------=================
+
+# BIG MARIO HAVE FIRE
+# idle right
+10101	215	683	231	710	0
+# walk
+10102	255	683	271	710	0		
+10103	295	683	311	710	0
+# idle left
+10111	176	683	192	710	0
+#walk
+10112	135	683	151	710	0
+10113	95	683	111	710	0
+# sitting left
+10150	16	679	30	706	0
+# sitting right
+10151	376	679	390	706	0
+# stop right
+10160	175	723	191	750	0
+# stop left
+10161	215	723	231	750	0
+# jump right
+10170	335	684	351	711	0
+# jump left
+10171	55	684	71	711	0
+# running right
+110101	213	764	232	791	0
+110102	253	763	272	791	0
+110103	293	764	312	791	0
+# running left
+110111	174	764	193	791	0
+110112	134	763	153	791	0
+110113	94	764	113	791	0
+# jumping when running right
+110131	333	803	352	830	0
+# jumping when running left
+110132	54	803	73	830	0
+# =========-----End BIG MARIO HAVE FIRE-------========
+
+# BIG MARIO HAVE FOX FIRE 
+# idle right
+10201	212	882	235	911	0
+# walk
+10202	262	882	285	911	0
+10203	292	882	315	911	0
+# idle left
+10211	172	882	195	911	0
+#walk
+10212	122	883	145	911	0
+10213	90	884	113	911	0
+# sitting left
+10250	11	879	34	906	0
+# sitting right
+10251	372	879	395	906	0
+# stop right
+10260	175	922	191	951	0
+# stop left
+10261	215	922	231	951	0
+# jump right
+10270	331	882	354	911	0
+# jump left
+10271	51	882	74	911	0
+# running right
+110201	212	962	235	991	0
+110202	252	963	275	991	0
+110203	292	962	315	991	0
+# running left
+110211	171	962	194	991	0
+110212	131	963	154	991	0
+110213	91	962	114	991	0
+# jumping when running right
+110231	332	883	355	911	0
+# jumping when running left
+110232	51	883	74	911	0
+# attack right
+110241	236	883	259	911	0
+110242	351	923	371	951	0
+110243	147	883	170	911	0
+110244	390	923	413	951	0
+# attack left
+110253	147	883	170	911	0
+110252	351	923	371	951	0
+110251	236	883	259	911	0
+110254	390	923	413	951	0
+# falling down slownly right ROI XUONG
+110261	291	883	314	911	0
+# falling down slownly left   ROI XUONG
+110271	91	883	114	911	0
+#flyling up right (mario fox)
+110281	291	1043	314	1071	0
+110282	331	1043	354	1071	0
+110283	371	1043	394	1071	0
+flyling up left   (mario fox)
+110291	91	1043	114	1071	0
+110292	51	1043	74	1071	0
+110293	11	1043	34	1071	0
+# =========-----End BIG MARIO HAVE FOX FIRE-------========
 
 
-
-#QUESTION BRICK
-40001	300	117	316	133	20
-40002	318	117	334	133	20
-40003	336	117	352	133	20
-40004	355	117	370	133	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -167,13 +266,14 @@ source\Map\Scene1.txt
 505	11005	100	11006	100	11007	100
 #die
 599	10099	100
+
 #sitting big left	(BIG)
 415	10050	100
 #sitting big right	(BIG)
 416	10051	100
-#fly big right 	(BIG)
+#jump big right 	(BIG)
 430	10070	200
-#fly big left 	(BIG)
+#jump big left 	(BIG) JUMK
 431	10071	200
 # falling right	(BIG)
 4300	10003	100
@@ -186,63 +286,143 @@ source\Map\Scene1.txt
 451	10061	100
 # running right		(BIG)
 4321	100001	100	100002	100	100003	100
-# running left		(BIG)
+# running left		(BIG_WALKING_FAST)
 4322	100012	100	100013	100	100014	100
-# flying when running right	(BIG)
+# jumping when running right	(BIG)
 4331	100701	100
-# flying when running left	(BIG)
+# jumping when running left	(BIG)
 4332	100711	100
 
-
-#sitting big left	(BIG_TAIL)
+#sitting big left	(BIG_FOX)
 417	11012	100
-#sitting big right	(BIG_TAIL)
+#sitting big right	(BIG_FOX)
 418	11011	100
-#fly big right 		(BIG_TAIL)
+#jump big right 		(BIG_FOX)
 432	11016	100
-#fly big left 		(BIG_TAIL)
+#jump big left 		(BIG_FOX)
 433	11017	100
-#stop right 		(BIG_TAIL) 
+#stop right 		(BIG_FOX) 
 452	11021	100
-#stop left		(BIG_TAIL)	 
+#stop left		(BIG_FOX)	 
 453	11022	100
-# falling right		(BIG_TAIL)
+# falling right		(BIG_FOX)
 4302	11031	100
-# falling left		(BIG_TAIL)
+# falling left		(BIG_FOX)
 4303	11032	100
-# attacking right	(BIG_TAIL)
+# attacking right	(BIG_FOX)
 4311	11041	1000	11042	1000	11043	1000	11044	1000	11041	1000
-# attacking left	(BIG_TAIL)
-4312	11043	100	11042	100	11041	100	11044	100	11043	100
-# running right		(BIG_TAIL)
+# attacking left	(BIG_FOX)
+4312	11043	1000	11042	1000	11041	1000	11044	1000	11043	1000
+# running right		(BIG_FOX)
 4323	110002	100	110003	100	110004	100
-# running left		(BIG_TAIL)
+# running left		(BIG_FOX)
 4324	110006	100	110007	100	110008	100
-# flying when running right	(BIG_TAIL)
+# jumping when running right	(BIG_FOX)
 4333	110211	100
-# flying when running left	(BIG_TAIL)
+# jumping when running left	(BIG_FOX)
 4334	110221	100
-# falling down slownly right
+# falling down slownly right(BIG_FOX) ROI XUONG
 43020	110310	100	11003	100	11031	100
-# falling down slownly left
+# falling down slownly left (BIG_FOX) ROI XUONG
 43021	110320	100	11007	100	11032	100
-
+# fylling up right (BIG_FOX)
+43022	110330	100	110331	100	110332	100
+# fylling up right (BIG_FOX)
+43023	110340	100	110341	100	110342	100
 #stop right 	(SMALL)
 460	10080	100
 #stop left	(SMALL)
 461	10081	100
-#fly big right 	(SMALL)
+#jump big right 	(SMALL)
 440	10085	100
-#fly big left 	(SMALL)
+#jump big left 	(SMALL)
 441	10086	100
 # running right	(SMALL)
 510	10040	100	10041	100
 # running left	(SMALL)
 511	10042	100	10043	100
-# flying when running right		(SMALL)
+# jumping when running right		(SMALL)
 4400	100850	100
-# flying when running left		(SMALL)	
+# jumping when running left		(SMALL)	
 4410	100860	100
+
+#idle BIG right (BIG_FIRE)
+5501	10101	100
+#idle BIG left (BIG_FIRE)
+5502	10111	100
+#walk right big (BIG_FIRE)
+5503	10101	100	10102	100	10103	100
+#walk left big (BIG_FIRE)
+5504	10111	100	10112	100	10113	100
+#sitting big left	(BIG_FIRE)
+5505	10150	100
+#sitting big right	(BIG_FIRE)
+5506	10151	100
+#jump big right 	(BIG_FIRE)
+5507	10170	200
+#jump big left 	(BIG_FIRE)
+5508	10171	200
+# falling right	(BIG_FIRE)
+5509	110103	100
+# falling left	(BIG_FIRE)
+5510	110113	100
+#stop right 	(BIG_FIRE) 
+5511	10160	100
+#stop left	(BIG_FIRE)	 
+5512	10161	100
+# running right		(BIG_FIRE)
+5513	110101	100	110102	100	110103	100
+# running left		(BIG_FIRE)
+5514	110111	100	110112	100	110113	100
+# jumping when running right	(BIG_FIRE)
+5515	110131	100
+# jumping when running left	(BIG_FIRE)
+5516	110132	100
+
+#idle BIG right (BIG_FIRE_FOX)
+6601	10201	100
+#idle BIG left (BIG_FIRE_FOX)
+6602	10211	100
+#walk right big (BIG_FIRE_FOX)
+6603	10201	100	10202	100	10203	100
+#walk left big (BIG_FIRE_FOX)
+6604	10211	100	10212	100	10213	100
+#sitting big left	(BIG_FIRE_FOX)
+6605	10250	100
+#sitting big right	(BIG_FIRE_FOX)
+6606	10251	200
+#jump big right 	(BIG_FIRE_FOX)
+6607	10270	200
+#jump big left 	(BIG_FIRE_FOX)
+6608	10271	200
+# falling right	(BIG_FIRE_FOX)
+6609	110203	100
+# falling left	(BIG_FIRE_FOX)
+6610	110213	100
+#stop right 	(BIG_FIRE_FOX) 
+6611	10260	100
+#stop left	(BIG_FIRE_FOX)	 
+6612	10261	100
+# running right		(BIG_FIRE_FOX)
+6613	110201	100	110202	100	110203	100
+# running left		(BIG_FIRE_FOX)
+6614	110211	100	110212	100	110213	100
+# jumping when running right	(BIG_FIRE_FOX)
+6615	110231	100
+# jumping when running left	(BIG_FIRE_FOX)
+6616	110232	100
+# attacking right	(BIG_FIRE_FOX)
+6617	110241	1000	110242	1000	110243	1000	110244	1000	110241	1000
+# attacking left	(BIG_FIRE_FOX)
+6618	110253	1000	110252	1000	110251	1000	110254	1000	110253	1000
+# falling down slownly right (BIG_FIRE_FOX)ROI XUONG
+6619	110261	100	11203	100	110203	100
+# falling down slownly left (BIG_FIRE_FOX) ROI XUONG
+6620	110271	100	10211	100	110213	100
+# flyling up right (BIG_FIRE_FOX)
+6621	110281	100	110282	100	110283	100
+# flyling up left (BIG_FIRE_FOX)
+6622	110291	100	110292	100	110293	100
 
 # ==== QUESTION BRICK =========
 602	40001	1000	40001	100	40002	100	40003	100	40004	100
@@ -252,36 +432,43 @@ source\Map\Scene1.txt
 #
 [ANIMATION_SETS]
 # MARIO
-1	400	401	402	403	500	501	502	503	599 	415	416	430	431	450	451	460	461	440	441	404	405	504	505	417	418	432	433	452	453	4300	4301	4302	4303	4311	4312	510	511	4321	4322	4323	4324	4331	4332	4333	4334	4400	4410	43020	43021
+1	400	401	402	403	500	501	502	503	599	415	416	430	431	450	451	460	461	440	441	404	405	504	505	417	418	432	433	452	453	4300	4301	4302	4303	4311	4312	510	511	4321	4322	4323	4324	4331	4332	4333	4334	4400	4410	43020	43021	5501	5502	5503	5504	5505	5506	5507	5508	5509	5510	5511	5512	5513	5514	5515	5516	6601	6602	6603	6604	6605	6606	6607	6608	6609	6610	6611	6612	6613	6614	6615	6616	6617	6618	6619	6620	43022	43023	6621	6622
+#QUESTION BRICK
+40001	300	117	316	133	20
+40002	318	117	334	133	20
+40003	336	117	352	133	20
+40004	355	117	370	133	20
 # QUESTION BRICK 
 22	602
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = 
 # MARIO
 0	32	386	1
-# GROUND 
+
+
+#======----- GROUND------========== 
 #type   x	y	andi	width	height	state
-4	0	-1	0	2816	1	0
+4	0	0	0	2816	1	0
 4	-1	0	0	1	432	0
 4	2817	0	0	1	432	0
 4	0	416	0	624	16	0
 4	240	368	0	48	1	1
 4	272	336	0	48	1	1
-4	352	366	0	32	48	0
+4	352	368	0	32	48	0
 4	400	368	0	80	1	1
 4	464	336	0	64	1	1
 4	512	384	0	96	1	1
 4	512	304	0	64	1	1
 4	624	400	0	464	32	0
 4	1312	142	0	64	1	1
-4	1408	192	0	64	16	0
+4	1408	192	0	64	16	1
 4	1152	416	0	354	16	0
 4	1264	382	0	112	1	1
 4	1296	352	0	110	1	1
 4	1328	320	0	110	1	1
-4	1488	176	0	208	16	0
+4	1488	176	0	208	16	1
 4	1504	336	0	32	16	0
 4	1536	416	0	80	16	0
 4	1568	400	0	48	16	0
@@ -310,3 +497,63 @@ source\Map\Scene1.txt
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
 #5	0	115	98	0	148	150	1
+
+#======----- coin------========== 
+#type   x	y	andi	width	height	state
+#7	1856	128	0	16	16
+#7	1824	96	0	16	16
+#7	1776	128	0	16	16
+#7	1696	144	0	16	16
+#7	1744	112	0	16	16
+#7	1664	112	0	16	16
+#7	1632	112	0	16	16
+#7	1616	112	0	16	16
+#7	1584	128	0	16	16
+#7	1648	112	0	16	16
+#7	1072	320	0	16	16
+#7	1568	128	0	16	16
+#7	1552	128	0	16	16
+#7	1536	128	0	16	16
+#7	1488	112	0	16	16
+#7	1472	112	0	16	16
+#7	1328	80	0	16	16
+#7	1360	80	0	16	16
+#7	1344	80	0	16	16
+#7	1200	192	0	16	16
+#7	1168	224	0	16	16
+#7	1136	256	0	16	16
+#7	1104	288	0	16	16
+#
+##======----- ------========== 
+##type   x	y	andi	width	height	state
+#1	1472	368	0	16	16	1
+#1	704	352	0	16	16	1
+#1	656	384	0	16	16	1
+#1	416	320	0	16	16	1
+#1	240	304	0	16	16	1
+#1	224	304	0	16	16	1
+#1	192	352	0	16	16	1
+#1	176	352	0	16	16	1
+#
+## =====------BRICK----======
+## type	x	y	ani_set_id	w	h	state
+#1	1440	128	0	16	16	0
+#1	1952	400	0	16	16	0
+#1	1968	400	0	16	16	0
+#1	1984	400	0	16	16	0
+#1	2000	400	0	16	16	0
+#1	2016	400	0	16	16	0
+#1	2032	400	0	16	16	0
+#1	2048	400	0	16	16	0
+#1	1968	384	0	16	16	0
+#1	1984	384	0	16	16	0
+#1	2000	384	0	16	16	0
+#1	2016	384	0	16	16	0
+#1	2032	384	0	16	16	0
+#1	1984	368	0	16	16	0
+#1	2000	368	0	16	16	0
+#1	2016	368	0	16	16	0
+#1	2032	368	0	16	16	0
+#1	2096	400	0	16	16	0
+#1	2112	400	0	16	16	0
+#1	2096	384	0	16	16	0
