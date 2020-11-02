@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="27" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="3">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="27" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="34">
  <tileset firstgid="1" name="mario1" tilewidth="16" tileheight="16" tilecount="2350" columns="25">
-  <image source="../../../../Game/gamedev-intro-tutorials-master/gamedev-intro-tutorials-master/05-ScenceManager/textures/mario1.png" width="406" height="1507"/>
+  <image source="../textures/mario1.png" width="406" height="1507"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="27" height="96">
   <data encoding="csv">
@@ -103,8 +103,145 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="Mario">
-  <object id="1" x="55" y="89" width="14" height="15.5"/>
-  <object id="2" x="370.333" y="1041.67" width="23" height="28"/>
+ <objectgroup id="2" name="Mario big">
+  <object id="2" name="cầm rùa phải" x="330" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="3" name="cầm  rùa phải" x="356" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="4" name="cầm rùa phải" x="381" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="5" name="cầm rùa trái" x="9" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="6" name="cầm rùa trái" x="34" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="7" name="cầm rùa trái" x="60" y="323" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="1">
+  <object id="29" x="174.333" y="922.333" width="28" height="28.6667"/>
+ </objectgroup>
+ <objectgroup id="4" name="mario fox">
+  <object id="8" name="cầm rùa trái" x="2" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="9" name="cầm rùa trái" x="32" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="10" name="cầm rùa trái" x="62" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="11" name="cầm rùa phải" x="320" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="12" name="cầm rùa phải" x="350" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="13" name="cầm rùa phai" x="380" y="522" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="mario fire">
+  <object id="15" name="cầm  rùa phải" x="356" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="14" name="cầm rùa phải" x="329" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="16" name="cầm rùa phải" x="380" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="17" name="cầm rùa trái" x="10" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="18" name="cầm rùa trái" x="35" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="19" name="cầm rùa trái" x="61" y="763" width="16" height="27">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="30" name="LUA PHAI" x="365" y="803" width="16" height="27"/>
+  <object id="31" name="LUA" x="385" y="803" width="16" height="27"/>
+  <object id="32" name="LUA TRAI" x="5" y="803" width="16" height="27"/>
+  <object id="33" name="LUA TRAI" x="25" y="803" width="16" height="27"/>
+ </objectgroup>
+ <objectgroup id="6" name="maario fox file">
+  <object id="20" name="cầm rùa trái" x="2" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="21" name="cầm rùa trái" x="32" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="22" name="cầm rùa trái" x="62" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="23" name="cầm rùa phải" x="322" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="24" name="cầm rùa phải" x="352" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+  <object id="25" name="cầm rùa phai" x="382" y="962" width="23" height="29">
+   <properties>
+    <property name="name_1" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="Mario small">
+  <object id="1" name="cầm rùa phải" x="336" y="169" width="15" height="16"/>
+  <object id="26" name="cầm rùa phải" x="376" y="169" width="15" height="16"/>
+  <object id="27" name="cầm rùa trái" x="15" y="169" width="15" height="16"/>
+  <object id="28" name="cầm rùa trái" x="55" y="169" width="15" height="16"/>
  </objectgroup>
 </map>

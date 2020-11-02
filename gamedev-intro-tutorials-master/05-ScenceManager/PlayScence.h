@@ -8,8 +8,9 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Map.h"
+#include "Broken.h"
 
-#define OBJECT_TYPE_MAP_CAMERA 6
+
 class CPlayScene: public CScene
 {
 protected: 
@@ -36,7 +37,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-
+	void SpawnObject(LPGAMEOBJECT object) { objects.push_back(object); }
 	CMario * GetPlayer() { return player; } 
 
 	//friend class CPlayScenceKeyHandler;
@@ -47,7 +48,7 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 public: 
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
+	virtual void OnKeyUp(int KeyCode);
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };
 

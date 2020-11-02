@@ -8,6 +8,7 @@
 #include "Goomba.h"
 #include "Portal.h"
 #include "Ground.h"
+#include "FireBall.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -18,6 +19,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	a = 0;
 	a_stop = 0;
 	time_stop = 0;
+	time_fly = 0;
 
 	start_x = x; 
 	start_y = y; 
@@ -37,7 +39,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	
+
 	if (a == 0 && a_stop != 0) //giam toc
 	{
 		vx -= a_stop * dt;
@@ -77,6 +79,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// turn off collision when die 
 	if (state!=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	//kiem tra tan cong xong chua
+	if (state == MARIO_STATE_ATTACK)
+	{
+		isAttack = CheckLastFrameAttack();
+	}
+
+	//dang bay ha canh
+	if (state == MARIO_STATE_FLYLING)
+	{
+		if (GetTickCount64() - time_fly > TIME_FLYLING_MARIO)
+			SetState(MARIO_STATE_LANDING);
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -156,9 +171,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<Ground*>(e->obj))
 			{
-
 				if (e->ny < 0)	// xet tu tren xuong, dat nao cung dung len duoc
+				{
+					if (state == MARIO_STATE_LANDING)
+						SetState(MARIO_STATE_IDLE);
 					vy = 0;
+				}
 				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)// xet tu duoi len, chi co state = 1 moi nhay xuyen duoc
 				{
 					if (e->ny > 0)
@@ -176,7 +194,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						x += dx;
 					}
-	 				y += dy;
 				}
 
 			}
@@ -190,8 +207,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+
 }
 
 void CMario::Render()
@@ -248,6 +268,12 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FLY_IDLE_LEFT;
 					break;
+				case MARIO_STATE_HOLD:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_HOLD_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_HOLD_LEFT;
+					break;
 				}
 
 			}
@@ -293,6 +319,12 @@ void CMario::Render()
 						ani = MARIO_ANI_SMALL_FLY_IDLE_RIGHT;
 					else
 						ani = MARIO_ANI_SMALL_FLY_IDLE_LEFT;
+					break;
+				case MARIO_STATE_HOLD:
+					if (nx > 0)
+						ani = MARIO_ANI_SMALL_HOLD_RIGHT;
+					else
+						ani = MARIO_ANI_SMALL_HOLD_LEFT;
 					break;
 				}
 			}
@@ -367,6 +399,18 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FOX_FLYLING_IDLE_LEFT;
 					break;
+				case MARIO_STATE_LANDING:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FLYLING_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FLYLING_IDLE_LEFT;
+					break;
+				case MARIO_STATE_HOLD:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_HOLD_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_HOLD_LEFT;
+					break;
 				}
 			}
 			
@@ -425,7 +469,21 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FIRE_FLY_IDLE_LEFT;
 					break;
+				case MARIO_STATE_HOLD:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_HOLD_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_HOLD_LEFT;
+				break;
+				case MARIO_STATE_FIRE_BALL:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
+					break;
+				
 				}
+
 			}
 		}
 		else if (apperance==MARIO_FOX_FIRE)
@@ -497,6 +555,18 @@ void CMario::Render()
 						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_RIGHT;
 					else
 						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_LEFT;
+					break;
+				case MARIO_STATE_LANDING:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_LEFT;
+					break;
+				case MARIO_STATE_HOLD:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_HOLD_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_HOLD_LEFT;
 					break;
 				}
 			}
@@ -574,8 +644,22 @@ void CMario::SetState(int state)
 		}
 		else vx = -MARIO_FLYING_SPEED_X;
 		vy = -MARIO_FLYLING_SPEED_Y;
+		time_fly = GetTickCount64();
 		break;
-
+	case MARIO_STATE_LANDING:
+		a_stop = 0;
+		if (nx > 0)
+		{
+			vx = MARIO_LANDING_SPEED_X;
+		}
+		else vx = -MARIO_FLYING_SPEED_X;
+		vy = MARIO_LANGDING_SPEED_Y;
+		break;
+	case MARIO_STATE_FIRE_BALL:
+		break;
+	case MARIO_STATE_ATTACK:
+		isAttack = true;
+		break;
 	}
 }
 
@@ -618,5 +702,51 @@ void CMario::Reset()
 	SetLevel(MARIO_LEVEL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+}
+
+bool CMario::CheckLastFrameAttack()
+{
+	switch (apperance)
+	{
+	case MARIO_FOX:
+	{
+		if (state == MARIO_STATE_ATTACK)
+		{
+			if (nx > 0)
+			{
+				int ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_RIGHT;
+				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
+					return true;
+			}
+			else
+			{
+				int ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_LEFT;
+				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
+					return true;
+			}
+		}
+	}
+	case MARIO_FOX_FIRE:
+	{
+		if (state == MARIO_STATE_ATTACK)
+		{
+			if (nx > 0)
+			{
+				int ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_RIGHT;
+				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
+					return true;
+			}
+			else
+			{
+				int ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_LEFT;
+				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
+					return true;
+			}
+		}
+	}
+	default:
+		break;
+	}
+	return false;
 }
 

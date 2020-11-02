@@ -7,6 +7,8 @@
 #include "Sprites.h"
 #include "Portal.h"
 #include"Ground.h"
+#include "Coin.h"
+#include "FireBall.h"
 
 using namespace std;
 
@@ -35,6 +37,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_KOOPAS	3
 #define OBJECT_TYPE_GROUND	4
 #define OBJECT_TYPE_CAMERA	5
+#define OBJECT_TYPE_COIN	7
+#define OBJECT_TYPE_MAP_CAMERA 6
+#define OBJECT_TYPE_BROKEN	8
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -166,6 +171,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_COIN:
+	{
+		obj = new CCoin();
+		break;
+	}
+	case OBJECT_TYPE_BROKEN:
+	{
+		obj = new CBroken();
+		break;
+	}
 	case OBJECT_TYPE_GROUND: 
 	{
 		float w = atof(tokens[4].c_str());
@@ -353,7 +368,7 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	//khoa cam y
-	if ((y_mario > camera.top) )
+	if ((y_mario > camera.top + (game->GetScreenHeight()*1 / 4)) )
 	{
 		CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
 	}
@@ -388,6 +403,21 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
+void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		if ( mario->GetState()==MARIO_STATE_FLYLING)
+		{
+			mario->SetState(MARIO_STATE_LANDING);
+			mario->ResetTimeFly();
+		}
+		break;
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -429,6 +459,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_N:
 		mario->SetState(MARIO_STATE_ATTACK);// TOC DDO QUYA
 		break;
+	case DIK_B:
+		mario->SetState(MARIO_STATE_HOLD);
+		break;
+	case DIK_C:
+		mario->SetState(MARIO_STATE_FIRE_BALL);
+		CFireBall* fireball = new CFireBall(mario->nx);
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(scence);
+		fireball->SetPosition(mario->x, mario->y);
+		scene->SpawnObject(fireball);
+		break;
 	}
 }
 
@@ -449,6 +489,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
+		if(mario->GetState()!=MARIO_STATE_LANDING || mario->GetNx() <0)
 		if (mario->GetState() != MARIO_STATE_FLYLING)
 		{
 			if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
@@ -494,10 +535,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else
 	{
-		if (mario->GetState() != MARIO_STATE_JUMP )
+		if ((mario->GetState() != MARIO_STATE_JUMP )
+			&&((mario->GetState()!=MARIO_STATE_ATTACK) && (mario->isAttack==false)))
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 	}
 	
 }
+

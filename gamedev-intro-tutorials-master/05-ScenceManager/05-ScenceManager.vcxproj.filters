@@ -93,6 +93,12 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
+    <ClCompile Include="Broken.cpp">
+      <Filter>Object\StaticOject</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Object\Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Object\StaticOject</Filter>
+    </ClInclude>
+    <ClInclude Include="Broken.h">
+      <Filter>Object\StaticOject</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Object\Mario</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

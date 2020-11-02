@@ -4,11 +4,14 @@
 #define MARIO_WALKING_SPEED		0.15f 
 #define MARIO_WALKING_SPEED_MAX	0.2f 
 #define MARIO_FLYING_SPEED_X	0.15f 
+#define MARIO_LANDING_SPEED_X	0.2f
 #define MARIO_ACCELERATION	0.0003f
 #define	MARIO_ACCELERATION_STOP	0.0008f
+
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.45f
 #define MARIO_FLYLING_SPEED_Y	0.1f
+#define MARIO_LANGDING_SPEED_Y	0.03f
 #define MARIO_SMALL_JUMP_SPEED_Y 0.35f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
@@ -29,6 +32,9 @@
 #define MARIO_STATE_FLY	900
 #define MARIO_STATE_ATTACK 1000
 #define MARIO_STATE_FLYLING	1100
+#define MARIO_STATE_LANDING	1200
+#define MARIO_STATE_HOLD 1300
+#define MARIO_STATE_FIRE_BALL 1400
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -44,6 +50,9 @@
 #define MARIO_ANI_SMALL_STOP_IDLE_LEFT 46
 #define MARIO_ANI_SMALL_FLY_IDLE_RIGHT 14
 #define MARIO_ANI_SMALL_FLY_IDLE_LEFT 15
+#define MARIO_ANI_SMALL_HOLD_RIGHT 93
+#define MARIO_ANI_SMALL_HOLD_LEFT 94
+
 #pragma endregion
 
 #pragma region Mario Big
@@ -61,6 +70,8 @@
 #define MARIO_ANI_BIG_STOP_IDLE_LEFT 14
 #define MARIO_ANI_BIG_FLY_IDLE_RIGHT 41
 #define MARIO_ANI_BIG_FLY_IDLE_LEFT 42
+#define MARIO_ANI_BIG_HOLD_RIGHT 89
+#define MARIO_ANI_BIG_HOLD_LEFT 90
 #pragma endregion
 
 #pragma region Mario Big fox
@@ -82,6 +93,8 @@
 #define MARIO_ANI_BIG_FOX_FLYLING_IDLE_LEFT 86
 #define MARIO_ANI_BIG_FOX_ATTACK_IDLE_RIGHT 33
 #define MARIO_ANI_BIG_FOX_ATTACK_IDLE_LEFT 34
+#define MARIO_ANI_BIG_FOX_HOLD_RIGHT 91
+#define MARIO_ANI_BIG_FOX_HOLD_LEFT 92
 #pragma endregion
 
 #pragma region Mario big fire
@@ -99,6 +112,10 @@
 #define MARIO_ANI_BIG_FIRE_STOP_IDLE_LEFT 60
 #define MARIO_ANI_BIG_FIRE_FLY_IDLE_RIGHT 63
 #define MARIO_ANI_BIG_FIRE_FLY_IDLE_LEFT 64
+#define MARIO_ANI_BIG_FIRE_HOLD_RIGHT 95
+#define MARIO_ANI_BIG_FIRE_HOLD_LEFT 96
+#define MARIO_ANI_BIG_FIRE_BALL_RIGHT 99
+#define MARIO_ANI_BIG_FIRE_BALL_LEFT 100
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -120,7 +137,8 @@
 #define MARIO_ANI_BIG_FOX_FIRE_FLYLING_IDLE_LEFT 88
 #define MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_RIGHT 81
 #define MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_LEFT 82
-
+#define MARIO_ANI_BIG_FOX_FIRE_HOLD_RIGHT 97
+#define MARIO_ANI_BIG_FOX_FIRE_HOLD_LEFT 98
 #pragma endregion
 
 #define MARIO_ANI_DIE				8
@@ -136,7 +154,7 @@
 #define MARIO_FOX_FIRE	3
 
 //bbox
-#define MARIO_BIG_BBOX_WIDTH  15
+#define MARIO_BIG_BBOX_WIDTH  16
 #define MARIO_BIG_BBOX_HEIGHT 27
 
 #define MARIO_SMALL_BBOX_WIDTH  13
@@ -149,7 +167,9 @@
 
 #define UPLEVEL_OFFSET	12
 #define MARIO_FOX_BBOX_OFFSET 1
+
 #define TIME_STOP_MARIO 400
+#define TIME_FLYLING_MARIO	800
 
 class CMario : public CGameObject
 {
@@ -165,7 +185,9 @@ class CMario : public CGameObject
 	float a_stop; // gia toc ham~
 
 	DWORD time_stop;
+	DWORD time_fly;
 public: 
+	bool isAttack = false;
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
@@ -181,6 +203,11 @@ public:
 	void UpLevel();
 	void ChangeApperance(int apperance);
 	DWORD GetTimeStop() { return time_stop; }
+	DWORD GetTimeFly() { return time_fly; }
 	int GetApperance() { return apperance; }
 	float GetV() { return this->vx; }
+	int GetNx() { return this->nx; }
+	void ResetTimeFly() { time_fly = 0; }
+
+	bool CheckLastFrameAttack();
 };

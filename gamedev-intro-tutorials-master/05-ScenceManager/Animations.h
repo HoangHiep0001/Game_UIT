@@ -32,6 +32,13 @@ public:
 	void Add(int spriteId, DWORD time = 0);
 
 	void Render(float x, float y, int alpha = 255);
+
+	int GetCurrentFrame()
+	{
+		if (currentFrame == NULL)
+			return 0;
+		return this->currentFrame; 
+	}
 };
 
 typedef CAnimation *LPANIMATION;
