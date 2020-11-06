@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="53">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="58">
  <tileset firstgid="1" name="SuperMarioBros3Map-1BG" tilewidth="16" tileheight="16" tilecount="4752" columns="176">
   <image source="SuperMarioBros3Map1-1BG.jpg" width="2816" height="432"/>
  </tileset>
@@ -34,10 +34,17 @@
 4577,4578,4579,4580,4581,4582,4583,4584,4585,4586,4587,4588,4589,4590,4591,4592,4593,4594,4595,4596,4597,4598,4599,4600,4601,4602,4603,4604,4605,4606,4607,4608,4609,4610,4611,4612,4613,4614,4615,4616,4617,4618,4619,4620,4621,4622,4623,4624,4625,4626,4627,4628,4629,4630,4631,4632,4633,4634,4635,4636,4637,4638,4639,4640,4641,4642,4643,4644,4645,4646,4647,4648,4649,4650,4651,4652,4653,4654,4655,4656,4657,4658,4659,4660,4661,4662,4663,4664,4665,4666,4667,4668,4669,4670,4671,4672,4673,4674,4675,4676,4677,4678,4679,4680,4681,4682,4683,4684,4685,4686,4687,4688,4689,4690,4691,4692,4693,4694,4695,4696,4697,4698,4699,4700,4701,4702,4703,4704,4705,4706,4707,4708,4709,4710,4711,4712,4713,4714,4715,4716,4717,4718,4719,4720,4721,4722,4723,4724,4725,4726,4727,4728,4729,4730,4731,4732,4733,4734,4735,4736,4737,4738,4739,4740,4741,4742,4743,4744,4745,4746,4747,4748,4749,4750,4751,4752
 </data>
  </layer>
- <objectgroup id="5" name="lever">
+ <objectgroup id="6" name="goomba">
+  <object id="53" x="224" y="400" width="16" height="16"/>
+  <object id="54" x="416" y="400" width="16" height="16"/>
+  <object id="55" x="832" y="384" width="16" height="16"/>
+  <object id="56" x="880" y="384" width="16" height="16"/>
+  <object id="57" x="944" y="376" width="20" height="24"/>
+ </objectgroup>
+ <objectgroup id="5" name="lever" visible="0">
   <object id="29" name="Lever" x="2683" y="331" width="26" height="26"/>
  </objectgroup>
- <objectgroup id="2" name="gach">
+ <objectgroup id="2" name="gach" visible="0">
   <object id="8" x="1440" y="128" width="16" height="16"/>
   <object id="10" x="1952" y="400" width="16" height="16"/>
   <object id="11" x="1968" y="400" width="16" height="16"/>
@@ -59,7 +66,7 @@
   <object id="27" x="2112" y="400" width="16" height="16"/>
   <object id="28" x="2096" y="384" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="3" name="tien">
+ <objectgroup id="3" name="tien" visible="0">
   <object id="52" name="tien" x="1856" y="128" width="16" height="16"/>
   <object id="51" name="tien" x="1824" y="96" width="16" height="16"/>
   <object id="50" name="tien" x="1776" y="128" width="16" height="16"/>
@@ -84,7 +91,7 @@
   <object id="32" name="tien" x="1135.75" y="255.75" width="16" height="16"/>
   <object id="31" name="tien" x="1104" y="288" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="4" name="chamhoi">
+ <objectgroup id="4" name="chamhoi" visible="0">
   <object id="9" name="?" x="1472" y="368" width="16" height="16"/>
   <object id="7" name="?" x="704" y="352" width="16" height="16"/>
   <object id="6" name="?" x="656" y="384" width="16" height="16"/>

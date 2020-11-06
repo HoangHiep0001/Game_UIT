@@ -8,8 +8,7 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Map.h"
-#include "Broken.h"
-
+#include "QuestionMark.h"
 
 class CPlayScene: public CScene
 {

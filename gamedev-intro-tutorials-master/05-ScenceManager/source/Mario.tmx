@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="27" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="34">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="27" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="36">
  <tileset firstgid="1" name="mario1" tilewidth="16" tileheight="16" tilecount="2350" columns="25">
   <image source="../textures/mario1.png" width="406" height="1507"/>
  </tileset>
@@ -243,5 +243,6 @@
   <object id="26" name="cầm rùa phải" x="376" y="169" width="15" height="16"/>
   <object id="27" name="cầm rùa trái" x="15" y="169" width="15" height="16"/>
   <object id="28" name="cầm rùa trái" x="55" y="169" width="15" height="16"/>
+  <object id="34" x="260.5" y="560.75" width="19" height="27"/>
  </objectgroup>
 </map>

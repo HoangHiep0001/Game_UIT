@@ -9,6 +9,9 @@
 #include "Portal.h"
 #include "Ground.h"
 #include "FireBall.h"
+#include "Brick.h"
+
+
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -83,7 +86,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//kiem tra tan cong xong chua
 	if (state == MARIO_STATE_ATTACK)
 	{
-		isAttack = CheckLastFrameAttack();
+		//isAttack = CheckLastFrameAttack();
 	}
 
 	//dang bay ha canh
@@ -195,8 +198,43 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x += dx;
 					}
 				}
-
 			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				if (e->ny != 0)
+				{	
+					vy = 0 ;
+				}
+				if (e->nx != 0)
+				{
+					vx = 0;
+					a = 0;
+				}
+				else
+				{
+					x += dx;
+				}
+			}
+			/*else if (dynamic_cast<CBroken*>(e->obj))
+			{
+				if (e->ny != 0)
+				{
+					vy = 0;
+				}
+				else
+				{
+					y -= dy;
+				}
+				if (e->nx != 0)
+				{
+					vx = 0;
+					a = 0;
+				}
+				else
+				{
+					x += dx;
+				}
+			}*/
 			else
 			{
 				if (e->nx != 0 )
@@ -481,6 +519,12 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
 					break;
+				case MARIO_STATE_FIRE_BALL_DOUBLE:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT;
+					break;
 				
 				}
 
@@ -660,6 +704,10 @@ void CMario::SetState(int state)
 	case MARIO_STATE_ATTACK:
 		isAttack = true;
 		break;
+	case MARIO_STATE_FIRE_BALL_DOUBLE:
+		isAttack = true;
+		vy = -MARIO_JUMP_SPEED_Y;
+		break;
 	}
 }
 
@@ -704,7 +752,7 @@ void CMario::Reset()
 	SetSpeed(0, 0);
 }
 
-bool CMario::CheckLastFrameAttack()
+/*bool CMario::CheckLastFrameAttack()
 {
 	switch (apperance)
 	{
@@ -748,5 +796,5 @@ bool CMario::CheckLastFrameAttack()
 		break;
 	}
 	return false;
-}
+}*/
 

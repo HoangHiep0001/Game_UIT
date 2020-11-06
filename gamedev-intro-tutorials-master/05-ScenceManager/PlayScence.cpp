@@ -9,6 +9,7 @@
 #include"Ground.h"
 #include "Coin.h"
 #include "FireBall.h"
+#include "QuestionMark.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CAMERA	5
 #define OBJECT_TYPE_COIN	7
 #define OBJECT_TYPE_MAP_CAMERA 6
-#define OBJECT_TYPE_BROKEN	8
+#define OBJECT_TYPE_QUESTIONMARK	8
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -168,7 +169,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
+	case OBJECT_TYPE_GOOMBA:
+	{
+		int app = atof(tokens[4].c_str());
+		int state = atof(tokens[5].c_str());
+		obj = new CGoomba(app);
+		obj->SetState(state);
+		break; 
+	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_COIN:
@@ -176,9 +184,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCoin();
 		break;
 	}
-	case OBJECT_TYPE_BROKEN:
+	case OBJECT_TYPE_QUESTIONMARK:
 	{
-		obj = new CBroken();
+		obj = new CQuestionMark();
 		break;
 	}
 	case OBJECT_TYPE_GROUND: 
@@ -425,6 +433,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
+	CPlayScene* scene = dynamic_cast<CPlayScene*>(scence);
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
@@ -433,12 +442,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			mario->SetState(MARIO_STATE_FLYLING);
 		}
+		/*else if (mario->GetApperance()== MARIO_FIRE)
+		{
+			mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+		}*/
 		else
 		{
 			mario->SetState(MARIO_STATE_JUMP);
 		}
 		break;
-	case DIK_A: 
+	case DIK_W: 
 		mario->Reset();
 		break;
 	case DIK_L:
@@ -457,18 +470,27 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_FLY);
 		break;
 	case DIK_N:
-		mario->SetState(MARIO_STATE_ATTACK);// TOC DDO QUYA
+		mario->SetState(MARIO_STATE_ATTACK);
 		break;
 	case DIK_B:
 		mario->SetState(MARIO_STATE_HOLD);
 		break;
-	case DIK_C:
+	/*case DIK_A:
+		mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+		CFireBall* fireball2 = new CFireBall(mario->nx);
+		fireball2->SetPosition(mario->x, mario->y);
+		scene->SpawnObject(fireball2);
+		CFireBall* fireball1 = new CFireBall(mario->nx);
+		fireball1->SetPosition(mario->x, mario->y);
+		scene->SpawnObject(fireball1);
+		break;*/
+	case DIK_D:
 		mario->SetState(MARIO_STATE_FIRE_BALL);
-		CFireBall* fireball = new CFireBall(mario->nx);
-		CPlayScene* scene = dynamic_cast<CPlayScene*>(scence);
-		fireball->SetPosition(mario->x, mario->y);
-		scene->SpawnObject(fireball);
+		CFireBall* fireball3 = new CFireBall(mario->nx);
+		fireball3->SetPosition(mario->x, mario->y);
+		scene->SpawnObject(fireball3);
 		break;
+
 	}
 }
 

@@ -35,6 +35,7 @@
 #define MARIO_STATE_LANDING	1200
 #define MARIO_STATE_HOLD 1300
 #define MARIO_STATE_FIRE_BALL 1400
+#define MARIO_STATE_FIRE_BALL_DOUBLE 1500
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -46,10 +47,10 @@
 #define MARIO_ANI_SMALL_WALKING_FAST_LEFT 36
 #define MARIO_ANI_SMALL_JUMP_IDLE_RIGHT 17
 #define MARIO_ANI_SMALL_JUMP_IDLE_LEFT 18
-#define MARIO_ANI_SMALL_STOP_IDLE_RIGHT 45
-#define MARIO_ANI_SMALL_STOP_IDLE_LEFT 46
-#define MARIO_ANI_SMALL_FLY_IDLE_RIGHT 14
-#define MARIO_ANI_SMALL_FLY_IDLE_LEFT 15
+#define MARIO_ANI_SMALL_STOP_IDLE_RIGHT 15
+#define MARIO_ANI_SMALL_STOP_IDLE_LEFT 16
+#define MARIO_ANI_SMALL_FLY_IDLE_RIGHT 45
+#define MARIO_ANI_SMALL_FLY_IDLE_LEFT 46
 #define MARIO_ANI_SMALL_HOLD_RIGHT 93
 #define MARIO_ANI_SMALL_HOLD_LEFT 94
 
@@ -116,6 +117,8 @@
 #define MARIO_ANI_BIG_FIRE_HOLD_LEFT 96
 #define MARIO_ANI_BIG_FIRE_BALL_RIGHT 99
 #define MARIO_ANI_BIG_FIRE_BALL_LEFT 100
+#define MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT 101
+#define MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT 102
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -209,5 +212,5 @@ public:
 	int GetNx() { return this->nx; }
 	void ResetTimeFly() { time_fly = 0; }
 
-	bool CheckLastFrameAttack();
+	//bool CheckLastFrameAttack();
 };

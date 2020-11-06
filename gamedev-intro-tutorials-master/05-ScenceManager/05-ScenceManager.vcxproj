@@ -126,13 +126,13 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
-    <ClCompile Include="Broken.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="QuestionMark.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -147,13 +147,13 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Brick.h" />
-    <ClInclude Include="Broken.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="QuestionMark.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

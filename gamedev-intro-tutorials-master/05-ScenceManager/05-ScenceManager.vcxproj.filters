@@ -40,6 +40,9 @@
     <Filter Include="Map">
       <UniqueIdentifier>{ac5d6635-5b5c-42e4-9d94-2bdc6a490060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\FireBall">
+      <UniqueIdentifier>{7592552b-7703-48ff-a127-dbeedb0e54d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -93,11 +96,11 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
-    <ClCompile Include="Broken.cpp">
-      <Filter>Object\StaticOject</Filter>
-    </ClCompile>
     <ClCompile Include="FireBall.cpp">
-      <Filter>Object\Mario</Filter>
+      <Filter>Object\FireBall</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionMark.cpp">
+      <Filter>Object\StaticOject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,11 +155,11 @@
     <ClInclude Include="Coin.h">
       <Filter>Object\StaticOject</Filter>
     </ClInclude>
-    <ClInclude Include="Broken.h">
-      <Filter>Object\StaticOject</Filter>
-    </ClInclude>
     <ClInclude Include="FireBall.h">
-      <Filter>Object\Mario</Filter>
+      <Filter>Object\FireBall</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestionMark.h">
+      <Filter>Object\StaticOject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
