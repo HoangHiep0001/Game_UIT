@@ -1,7 +1,12 @@
 #include "Koopas.h"
+#include "Ground.h"
+#include "Brick.h"
+#include "QuestionMark.h"
+#include "Mario.h"
 
-CKoopas::CKoopas()
+CKoopas::CKoopas(int appe)
 {
+	apperance = appe;
 	SetState(KOOPAS_STATE_WALKING);
 }
 
@@ -9,60 +14,235 @@ void CKoopas::GetBoundingBox(float &left, float &top, float &right, float &botto
 {
 	left = x;
 	top = y;
-	right = x + KOOPAS_BBOX_WIDTH;
-
-	if (state == KOOPAS_STATE_DIE)
-		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
-	else
+	switch (state)
+	{
+	case KOOPAS_STATE_WALKING:
+		right = x + KOOPAS_BBOX_WIDTH;
 		bottom = y + KOOPAS_BBOX_HEIGHT;
+		break;
+	case KOOPAS_STATE_FLYLING:
+		right = x + KOOPAS_BBOX_WIDTH;
+		bottom = y + KOOPAS_BBOX_HEIGHT;
+		break;
+	case KOOPAS_STATE_DIE_UP:
+		right = x;
+		bottom = y;
+		break;
+	case KOOPAS_STATE_LIVING_UP:
+		right = x + KOOPAS_BBOX_LIVING;
+		bottom = y + KOOPAS_BBOX_LIVING;
+		break;
+	case KOOPAS_STATE_TORTOISESHELL_UP:
+		right = x + KOOPAS_BBOX_LIVING;
+		bottom = y + KOOPAS_BBOX_LIVING;
+		break;
+
+	}
+	Bound.left = left;
+	Bound.right = right;
+	Bound.bottom = bottom;
+	Bound.top = top;
 }
 
-void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
-	//
-	// TO-DO: make sure Koopas can interact with the world and to each of them too!
-	// 
-
-	x += dx;
-	y += dy;
-
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
+	//if (!CheckInCamera())
+	//{
+	//	return;
+	//}
+	if (isDestroy)
+	{
+		return;
 	}
+	CGameObject::Update(dt,scene, coObjects);
+	vy += KOOPAS_GRAVITY * dt;
+	
 
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
 	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Ground*>(e->obj))
+			{
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
+				{
+					if (e->ny > 0)
+					{
+						y += dy;
+					}
+				}		
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
+				{
+					if (e->nx != 0)
+					{
+						vx = -vx;
+						nx = -nx;
+					}
+				}
+			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					nx = -nx;
+					vx = -vx;
+				}
+			}
+			else if (dynamic_cast<CQuestionMark*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					nx = -nx;
+					vx = -vx;
+				}
+			}
+			else
+			{
+				if (e->nx != 0)
+					x += dx;
+				if (e->ny != 0)
+					y += dy;
+			}
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CKoopas::Render()
 {
-	int ani = KOOPAS_ANI_WALKING_LEFT;
-	if (state == KOOPAS_STATE_DIE) {
-		ani = KOOPAS_ANI_DIE;
+	if (isDestroy)
+	{
+		return;
 	}
-	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
-	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
+	int ani = -1;
+	if (apperance == KOOPAS_RED)
+	{
+		switch (state)
+		{
+		case KOOPAS_STATE_WALKING:
+			if (vx>0)
+			{
+				ani = KOOPAS_ANI_RED_WALKING_RIGHT;
+			}
+			else
+			{
+				ani = KOOPAS_ANI_RED_WALKING_LEFT;
+			}
+			
+			break;
+		case KOOPAS_STATE_FLYLING:
+			if (vx>0)
+			{
+				ani = KOOPAS_ANI_RED_FLYLING_RIGHT;
+			}
+			else
+			{ 
+				ani = KOOPAS_ANI_RED_FLYLING_LEFT;
+			}		
+			break;
+		case KOOPAS_STATE_DIE_UP:
+			ani = KOOPAS_ANI_RED_DIE_UP;
+			break;
+		case KOOPAS_STATE_LIVING_UP:
+			ani = KOOPAS_ANI_RED_DIE_UP;
+			break;
+		case KOOPAS_STATE_TORTOISESHELL_UP:
+			ani = KOOPAS_ANI_RED_TORTOISESHELL_UP;
+			break;
+		}
+	}
+	else if (apperance == KOOPAS_BULE)
+	{
+		switch (state)
+		{
+		case KOOPAS_STATE_WALKING:
+			if (vx > 0)
+			{
+				ani = KOOPAS_ANI_BULE_WALKING_RIGHT;
+			}
+			else
+			{
+				ani = KOOPAS_ANI_BULE_WALKING_LEFT;
+			}
 
-	animation_set->at(ani)->Render(x, y);
+			break;
+		case KOOPAS_STATE_FLYLING:
+			if (vx > 0)
+			{
+				ani = KOOPAS_ANI_BULE_FLYLING_RIGHT;
+			}
+			else
+			{
+				ani = KOOPAS_ANI_BULE_FLYLING_LEFT;
+			}
+			break;
+			
+		case KOOPAS_STATE_DIE_UP:
+			ani = KOOPAS_ANI_BULE_DIE_UP;
+			break;
+		case KOOPAS_STATE_LIVING_UP:
+			ani = KOOPAS_ANI_BULE_DIE_UP;
+			break;
+		case KOOPAS_STATE_TORTOISESHELL_UP:
+			ani = KOOPAS_ANI_BULE_TORTOISESHELL_UP;
+			break;
+		}
+	}
+	int alpha = 255;
+	animation_set->at(ani)->Render(x, y,alpha);
 
 	RenderBoundingBox();
 }
 
 void CKoopas::SetState(int state)
 {
-	CGameObject::SetState(state);
 	switch (state)
 	{
-	case KOOPAS_STATE_DIE:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE + 1;
+	case KOOPAS_STATE_DIE_UP:
+		vx = 0;
+		vy = 0;
+		break;
+	case KOOPAS_STATE_LIVING_UP:
+		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
-		vx = KOOPAS_WALKING_SPEED;
+		vx =- KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_FLYLING:
+		vy = -KOOPAS_JUMP_SPEED_Y;
+		vx = -KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_TORTOISESHELL_UP:
+		vx = KOOPAS_TORTOISESHELL;
+		break;
 	}
 
 }

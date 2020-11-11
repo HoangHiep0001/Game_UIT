@@ -16,7 +16,9 @@ CGameObject::CGameObject()
 	isSit = false;
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+
+
+void CGameObject::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
@@ -140,6 +142,18 @@ void CGameObject::RenderBoundingBox()
 	}
 }
 
+bool CGameObject::CheckInCamera()
+{
+	float xc, yc;
+	CGame::GetInstance()->GetCamPos(xc, yc);
+	float CreenWidth = CGame::GetInstance()->GetScreenWidth();
+	float CreenHeight = CGame::GetInstance()->GetScreenHeight();
+	if (x > xc + CreenWidth || x + (Bound.right - Bound.left) < xc || y + (Bound.bottom - Bound.top) < yc  || y  > yc + CreenHeight)
+	{
+		return false;
+	}
+	return true;
+}
 
 CGameObject::~CGameObject()
 {

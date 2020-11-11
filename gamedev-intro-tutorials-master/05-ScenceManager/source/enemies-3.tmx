@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="enemies-3" tilewidth="16" tileheight="16" tilecount="4077" columns="27">
   <image source="../textures/enemies-3.png" width="439" height="2426"/>
  </tileset>
- <objectgroup id="4" name="Para-Goomba">
+ <objectgroup id="4" name="Para-Goomba" visible="0">
   <object id="40" name="nau ko canh" x="15" y="4" width="16" height="16"/>
   <object id="41" name="nau ko canh" x="65" y="4" width="16" height="16"/>
   <object id="42" name="nau chet" x="315" y="7" width="16" height="9"/>
@@ -175,7 +175,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="rùa xanh nhỏ" visible="0">
+ <objectgroup id="2" name="rùa xanh nhỏ">
   <object id="1" name="phai ko canh" x="215" y="98" width="16" height="27"/>
   <object id="2" name="phai ko canh" x="255" y="98" width="16" height="27"/>
   <object id="3" name="trai ko canh" x="125" y="98" width="16" height="27"/>
@@ -189,17 +189,17 @@
   <object id="11" name="trai ko canh" x="45" y="148" width="16" height="27"/>
   <object id="12" name="phai co canh" x="335" y="148" width="16" height="27"/>
   <object id="13" name="ngửa " x="294" y="103" width="18" height="17"/>
-  <object id="14" name="ngửa " x="329" y="103" width="18" height="17"/>
+  <object id="14" name="ngửa " x="330" y="103" width="18" height="17"/>
   <object id="15" name="ngửa " x="364" y="128" width="18" height="17"/>
-  <object id="16" name="ngửa " x="364" y="103" width="18" height="17"/>
+  <object id="16" name="ngửa " x="365" y="93" width="18" height="27"/>
   <object id="17" name="ngửa" x="364" y="153" width="18" height="17"/>
-  <object id="18" name="úp" x="14" y="103" width="18" height="17"/>
+  <object id="18" name="úp" x="15" y="104" width="16" height="17"/>
   <object id="19" name="úp" x="49" y="103" width="18" height="17"/>
-  <object id="20" name="úp" x="14" y="128" width="18" height="17"/>
+  <object id="20" name="úp" x="15" y="129" width="16" height="16"/>
   <object id="21" name="úp" x="84" y="103" width="18" height="17"/>
-  <object id="22" name="up" x="14" y="153" width="18" height="17"/>
+  <object id="22" name="up" x="14" y="154" width="18" height="17"/>
  </objectgroup>
- <objectgroup id="3" name="rùa đổ nhỏ" visible="0">
+ <objectgroup id="3" name="rùa đổ nhỏ">
   <object id="23" name="phai ko canh" x="215.004" y="197.999" width="16" height="27"/>
   <object id="24" name="phai ko canh" x="255.004" y="197.999" width="16" height="27"/>
   <object id="25" name="trai ko canh" x="125.004" y="197.999" width="16" height="27"/>
@@ -213,10 +213,10 @@
   <object id="33" name="trai ko canh" x="45.0042" y="247.999" width="16" height="27"/>
   <object id="34" name="ngửa " x="294.004" y="202.999" width="18" height="17"/>
   <object id="35" name="úp" x="14.0042" y="202.999" width="18" height="17"/>
-  <object id="36" name="úp" x="49.0042" y="202.999" width="18" height="17"/>
-  <object id="37" name="úp" x="14.0042" y="227.999" width="18" height="17"/>
+  <object id="36" name="úp" x="49.0042" y="204" width="18" height="17"/>
+  <object id="37" name="úp" x="14.0042" y="229" width="18" height="17"/>
   <object id="38" name="úp" x="84.0042" y="202.999" width="18" height="17"/>
-  <object id="39" name="up" x="14.0042" y="252.999" width="18" height="17"/>
+  <object id="39" name="up" x="14.0042" y="254" width="18" height="17"/>
   <object id="114" name="phai ko canh" x="335" y="248" width="16" height="27"/>
   <object id="115" name="ngửa" x="329" y="203" width="18" height="17"/>
   <object id="116" name="ngửa" x="364" y="203" width="18" height="17"/>

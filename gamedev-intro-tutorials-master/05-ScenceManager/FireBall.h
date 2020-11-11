@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 //0.1f
 #define FIREBALL_X 0.055;
@@ -21,7 +20,7 @@
 #define FIRE_BALL_ANISET 5
 
 #define FIRE_BALL_MAX_Y	30
-
+#define FIRE_BALL	12
 class CFireBall : public CGameObject
 {
 	bool first_time = true;
@@ -31,7 +30,7 @@ class CFireBall : public CGameObject
 public:
 	CFireBall(int nx);
 	virtual void SetState(int state);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 
 

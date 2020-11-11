@@ -178,7 +178,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break; 
 	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_KOOPAS: { 
+
+		int app = atof(tokens[4].c_str());
+		int state = atof(tokens[5].c_str());
+		obj = new CKoopas(app);
+		obj->SetState(state);
+		break;
+	}
 	case OBJECT_TYPE_COIN:
 	{
 		obj = new CCoin();
@@ -345,7 +352,7 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt,this, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -475,20 +482,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_B:
 		mario->SetState(MARIO_STATE_HOLD);
 		break;
-	/*case DIK_A:
+	case DIK_A:
 		mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
-		CFireBall* fireball2 = new CFireBall(mario->nx);
-		fireball2->SetPosition(mario->x, mario->y);
-		scene->SpawnObject(fireball2);
-		CFireBall* fireball1 = new CFireBall(mario->nx);
-		fireball1->SetPosition(mario->x, mario->y);
-		scene->SpawnObject(fireball1);
-		break;*/
+		break;
 	case DIK_D:
 		mario->SetState(MARIO_STATE_FIRE_BALL);
-		CFireBall* fireball3 = new CFireBall(mario->nx);
-		fireball3->SetPosition(mario->x, mario->y);
-		scene->SpawnObject(fireball3);
 		break;
 
 	}
@@ -557,8 +555,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else
 	{
-		if ((mario->GetState() != MARIO_STATE_JUMP )
-			&&((mario->GetState()!=MARIO_STATE_ATTACK) && (mario->isAttack==false)))
+		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE))
+			//&&((mario->GetState()!=MARIO_STATE_ATTACK) && (mario->isAttack==false)))
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}

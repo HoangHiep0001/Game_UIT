@@ -1,15 +1,16 @@
 #pragma once
 #include "GameObject.h"
+#include "FireBall.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
 #define MARIO_WALKING_SPEED_MAX	0.2f 
 #define MARIO_FLYING_SPEED_X	0.15f 
-#define MARIO_LANDING_SPEED_X	0.2f
+#define MARIO_LANDING_SPEED_X	0.15f
 #define MARIO_ACCELERATION	0.0003f
 #define	MARIO_ACCELERATION_STOP	0.0008f
 
 //0.1f
-#define MARIO_JUMP_SPEED_Y		0.45f
+#define MARIO_JUMP_SPEED_Y		0.4f
 #define MARIO_FLYLING_SPEED_Y	0.1f
 #define MARIO_LANGDING_SPEED_Y	0.03f
 #define MARIO_SMALL_JUMP_SPEED_Y 0.35f
@@ -189,10 +190,14 @@ class CMario : public CGameObject
 
 	DWORD time_stop;
 	DWORD time_fly;
+
+	bool isSpawnShot = false;
+	DWORD time_doubleshot = 0;
+
 public: 
 	bool isAttack = false;
 	CMario(float x = 0.0f, float y = 0.0f);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
+	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 
 	void SetState(int state);

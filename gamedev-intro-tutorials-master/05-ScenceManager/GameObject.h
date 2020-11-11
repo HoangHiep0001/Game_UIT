@@ -6,14 +6,14 @@
 
 #include "Sprites.h"
 #include "Animations.h"
-
+#include "Scence.h"
 
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 #define SIT_BBOX_OFFSET 7
 
-class CGameObject; 
+class CGameObject;
 typedef CGameObject * LPGAMEOBJECT;
 
 struct CCollisionEvent;
@@ -62,6 +62,8 @@ public:
 	bool isSit;
 	DWORD dt; 
 
+	RECT Bound;
+
 	LPANIMATION_SET animation_set;
 	bool isDestroy = false;
 
@@ -93,11 +95,10 @@ public:
 	CGameObject();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void Update(DWORD dt,CScene* scene, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
-
+	bool  CheckInCamera();
 	~CGameObject();
 };
 

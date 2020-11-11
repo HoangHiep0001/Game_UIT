@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="58">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="64">
  <tileset firstgid="1" name="SuperMarioBros3Map-1BG" tilewidth="16" tileheight="16" tilecount="4752" columns="176">
   <image source="SuperMarioBros3Map1-1BG.jpg" width="2816" height="432"/>
  </tileset>
@@ -40,6 +40,14 @@
   <object id="55" x="832" y="384" width="16" height="16"/>
   <object id="56" x="880" y="384" width="16" height="16"/>
   <object id="57" x="944" y="376" width="20" height="24"/>
+ </objectgroup>
+ <objectgroup id="7" name="KOOPAS">
+  <object id="58" x="576" y="357.8" width="16" height="27"/>
+  <object id="59" x="1328" y="291.8" width="16" height="27"/>
+  <object id="60" x="1376" y="291.8" width="16" height="27"/>
+  <object id="61" x="1424" y="291.8" width="16" height="27"/>
+  <object id="62" x="1472" y="387.8" width="16" height="27"/>
+  <object id="63" x="2096" y="355.8" width="16" height="27"/>
  </objectgroup>
  <objectgroup id="5" name="lever" visible="0">
   <object id="29" name="Lever" x="2683" y="331" width="26" height="26"/>

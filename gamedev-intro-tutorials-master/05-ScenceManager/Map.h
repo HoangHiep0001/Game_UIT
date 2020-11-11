@@ -6,10 +6,10 @@ class Map
 {
 	float camera_x;
 	float camera_y;
-	int rowMap, columnMap;		//so cot, so dong cua map
-	int rowTileSet, columnTileSet;	 // so cot ,so dong cua tile map
+	int rowMap, columnMap;		
+	int rowTileSet, columnTileSet;	
 
-	int totalTile;	//total tiles of tile set
+	int totalTile;	
 	
 	LPDIRECT3DTEXTURE9 tileSet;
 	vector<LPSPRITE> tiles;

@@ -2,6 +2,10 @@
 
 void CCoin::Render()
 {
+	if (isDestroy)
+	{
+		return;
+	}
 	animation_set->at(0)->Render(x, y);
 	//RenderBoundingBox();
 }

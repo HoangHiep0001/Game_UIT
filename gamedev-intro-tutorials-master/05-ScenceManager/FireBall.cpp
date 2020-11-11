@@ -1,6 +1,9 @@
 #include "FireBall.h"
 #include "Goomba.h"
 #include "Ground.h"
+#include "Koopas.h"
+#include "Brick.h"
+#include "QuestionMark.h"
 
 
 CFireBall::CFireBall(int dir)
@@ -29,11 +32,11 @@ void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bot
 	bottom = y + FIREBALL_BBOX_HEIGHT;
 }
 
-void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!isDestroy)
 	{
-		CGameObject::Update(dt, coObjects);
+		CGameObject::Update(dt,scene, coObjects);
 
 		//
 		// TO-DO: make sure FIREBALL can interact with the world and to each of them too!
@@ -81,12 +84,67 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<Ground*>(e->obj))
+				if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+				{
+					CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+					// jump on top >> kill Goomba and deflect a bit 
+					if (e->ny < 0|| e->nx != 0)
+					{
+						if (goomba->GetState() != GOOMBA_STATE_DIE)
+						{
+							goomba->SetState(GOOMBA_STATE_DIE);
+							goomba->Destroy();
+							Destroy();
+						}
+					}
+				}
+				else if (dynamic_cast<CKoopas*>(e->obj))
+				{
+					CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+					if (e->ny < 0 || e->nx != 0)
+					{
+						if (koopas->GetState() != KOOPAS_STATE_DIE_UP)
+						{
+							koopas->SetState(KOOPAS_STATE_DIE_UP);
+
+							koopas->Destroy();
+							Destroy();
+						}
+					}
+				}
+				else if (dynamic_cast<Ground*>(e->obj))
 				{
 					if (e->ny < 0)
 					{
 						vy = -FIREBALL_Y;
 						MaxY = dynamic_cast<Ground*>(e->obj)->y - FIRE_BALL_MAX_Y;
+						first_time = false;
+					}
+					if (e->nx != 0)
+					{
+						Destroy();
+					}
+				}
+				else if (dynamic_cast<CBrick*>(e->obj))
+				{
+					if (e->ny < 0)
+					{
+						vy = -FIREBALL_Y;
+						MaxY = dynamic_cast<CBrick*>(e->obj)->y - FIRE_BALL_MAX_Y;
+						first_time = false;
+					}
+					if (e->nx != 0)
+					{
+						Destroy();
+					}
+				}
+				else if (dynamic_cast<CQuestionMark*>(e->obj))
+				{
+					if (e->ny < 0)
+					{
+						vy = -FIREBALL_Y;
+						MaxY = dynamic_cast<CQuestionMark*>(e->obj)->y - FIRE_BALL_MAX_Y;
 						first_time = false;
 					}
 					if (e->nx != 0)
@@ -130,7 +188,7 @@ void CFireBall::Render()
 			break;
 		}
 
-		animation_set->at(ani)->Render(x, y, 250);
+		animation_set->at(ani)->Render(x, y, 200);
 
 		//RenderBoundingBox();
 	}

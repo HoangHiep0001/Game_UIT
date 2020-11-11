@@ -1,5 +1,8 @@
 #include "Goomba.h"
 #include "Ground.h"
+#include "Brick.h"
+#include "QuestionMark.h"
+#include "Utils.h"
 
 CGoomba::CGoomba(int appe)
 {
@@ -26,35 +29,55 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 		bottom = y + GOOMBA_BBOX_WING;
 		break;
 	case GOOMBA_STATE_DIE:
-			right= 0;
-			bottom = 0;
-			break;
+		right= x+0;
+		bottom = y+0;
+		break;
 
 	}
+	Bound.left = left;
+	Bound.right = right;
+	Bound.bottom = bottom;
+	Bound.top = top;
+
+	if (isDestroy)
+	{
+		right = 0;
+		bottom = 0;
+	}
 }
-void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 {
 	if (isDestroy)
 	{
 		return;
 	}
-	CGameObject::Update(dt, coObjects);
+	if (!CheckInCamera())
+	{
+		return;
+	}
+	if (time_die > 0)
+	{
+		DebugOut(L"[ERROR] Sprite ID %d cannot be found!\n", (GetTickCount64()-time_die));
+	}
+	if (state == GOOMBA_STATE_DIE)
+	{
+		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE)
+		{
+			Destroy();
+		}
+	}
 
-	vy += GOOMBA_GRAVITY * dt;
+	CGameObject::Update(dt, scene,coObjects);
+
+	if (vy != 0)
+	{
+		vy += GOOMBA_GRAVITY * dt;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
-
-	if (state == GOOMBA_STATE_DIE)
-	{
-		if (GetTickCount64() - time_die >= 200 )
-		{
-			Destroy();
-		}
-	}
 
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
@@ -88,6 +111,30 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					vx = -vx;
 				}
 			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					nx = -nx;
+					vx = -vx;
+				}
+			}
+			else if (dynamic_cast<CQuestionMark*>(e->obj))
+			{
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					nx = -nx;
+					vx = -vx;
+				}
+			}
 			else
 			{
 				if (e->nx != 0)
@@ -97,9 +144,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-
-
-
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CGoomba::Render()
@@ -160,35 +205,14 @@ void CGoomba::SetState(int state)
 			time_die = GetTickCount64();
 			break;
 		case GOOMBA_STATE_WALKING: 
-			if (vx > 0)
-			{
-				vx = GOOMBA_WALKING_SPEED;
-			}
-			else
-			{
-				vx = -GOOMBA_WALKING_SPEED;
-			}
+			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		case GOOMBA_STATE_FLYLING:
 			vy = -GOOMBA_JUMP_FLY_SPEED_Y;
-			if (vx>0)
-			{
-				vx = GOOMBA_WALKING_SPEED;
-			}
-			else
-			{
-				vx = -GOOMBA_WALKING_SPEED;
-			}
+			vx = -GOOMBA_WALKING_SPEED;
 			break;
-		case GOOMBA_STATE_WALKING_WING:
-			if (vx > 0)
-			{
-				vx = GOOMBA_WALKING_SPEED;
-			}
-			else
-			{
-				vx = -GOOMBA_WALKING_SPEED;
-			}
-			break;
+	    case GOOMBA_STATE_WALKING_WING:			
+			vx = -GOOMBA_WALKING_SPEED;			
+		    break;
 	}
 }
