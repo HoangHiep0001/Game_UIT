@@ -69,10 +69,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 
 	CGameObject::Update(dt, scene,coObjects);
 
-	if (vy != 0)
-	{
 		vy += GOOMBA_GRAVITY * dt;
-	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -99,6 +96,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			
 			if (dynamic_cast<Ground*>(e->obj))
 			{
 				if (e->ny < 0)
@@ -191,7 +189,7 @@ void CGoomba::Render()
 	
 	animation_set->at(ani)->Render(x,y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CGoomba::SetState(int state)
@@ -212,7 +210,8 @@ void CGoomba::SetState(int state)
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
 	    case GOOMBA_STATE_WALKING_WING:			
-			vx = -GOOMBA_WALKING_SPEED;			
+			vx = -GOOMBA_WALKING_SPEED;	
+			time = GetTickCount64();
 		    break;
 	}
 }

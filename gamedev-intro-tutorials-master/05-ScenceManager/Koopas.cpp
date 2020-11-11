@@ -7,7 +7,7 @@
 CKoopas::CKoopas(int appe)
 {
 	apperance = appe;
-	SetState(KOOPAS_STATE_WALKING);
+	//SetState(KOOPAS_STATE_WALKING);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -36,7 +36,18 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + KOOPAS_BBOX_LIVING;
 		bottom = y + KOOPAS_BBOX_LIVING;
 		break;
-
+	case KOOPAS_STATE_DIE_DOWN:
+		right = x;
+		bottom = y;
+		break;
+	case KOOPAS_STATE_LIVING_DOWN:
+		right = x + KOOPAS_BBOX_LIVING;
+		bottom = y + KOOPAS_BBOX_LIVING;
+		break;
+	case KOOPAS_STATE_TORTOISESHELL_DOWN:
+		right = x + KOOPAS_BBOX_LIVING;
+		bottom = y + KOOPAS_BBOX_LIVING;
+		break;
 	}
 	Bound.left = left;
 	Bound.right = right;
@@ -173,6 +184,13 @@ void CKoopas::Render()
 		case KOOPAS_STATE_TORTOISESHELL_UP:
 			ani = KOOPAS_ANI_RED_TORTOISESHELL_UP;
 			break;
+		case KOOPAS_STATE_DIE_DOWN:
+		case KOOPAS_STATE_LIVING_DOWN:
+			ani = KOOPAS_ANI_RED_DIE_DOWN;
+			break;
+		case KOOPAS_STATE_TORTOISESHELL_DOWN:
+			ani = KOOPAS_ANI_RED_TORTOISESHELL_DOWN;
+			break;
 		}
 	}
 	else if (apperance == KOOPAS_BULE)
@@ -208,6 +226,13 @@ void CKoopas::Render()
 		case KOOPAS_STATE_TORTOISESHELL_UP:
 			ani = KOOPAS_ANI_BULE_TORTOISESHELL_UP;
 			break;
+		case KOOPAS_STATE_DIE_DOWN:
+		case KOOPAS_STATE_LIVING_DOWN:
+			ani = KOOPAS_ANI_BULE_DIE_DOWN;
+			break;
+		case KOOPAS_STATE_TORTOISESHELL_DOWN:
+			ani = KOOPAS_ANI_BULE_TORTOISESHELL_DOWN;
+			break;
 		}
 	}
 
@@ -218,6 +243,7 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
+	CGameObject::SetState(state);
 	switch (state)
 	{
 	case KOOPAS_STATE_DIE_UP:
@@ -225,6 +251,15 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_LIVING_UP:
+		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
+		vx = 0;
+		vy = 0;
+		break;
+	case KOOPAS_STATE_DIE_DOWN:
+		vx = 0;
+		vy = 0;
+		break;
+	case KOOPAS_STATE_LIVING_DOWN:
 		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
 		vy = 0;
@@ -237,6 +272,9 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_WALKING_SPEED;
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_UP:
+		vx = KOOPAS_TORTOISESHELL;
+		break;
+	case KOOPAS_STATE_TORTOISESHELL_DOWN:
 		vx = KOOPAS_TORTOISESHELL;
 		break;
 	}

@@ -43,9 +43,6 @@
     <Filter Include="Object\FireBall">
       <UniqueIdentifier>{7592552b-7703-48ff-a127-dbeedb0e54d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Koopas">
-      <UniqueIdentifier>{1e5c40e2-b9a7-4777-8cdf-690b1d98feb9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -103,7 +100,7 @@
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
     <ClCompile Include="Koopas.cpp">
-      <Filter>Object\Koopas</Filter>
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +159,7 @@
       <Filter>Object\StaticOject</Filter>
     </ClInclude>
     <ClInclude Include="Koopas.h">
-      <Filter>Object\Koopas</Filter>
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

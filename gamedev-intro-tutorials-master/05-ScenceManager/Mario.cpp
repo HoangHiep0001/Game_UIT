@@ -142,8 +142,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
 				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
-
-				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
 					if (goomba->GetState()== GOOMBA_STATE_WALKING)
@@ -160,15 +158,17 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
-					else if (goomba->GetState() == GOOMBA_STATE_WALKING_WING)
+					if( (goomba->GetState() == GOOMBA_STATE_WALKING_WING)|| (goomba->GetState() == GOOMBA_STATE_FLYLING))
 					{
 						if (goomba->GetApperance() == GOOMBA_RED)
 						{
 							goomba->SetState(GOOMBA_STATE_WALKING);
+							goomba->y += GOOMBA_BBOX_Y;
 						}
 						else if (goomba->GetApperance() == GOOMBA_THERE)
 						{
 							goomba->SetState(GOOMBA_STATE_WALKING);
+							goomba->y += GOOMBA_BBOX_Y;
 						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
@@ -235,6 +235,18 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 							}
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
+						if (koopas->GetState() == KOOPAS_STATE_FLYLING)
+						{
+							if (koopas->GetApperance() == KOOPAS_RED)
+							{
+								koopas->SetState(KOOPAS_STATE_WALKING);
+							}
+							if (koopas->GetApperance() == KOOPAS_BULE)
+							{
+								koopas->SetState(KOOPAS_STATE_WALKING);
+							}
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
 						
 					}
 					if (e->nx != 0)
@@ -253,7 +265,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 									koopas->SetState(KOOPAS_STATE_DIE_UP);
 								}
 							}
-							else if (koopas->GetState() != GOOMBA_STATE_DIE)
+							else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)&&(koopas->GetState() != KOOPAS_STATE_LIVING_UP))
 							{
 								if (level > MARIO_LEVEL_SMALL)
 								{

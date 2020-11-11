@@ -8,7 +8,7 @@
 #define GOOMBA_BBOX_WING 20
 #define GOOMBA_BBOX_FLYING_Y 24
 #define GOOMBA_BBOX_X_Y 16
-#define GOOMBA_BBOX_DIE 7
+#define GOOMBA_BBOX_Y 7
 
 // state
 #define GOOMBA_STATE_WALKING 0
@@ -26,11 +26,7 @@
 #define GOOMBA_ANI_THERE_FLYLING 1
 #define GOOMBA_ANI_THERE_WALKING_WING 2
 #define GOOMBA_ANI_THERE_DIE 3
-// leveL
-//#define GOOMBA_LEVEL_WALKING 0
-//#define GOOMBA_LEVEL_FLYLING 1
-//#define GOOMBA_LEVEL_WALKING_WING 2
-//#define GOOMBA_LEVEL_DIE 3
+
 // APP
 #define GOOMBA_RED 0
 #define GOOMBA_THERE 1
@@ -43,6 +39,7 @@ class CGoomba : public CGameObject
 	int apperance;
 
 	DWORD time_die = 0;
+	DWORD time = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
