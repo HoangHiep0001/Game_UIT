@@ -10,7 +10,7 @@ CKoopas::CKoopas(int appe)
 	SetState(KOOPAS_STATE_WALKING);
 }
 
-void CKoopas::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -42,24 +42,30 @@ void CKoopas::GetBoundingBox(float &left, float &top, float &right, float &botto
 	Bound.right = right;
 	Bound.bottom = bottom;
 	Bound.top = top;
+	if (isDestroy)
+	{
+		right = 0;
+		bottom = 0;
+	}
 }
 
-void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
+void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
-	//if (!CheckInCamera())
-	//{
-	//	return;
-	//}
+	if (!CheckInCamera())
+	{
+		return;
+	}
 	if (isDestroy)
 	{
 		return;
 	}
-	CGameObject::Update(dt,scene, coObjects);
+	CGameObject::Update(dt, scene, coObjects);
 	vy += KOOPAS_GRAVITY * dt;
-	
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
 	{
@@ -82,20 +88,14 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
+				if (e->ny < 0)
 				{
-					if (e->ny > 0)
-					{
-						y += dy;
-					}
-				}		
-				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
+					vy = 0;
+				}
+				if (e->nx != 0)
 				{
-					if (e->nx != 0)
-					{
-						vx = -vx;
-						nx = -nx;
-					}
+					nx = -nx;
+					vx = -vx;
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -146,7 +146,7 @@ void CKoopas::Render()
 		switch (state)
 		{
 		case KOOPAS_STATE_WALKING:
-			if (vx>0)
+			if (vx > 0)
 			{
 				ani = KOOPAS_ANI_RED_WALKING_RIGHT;
 			}
@@ -154,21 +154,19 @@ void CKoopas::Render()
 			{
 				ani = KOOPAS_ANI_RED_WALKING_LEFT;
 			}
-			
+
 			break;
 		case KOOPAS_STATE_FLYLING:
-			if (vx>0)
+			if (vx > 0)
 			{
 				ani = KOOPAS_ANI_RED_FLYLING_RIGHT;
 			}
 			else
-			{ 
+			{
 				ani = KOOPAS_ANI_RED_FLYLING_LEFT;
-			}		
+			}
 			break;
 		case KOOPAS_STATE_DIE_UP:
-			ani = KOOPAS_ANI_RED_DIE_UP;
-			break;
 		case KOOPAS_STATE_LIVING_UP:
 			ani = KOOPAS_ANI_RED_DIE_UP;
 			break;
@@ -202,10 +200,8 @@ void CKoopas::Render()
 				ani = KOOPAS_ANI_BULE_FLYLING_LEFT;
 			}
 			break;
-			
+
 		case KOOPAS_STATE_DIE_UP:
-			ani = KOOPAS_ANI_BULE_DIE_UP;
-			break;
 		case KOOPAS_STATE_LIVING_UP:
 			ani = KOOPAS_ANI_BULE_DIE_UP;
 			break;
@@ -214,8 +210,8 @@ void CKoopas::Render()
 			break;
 		}
 	}
-	int alpha = 255;
-	animation_set->at(ani)->Render(x, y,alpha);
+
+	animation_set->at(ani)->Render(x, y);
 
 	RenderBoundingBox();
 }
@@ -234,7 +230,7 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
-		vx =- KOOPAS_WALKING_SPEED;
+		vx = -KOOPAS_WALKING_SPEED;
 		break;
 	case KOOPAS_STATE_FLYLING:
 		vy = -KOOPAS_JUMP_SPEED_Y;

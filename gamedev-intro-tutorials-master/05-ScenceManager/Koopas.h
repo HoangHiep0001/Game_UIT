@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 #define KOOPAS_WALKING_SPEED 0.015f;
@@ -48,8 +47,8 @@
 class CKoopas : public CGameObject
 {
 	int apperance;
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
 public:
@@ -57,3 +56,4 @@ public:
 	CKoopas(int appe);
 	void SetState(int state);
 };
+

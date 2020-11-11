@@ -88,7 +88,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 	//kiem tra tan cong xong chua
 	if (state == MARIO_STATE_ATTACK)
 	{
-		//isAttack = CheckLastFrameAttack();
+		isAttack = CheckLastFrameAttack();
 	}
 
 	
@@ -177,7 +177,19 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (untouchable==0)
 					{
-						if (goomba->GetState()!=GOOMBA_STATE_DIE)
+						if(state==MARIO_STATE_ATTACK)
+						{
+							if (goomba->GetApperance() == GOOMBA_RED)
+							{
+								goomba->SetState(GOOMBA_STATE_DIE);
+
+							}
+							if (goomba->GetApperance() == GOOMBA_THERE)
+							{
+								goomba->SetState(GOOMBA_STATE_DIE);
+							}
+						}
+						else if (goomba->GetState()!=GOOMBA_STATE_DIE)
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -201,6 +213,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 							}
 							else 
 								SetState(MARIO_STATE_DIE);
+
 						}
 					}
 				}
@@ -228,7 +241,19 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (untouchable == 0)
 						{
-							if (koopas->GetState() != GOOMBA_STATE_DIE)
+							if (state == MARIO_STATE_ATTACK)
+							{
+								if (koopas->GetApperance() == KOOPAS_RED)
+								{
+									koopas->SetState(KOOPAS_STATE_DIE_UP);
+
+								}
+								if (koopas->GetApperance() == KOOPAS_BULE)
+								{
+									koopas->SetState(KOOPAS_STATE_DIE_UP);
+								}
+							}
+							else if (koopas->GetState() != GOOMBA_STATE_DIE)
 							{
 								if (level > MARIO_LEVEL_SMALL)
 								{
@@ -297,7 +322,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
-				if (e->ny != 0)
+				if (e->ny < 0)
 				{	
 					vy = 0 ;
 				}
@@ -310,10 +335,25 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CQuestionMark*>(e->obj))
 			{
-				if (e->ny != 0)
+				CQuestionMark* question = dynamic_cast<CQuestionMark*>(e->obj);
+
+				if (e->ny < 0)
 				{
 					vy = 0;
 				}
+				if (e->ny > 0)
+				{
+					if (question->GetState() == MARK_STATE_QUESTION)
+					{
+						question->SetState(MARK_STATE_EMPTY);
+						vy = 0;
+					}
+					else
+					{
+						vy = 0;
+					}
+				}
+
 				if (e->nx != 0)
 				{
 					vx = 0;
@@ -536,7 +576,7 @@ void CMario::Reset()
 	SetSpeed(0, 0);
 }
 
-/*bool CMario::CheckLastFrameAttack()
+bool CMario::CheckLastFrameAttack()
 {
 	switch (apperance)
 	{
@@ -547,14 +587,20 @@ void CMario::Reset()
 			if (nx > 0)
 			{
 				int ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_RIGHT;
-				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
-					return true;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
 			}
 			else
 			{
 				int ani = MARIO_ANI_BIG_FOX_ATTACK_IDLE_LEFT;
-				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
-					return true;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
 			}
 		}
 	}
@@ -565,22 +611,28 @@ void CMario::Reset()
 			if (nx > 0)
 			{
 				int ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_RIGHT;
-				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
-					return true;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
 			}
 			else
 			{
 				int ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_LEFT;
-				if (CAnimations::GetInstance()->Get(ani)->GetCurrentFrame() <= 5)
-					return true;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
 			}
 		}
 	}
 	default:
 		break;
 	}
-	return false;
-}*/
+	return true;
+}
 
 
 void CMario::Render()

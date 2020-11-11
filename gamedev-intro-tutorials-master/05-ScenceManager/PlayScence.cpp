@@ -193,7 +193,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONMARK:
 	{
+		int state = atof(tokens[4].c_str());
 		obj = new CQuestionMark();
+		CQuestionMark* q = dynamic_cast<CQuestionMark*>(obj);
+		q->SetStartY(y);
+		obj->SetState(state);
 		break;
 	}
 	case OBJECT_TYPE_GROUND: 
@@ -476,9 +480,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_M:
 		mario->SetState(MARIO_STATE_FLY);
 		break;
-	case DIK_N:
-		mario->SetState(MARIO_STATE_ATTACK);
-		break;
 	case DIK_B:
 		mario->SetState(MARIO_STATE_HOLD);
 		break;
@@ -486,7 +487,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
 		break;
 	case DIK_D:
-		mario->SetState(MARIO_STATE_FIRE_BALL);
+		if (mario->GetApperance() == MARIO_FIRE)
+		{
+			mario->SetState(MARIO_STATE_FIRE_BALL);
+		}
+		else if (mario->GetApperance() == MARIO_FOX)
+		{
+			mario->SetState(MARIO_STATE_ATTACK);
+		}
 		break;
 
 	}
@@ -509,54 +517,60 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if(mario->GetState()!=MARIO_STATE_LANDING || mario->GetNx() <0)
-		if (mario->GetState() != MARIO_STATE_FLYLING)
+		if (!mario->GetIsAttack())
 		{
-			if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
-			{
-				mario->SetState(MARIO_STATE_STOP); // dang di thi chuyen sang trang thai danh tay
-			}
-			else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO) // gettickcount64 la ham lay thoi gian hien tai
-			{
-				if (mario->GetState() != MARIO_STATE_JUMP)
+			if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() < 0)
+				if (mario->GetState() != MARIO_STATE_FLYLING)
 				{
-					if (game->IsKeyDown(DIK_LSHIFT))
+					if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
 					{
-						mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
+						mario->SetState(MARIO_STATE_STOP); // dang di thi chuyen sang trang thai danh tay
 					}
-					else
+					else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO) // gettickcount64 la ham lay thoi gian hien tai
 					{
-						mario->SetState(MARIO_STATE_WALKING_RIGHT);
+						if (mario->GetState() != MARIO_STATE_JUMP)
+						{
+							if (game->IsKeyDown(DIK_LSHIFT))
+							{
+								mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
+							}
+							else
+							{
+								mario->SetState(MARIO_STATE_WALKING_RIGHT);
+							}
+						}
 					}
 				}
-			}
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		if (mario->GetState() != MARIO_STATE_FLYLING)
+		if (!mario->GetIsAttack())
 		{
-			if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
+			if (mario->GetState() != MARIO_STATE_FLYLING)
 			{
-				mario->SetState(MARIO_STATE_STOP);
-			}
-			else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
-			{
-				if (mario->GetState() != MARIO_STATE_JUMP)
+				if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
 				{
-					if (game->IsKeyDown(DIK_LSHIFT))
+					mario->SetState(MARIO_STATE_STOP);
+				}
+				else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
+				{
+					if (mario->GetState() != MARIO_STATE_JUMP)
 					{
-						mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+						if (game->IsKeyDown(DIK_LSHIFT))
+						{
+							mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+						}
+						else mario->SetState(MARIO_STATE_WALKING_LEFT);
 					}
-					else mario->SetState(MARIO_STATE_WALKING_LEFT);
 				}
 			}
 		}
 	}
 	else
 	{
-		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE))
-			//&&((mario->GetState()!=MARIO_STATE_ATTACK) && (mario->isAttack==false)))
+		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
+			&& (!mario->GetIsAttack()))
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}

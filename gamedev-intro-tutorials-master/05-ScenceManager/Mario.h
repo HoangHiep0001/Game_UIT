@@ -216,6 +216,6 @@ public:
 	float GetV() { return this->vx; }
 	int GetNx() { return this->nx; }
 	void ResetTimeFly() { time_fly = 0; }
-
-	//bool CheckLastFrameAttack();
+	bool GetIsAttack() { return this->isAttack; }
+	bool CheckLastFrameAttack();
 };
