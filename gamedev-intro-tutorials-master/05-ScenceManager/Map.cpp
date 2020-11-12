@@ -27,12 +27,12 @@ void Map::SetCamera(int x,int y)
 
 void Map::Render()
 {
-	float startingColumn = floor(camera_x / TILE_SIZE);
+	float startingColumn = ceil(camera_x / TILE_SIZE);
 	float maxColumn = ceil( (screenWidth + camera_x)/ TILE_SIZE);
 	//DebugOut(L" start = %f, max = %f\n", startingColumn, maxColumn);
 
 	if (maxColumn >= columnMap) maxColumn = columnMap;
-	for (int currentRow =0; currentRow < rowMap; currentRow++)
+	for (int currentRow = 0; currentRow < rowMap; currentRow++)
 		for (int currentColumn = startingColumn; currentColumn < maxColumn; currentColumn++)
 			tiles.at(tileMap[currentRow][currentColumn] - 1)->Draw(currentColumn * TILE_SIZE, currentRow * TILE_SIZE);
 }
@@ -41,7 +41,7 @@ void Map::SetTileMapData(std::vector<std::vector<int>> tileMapData)
 {
 	tileMap = tileMapData;
 }
-
+//
 //void Map::SetCamera(Camera* cam)
 //{
 //	this->camera = cam;

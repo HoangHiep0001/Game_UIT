@@ -520,6 +520,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if (!mario->GetIsAttack())
 		{
 			if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() < 0)
+			{
 				if (mario->GetState() != MARIO_STATE_FLYLING)
 				{
 					if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
@@ -538,30 +539,46 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 							{
 								mario->SetState(MARIO_STATE_WALKING_RIGHT);
 							}
+							if (game->IsKeyDown(DIK_B))
+							{
+								mario->SetState(MARIO_STATE_HOLD);
+							}
 						}
 					}
 				}
+			}
 		}
 	}
+	/*else if (game->IsKeyDown(DIK_SPACE))
+	{
+		mario->SetState(MARIO_STATE_JUMP_MAX);	
+	}*/
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		if (!mario->GetIsAttack())
 		{
-			if (mario->GetState() != MARIO_STATE_FLYLING)
+			if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() > 0)
 			{
-				if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
+				if (mario->GetState() != MARIO_STATE_FLYLING)
 				{
-					mario->SetState(MARIO_STATE_STOP);
-				}
-				else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
-				{
-					if (mario->GetState() != MARIO_STATE_JUMP)
+					if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
 					{
-						if (game->IsKeyDown(DIK_LSHIFT))
+						mario->SetState(MARIO_STATE_STOP);
+					}
+					else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
+					{
+						if (mario->GetState() != MARIO_STATE_JUMP)
 						{
-							mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+							if (game->IsKeyDown(DIK_LSHIFT))
+							{
+								mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+							}
+							else mario->SetState(MARIO_STATE_WALKING_LEFT);
+							if (game->IsKeyDown(DIK_B))
+							{
+								mario->SetState(MARIO_STATE_HOLD);
+							}
 						}
-						else mario->SetState(MARIO_STATE_WALKING_LEFT);
 					}
 				}
 			}

@@ -11,6 +11,7 @@
 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.4f
+#define MARIO_JUMP_SPEED_Y_MAX	0.6f
 #define MARIO_FLYLING_SPEED_Y	0.1f
 #define MARIO_LANGDING_SPEED_Y	0.03f
 #define MARIO_SMALL_JUMP_SPEED_Y 0.35f
@@ -25,6 +26,7 @@
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
 #define MARIO_STATE_JUMP			300
+#define MARIO_STATE_JUMP_MAX 1600
 #define MARIO_STATE_DIE				400
 #define MARIO_STATE_WALKING_RIGHT_FAST 500
 #define MARIO_STATE_WALKING_LEFT_FAST 600
@@ -213,6 +215,7 @@ public:
 	DWORD GetTimeStop() { return time_stop; }
 	DWORD GetTimeFly() { return time_fly; }
 	int GetApperance() { return apperance; }
+	int GetLevel() { return level; }
 	float GetV() { return this->vx; }
 	int GetNx() { return this->nx; }
 	void ResetTimeFly() { time_fly = 0; }

@@ -2,9 +2,9 @@
 #include "GameObject.h"
 
 #define KOOPAS_WALKING_SPEED 0.025f;
-#define KOOPAS_JUMP_SPEED_Y 0.001f
-#define KOOPAS_GRAVITY 0.0001f
-#define KOOPAS_TORTOISESHELL 0.35f
+#define KOOPAS_JUMP_SPEED_Y 0.3f
+#define KOOPAS_GRAVITY 0.001f
+#define KOOPAS_TORTOISESHELL 0.15f
 
 #define KOOPAS_BBOX_WIDTH 16
 #define KOOPAS_BBOX_HEIGHT 27
@@ -50,10 +50,14 @@ class CKoopas : public CGameObject
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
+	bool ispickup= false;
 
 public:
 	int GetApperance() { return apperance; }
 	CKoopas(int appe);
 	void SetState(int state);
+	void SetIsPick(bool flag) {
+		this->ispickup = flag;
+	}
 };
 

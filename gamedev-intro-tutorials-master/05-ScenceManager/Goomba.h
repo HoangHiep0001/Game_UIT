@@ -2,8 +2,9 @@
 #include "GameObject.h"
 
 #define GOOMBA_WALKING_SPEED 0.05f;
-#define GOOMBA_JUMP_FLY_SPEED_Y		0.45f
-#define GOOMBA_GRAVITY			0.002f
+#define GOOMBA_JUMP_FLY_SPEED_Y	0.27f
+#define GOOMBA_JUMP_SPEED_Y	0.5f
+#define GOOMBA_GRAVITY			0.001f
 
 #define GOOMBA_BBOX_WING 20
 #define GOOMBA_BBOX_FLYING_Y 24
@@ -32,7 +33,8 @@
 #define GOOMBA_THERE 1
 
 #define GOOMBA_TIME_DIE 200
-
+#define GOOMBA_TIME_WALK 800
+#define GOOMBA_TIME_JUMP 200
 
 class CGoomba : public CGameObject
 {

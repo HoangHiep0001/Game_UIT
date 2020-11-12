@@ -5,7 +5,7 @@
 class Map
 {
 	float camera_x;
-	float camera_y;
+ 	float camera_y;
 	int rowMap, columnMap;		
 	int rowTileSet, columnTileSet;	
 

@@ -66,7 +66,39 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 			Destroy();
 		}
 	}
-
+	if (state == GOOMBA_STATE_FLYLING)
+	{
+		if (vy == 0)
+		{
+			SetState(GOOMBA_STATE_WALKING_WING);
+		}
+	}
+    if (state == GOOMBA_STATE_WALKING_WING)
+	{
+		if ((GetTickCount64() - time) >= GOOMBA_TIME_WALK)
+		{
+  			for (int i = 0; i < 1; i++)
+			{
+				if (state == GOOMBA_STATE_WALKING_WING)
+				{
+					if ((GetTickCount64() - time) >= GOOMBA_TIME_JUMP)
+					{
+						SetState(GOOMBA_STATE_FLYLING);
+						vy = -GOOMBA_JUMP_SPEED_Y;
+					}
+				}
+				if (state == GOOMBA_STATE_FLYLING)
+				{
+					if (vy == 0)
+					{
+						SetState(GOOMBA_STATE_WALKING_WING);					
+					}
+				}
+			}
+			vy = -GOOMBA_JUMP_FLY_SPEED_Y;
+			SetState(GOOMBA_STATE_FLYLING);	
+		}
+	}
 	CGameObject::Update(dt, scene,coObjects);
 
 		vy += GOOMBA_GRAVITY * dt;
@@ -96,17 +128,31 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (e->ny < 0)
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
 				{
-					vy = 0;
+					if (e->ny > 0)
+					{
+						y += dy;
+					}
+					if (e->nx != 0)
+					{
+						nx = -nx;
+						vx = -vx;
+					}
 				}
-				if (e->nx != 0)
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
 				{
-					nx = -nx;
-					vx = -vx;
+					if (e->ny < 0)
+					{
+						vy = 0;
+					}
+					if (e->nx != 0)
+					{
+						nx = -nx;
+						vx = -vx;
+					}
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -206,8 +252,15 @@ void CGoomba::SetState(int state)
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		case GOOMBA_STATE_FLYLING:
-			vy = -GOOMBA_JUMP_FLY_SPEED_Y;
-			vx = -GOOMBA_WALKING_SPEED;
+			if (nx>0)
+			{
+				vx = GOOMBA_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -GOOMBA_WALKING_SPEED;
+			}		
+			time = GetTickCount64();
 			break;
 	    case GOOMBA_STATE_WALKING_WING:			
 			vx = -GOOMBA_WALKING_SPEED;	

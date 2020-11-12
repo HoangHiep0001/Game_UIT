@@ -247,7 +247,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 							}
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
-						
 					}
 					if (e->nx != 0)
 					{
@@ -263,6 +262,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 								if (koopas->GetApperance() == KOOPAS_BULE)
 								{
 									koopas->SetState(KOOPAS_STATE_DIE_UP);
+								}
+							}
+							else if (state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_WALKING_RIGHT)
+							{
+								if (koopas->state==(KOOPAS_STATE_LIVING_UP))
+								{
+									koopas->nx =- nx;
+									koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
+								}
+							}
+							else if (state== MARIO_STATE_HOLD)
+							{
+								if (koopas->state == (KOOPAS_STATE_LIVING_UP))
+								{
+									koopas->SetIsPick(true);
 								}
 							}
 							else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)&&(koopas->GetState() != KOOPAS_STATE_LIVING_UP))
@@ -489,6 +503,11 @@ void CMario::SetState(int state)
 		else
 			vy = -MARIO_JUMP_SPEED_Y;
 		break; 
+	case MARIO_STATE_JUMP_MAX:
+		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+		
+			vy = -MARIO_JUMP_SPEED_Y_MAX;
+		break;
 	case MARIO_STATE_IDLE: 
 		if (a_stop == 0)
 		{
@@ -679,6 +698,7 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_WALKING_FAST_LEFT;
 					break;
 				case MARIO_STATE_JUMP:
+				case MARIO_STATE_JUMP_MAX:
 					if (nx > 0)
 						ani = MARIO_ANI_BIG_JUMP_IDLE_RIGHT;
 					else
@@ -734,6 +754,7 @@ void CMario::Render()
 					ani = MARIO_ANI_SMALL_WALKING_FAST_LEFT;
 					break;
 				case MARIO_STATE_JUMP:
+				case MARIO_STATE_JUMP_MAX:
 					if (nx > 0)
 						ani = MARIO_ANI_SMALL_JUMP_IDLE_RIGHT;
 					else
@@ -788,6 +809,7 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_FOX_WALKING_FAST_LEFT;
 					break;
 				case MARIO_STATE_JUMP:
+				case MARIO_STATE_JUMP_MAX:
 					if (nx > 0)
 						ani = MARIO_ANI_BIG_FOX_JUMP_IDLE_RIGHT;
 					else
@@ -874,6 +896,7 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_FIRE_WALKING_FAST_LEFT;
 					break;
 				case MARIO_STATE_JUMP:
+				case MARIO_STATE_JUMP_MAX:
 					if (nx > 0)
 						ani = MARIO_ANI_BIG_FIRE_JUMP_IDLE_RIGHT;
 					else
@@ -949,6 +972,7 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_FOX_FIRE_WALKING_FAST_LEFT;
 					break;
 				case MARIO_STATE_JUMP:
+				case MARIO_STATE_JUMP_MAX:
 					if (nx > 0)
 						ani = MARIO_ANI_BIG_FOX_FIRE_JUMP_IDLE_RIGHT;
 					else

@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "QuestionMark.h"
 #include "Mario.h"
+#include "PlayScence.h"
 
 CKoopas::CKoopas(int appe)
 {
@@ -70,8 +71,29 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
+
+	if (ispickup)
+	{
+		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+		CMario* mario = pc->GetPlayer();
+		if(mario->SetLev
+		if (mario->nx > 0)
+		{
+			x = mario->x + MARIO_BIG_BBOX_WIDTH + 5;
+			y = mario->y + 5;
+		}
+		else
+		{
+			x = mario->x - KOOPAS_BBOX_LIVING;
+			y = mario->y + 5;
+		}
+	}
+
 	CGameObject::Update(dt, scene, coObjects);
-	vy += KOOPAS_GRAVITY * dt;
+	if (!ispickup)
+	{
+		vy += KOOPAS_GRAVITY * dt;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -97,16 +119,36 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (e->ny < 0)
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
 				{
-					vy = 0;
+					if (e->ny > 0)
+					{
+						y += dy;
+					}
+					if (e->nx != 0)
+					{
+						nx = -nx;
+						vx = -vx;
+					}
 				}
-				if (e->nx != 0)
+				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
 				{
-					nx = -nx;
-					vx = -vx;
+					if (e->ny < 0)
+					{
+						vy = 0;
+					}
+					if (e->nx != 0)
+					{
+						nx = -nx;
+						vx = -vx;
+					}
+				}
+ 				if (state== KOOPAS_STATE_FLYLING)
+				{
+					vy = -KOOPAS_JUMP_SPEED_Y;
 				}
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -272,7 +314,14 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_WALKING_SPEED;
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_UP:
-		vx = KOOPAS_TORTOISESHELL;
+		if (nx>0)
+		{
+			vx = KOOPAS_TORTOISESHELL;
+		}
+		else
+		{
+			vx = -KOOPAS_TORTOISESHELL;
+		}
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_DOWN:
 		vx = KOOPAS_TORTOISESHELL;
