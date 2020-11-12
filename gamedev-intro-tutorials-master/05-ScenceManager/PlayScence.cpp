@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include "Map.h"
 #include "PlayScence.h"
 #include "Utils.h"
 #include "Textures.h"
@@ -408,6 +408,7 @@ void CPlayScene::Render()
 	tileMap->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
 }
 
 /*

@@ -268,6 +268,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 							{
 								if (koopas->state==(KOOPAS_STATE_LIVING_UP))
 								{
+									SetState(MARIO_STATE_STONE_KOOPAS);
 									koopas->nx =- nx;
 									koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
 								}
@@ -501,7 +502,7 @@ void CMario::SetState(int state)
 			vy = -MARIO_SMALL_JUMP_SPEED_Y;
 		}
 		else
-			vy = -MARIO_JUMP_SPEED_Y;
+			vy = -MARIO_BIG_JUMP_SPEED_Y;
 		break; 
 	case MARIO_STATE_JUMP_MAX:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
@@ -560,8 +561,10 @@ void CMario::SetState(int state)
 		//isAttack = true;
 		break;
 	case MARIO_STATE_FIRE_BALL_DOUBLE:
-		vy = -MARIO_JUMP_SPEED_Y;
+		vy = -MARIO_BIG_JUMP_SPEED_Y;
 		time_doubleshot = GetTickCount64();
+		break;
+	case MARIO_STATE_STONE_KOOPAS:
 		break;
 	}
 }
@@ -730,6 +733,12 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_HOLD_LEFT;
 					break;
+				case MARIO_STATE_STONE_KOOPAS:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_STONE_KOOPAS_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_STONE_KOOPAS_LEFT;
+					break;
 				}
 
 			}
@@ -782,6 +791,12 @@ void CMario::Render()
 						ani = MARIO_ANI_SMALL_HOLD_RIGHT;
 					else
 						ani = MARIO_ANI_SMALL_HOLD_LEFT;
+					break;
+				case MARIO_STATE_STONE_KOOPAS:
+					if (nx > 0)
+						ani = MARIO_ANI_SMALL_STONE_KOOPAS_RIGHT;
+					else
+						ani = MARIO_ANI_SMALL_STONE_KOOPAS_LEFT;
 					break;
 				}
 			}
@@ -869,6 +884,12 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FOX_HOLD_LEFT;
 					break;
+				case MARIO_STATE_STONE_KOOPAS:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_STONE_KOOPAS_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_STONE_KOOPAS_LEFT;
+					break;
 				}
 			}
 
@@ -945,6 +966,12 @@ void CMario::Render()
 						ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT;
 					else
 						ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT;
+					break;
+				case MARIO_STATE_STONE_KOOPAS:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_STONE_KOOPAS_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_STONE_KOOPAS_LEFT;
 					break;
 				}
 			}
@@ -1032,12 +1059,18 @@ void CMario::Render()
 					else
 						ani = MARIO_ANI_BIG_FOX_FIRE_HOLD_LEFT;
 					break;
+				case MARIO_STATE_STONE_KOOPAS:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_LEFT;
+					break;
 				}
 			}
 		}
 	}
 	int alpha = 255;
-	if (untouchable) alpha = 120;
+	if (untouchable) alpha = 220;
 
 	animation_set->at(ani)->Render(x, y, alpha);
 

@@ -27,7 +27,7 @@ void Map::SetCamera(int x,int y)
 
 void Map::Render()
 {
-	float startingColumn = ceil(camera_x / TILE_SIZE);
+	float startingColumn = floor(camera_x / TILE_SIZE);
 	float maxColumn = ceil( (screenWidth + camera_x)/ TILE_SIZE);
 	//DebugOut(L" start = %f, max = %f\n", startingColumn, maxColumn);
 

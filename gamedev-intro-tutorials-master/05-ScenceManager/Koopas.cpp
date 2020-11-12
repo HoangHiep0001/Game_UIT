@@ -76,16 +76,31 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 		CMario* mario = pc->GetPlayer();
-		if(mario->SetLev
-		if (mario->nx > 0)
+		if (mario->GetLevel() == MARIO_LEVEL_BIG) 
 		{
-			x = mario->x + MARIO_BIG_BBOX_WIDTH + 5;
-			y = mario->y + 5;
+			if (mario->nx > 0)
+			{
+				x = mario->x + MARIO_BIG_BBOX_WIDTH ;
+				y = mario->y + KOOPAS_BIG_HOLD;
+			}
+			else
+			{
+				x = mario->x - KOOPAS_BBOX_LIVING;
+				y = mario->y + KOOPAS_BIG_HOLD;
+			}
 		}
-		else
+		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
 		{
-			x = mario->x - KOOPAS_BBOX_LIVING;
-			y = mario->y + 5;
+			if (mario->nx > 0)
+			{
+				x = mario->x + MARIO_SMALL_BBOX_WIDTH ;
+				y = mario->y - KOOPAS_SMALL_HOLD;
+			}
+			else
+			{
+				x = mario->x - KOOPAS_BBOX_LIVING;
+				y = mario->y - KOOPAS_SMALL_HOLD;
+			}
 		}
 	}
 
