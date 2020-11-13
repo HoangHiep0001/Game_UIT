@@ -617,7 +617,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	else
 	{
 		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
-			&& (!mario->GetIsAttack()) && !mario->GetIsFireBall() &&!mario->GetIsFireBallDouble())
+			&& (!mario->GetIsAttack()) && !mario->GetIsFireBall())
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}

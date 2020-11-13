@@ -18,7 +18,7 @@
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
-
+#define MARIO_FIRE_JUMP_SPEED_Y	0.45f
 
 //state
 #pragma region State
@@ -159,7 +159,7 @@
 #define MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_LEFT 112
 #pragma endregion
 
-#define MARIO_ANI_DIE				8
+#define MARIO_ANI_DIE 8
 
 //level
 #define	MARIO_LEVEL_SMALL	1
@@ -178,17 +178,21 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 15
 
-#define MARIO_FOX_BBOX_WIDTH	16
+#define MARIO_FOX_BBOX_WIDTH	21
 #define MARIO_FOX_BBOX_HEIGHT	28
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
 #define UPLEVEL_OFFSET	12
-#define MARIO_FOX_BBOX_OFFSET 1
+#define MARIO_FOX_BBOX_OFFSET_Y 1
+#define MARIO_FOX_BBOX_OFFSET_X 5 
 
 #define TIME_STOP_MARIO 400
 #define TIME_FLYLING_MARIO	800
 #define TIME_JUMP_MARIO 220
+
+#define CHECK_FAME_FIRE 1
+
 class CMario : public CGameObject
 {
 	int apperance;
@@ -215,13 +219,11 @@ class CMario : public CGameObject
 	//fireball
 	bool isFireBall = false;
 	bool isSpawnFireBall = false;
-	bool isSpawnFireBallDouble = false;
 	DWORD time_jump = 0;
 
 public: 
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
-	bool GetIsFireBallDouble() { return this->isSpawnFireBallDouble; }
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();

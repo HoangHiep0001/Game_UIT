@@ -188,7 +188,7 @@ void CFireBall::Render()
 			break;
 		}
 
-		animation_set->at(ani)->Render(x, y, 200);
+		animation_set->at(ani)->Render(x, y, 255);
 
 		//RenderBoundingBox();
 	}
