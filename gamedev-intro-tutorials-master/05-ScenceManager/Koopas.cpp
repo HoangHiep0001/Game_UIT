@@ -49,6 +49,10 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + KOOPAS_BBOX_LIVING;
 		bottom = y + KOOPAS_BBOX_LIVING;
 		break;
+	case KOOPAS_STATE_LIVE_FOOT_UP:
+		right = x + KOOPAS_BBOX_LIVING;
+		bottom = y + KOOPAS_BBOX_LIVING;
+		break;
 	}
 	Bound.left = left;
 	Bound.right = right;
@@ -103,7 +107,20 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
+	if (GetState() == KOOPAS_STATE_LIVING_UP)
+	{
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
+		{
+			state = KOOPAS_STATE_LIVE_FOOT_UP;
+		}
+	}
+	if (GetState() == KOOPAS_STATE_LIVE_FOOT_UP)
+	{
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
+		{
+			state = KOOPAS_STATE_WALKING;
+		}
+	}
 	CGameObject::Update(dt, scene, coObjects);
 	if (!ispickup)
 	{
@@ -248,6 +265,9 @@ void CKoopas::Render()
 		case KOOPAS_STATE_TORTOISESHELL_DOWN:
 			ani = KOOPAS_ANI_RED_TORTOISESHELL_DOWN;
 			break;
+		case KOOPAS_STATE_LIVE_FOOT_UP:
+			ani = KOOPAS_ANI_RED_LIVE_FOOT_UP;
+			break;
 		}
 	}
 	else if (apperance == KOOPAS_BULE)
@@ -289,6 +309,9 @@ void CKoopas::Render()
 			break;
 		case KOOPAS_STATE_TORTOISESHELL_DOWN:
 			ani = KOOPAS_ANI_BULE_TORTOISESHELL_DOWN;
+			break;
+		case KOOPAS_STATE_LIVE_FOOT_UP:
+			ani = KOOPAS_ANI_BULE_LIVE_FOOT_UP;
 			break;
 		}
 	}
@@ -340,6 +363,9 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_DOWN:
 		vx = KOOPAS_TORTOISESHELL;
+		break;
+	case KOOPAS_STATE_LIVE_FOOT_UP:
+		time = GetTickCount64();
 		break;
 	}
 

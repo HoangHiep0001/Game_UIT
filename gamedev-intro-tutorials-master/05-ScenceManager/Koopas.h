@@ -18,6 +18,7 @@
 #define KOOPAS_STATE_DIE_DOWN 5
 #define KOOPAS_STATE_LIVING_UP 6
 #define KOOPAS_STATE_LIVING_DOWN 7
+#define KOOPAS_STATE_LIVE_FOOT_UP 8
 
 
 //ANI
@@ -29,6 +30,7 @@
 #define KOOPAS_ANI_BULE_TORTOISESHELL_DOWN 5
 #define KOOPAS_ANI_BULE_DIE_UP 6
 #define KOOPAS_ANI_BULE_DIE_DOWN 7
+#define KOOPAS_ANI_BULE_LIVE_FOOT_UP 16
 
 #define KOOPAS_ANI_RED_WALKING_RIGHT 8 
 #define KOOPAS_ANI_RED_WALKING_LEFT 9
@@ -38,6 +40,8 @@
 #define KOOPAS_ANI_RED_TORTOISESHELL_DOWN 13
 #define KOOPAS_ANI_RED_DIE_UP 14
 #define KOOPAS_ANI_RED_DIE_DOWN 15
+#define KOOPAS_ANI_RED_LIVE_FOOT_UP 17
+
 
 #define KOOPAS_RED 0
 #define KOOPAS_BULE 1
@@ -45,8 +49,10 @@
 #define KOOPAS_JUMP_Y 35
 #define KOOPAS_BIG_HOLD 5
 #define KOOPAS_SMALL_HOLD 3
+#define KOOPAS_TIME_LIVE 1000
 class CKoopas : public CGameObject
 {
+	DWORD time = 0;
 	int apperance;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
