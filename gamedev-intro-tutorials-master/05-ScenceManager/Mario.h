@@ -188,7 +188,7 @@
 
 #define TIME_STOP_MARIO 400
 #define TIME_FLYLING_MARIO	800
-
+#define TIME_JUMP_MARIO 220
 class CMario : public CGameObject
 {
 	int apperance;
@@ -215,12 +215,13 @@ class CMario : public CGameObject
 	//fireball
 	bool isFireBall = false;
 	bool isSpawnFireBall = false;
-
+	bool isSpawnFireBallDouble = false;
 	DWORD time_jump = 0;
 
 public: 
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
+	bool GetIsFireBallDouble() { return this->isSpawnFireBallDouble; }
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
@@ -247,4 +248,5 @@ public:
 	void SetPick(bool x) { pickingup = x; }
 	bool GetPick() { return this->pickingup; }
 	bool CheckFrameFireBall();
+	bool CheckFrameFireBallDouble();
 };

@@ -446,66 +446,58 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					isSpawnFireBall = true;
 				}
 			}
-
-			if (state == MARIO_STATE_FIRE_BALL_DOUBLE && isSpawnShot == false)
+			
+			if (state == MARIO_STATE_FIRE_BALL_DOUBLE)
 			{
-				CFireBall* fireball = new CFireBall(this->nx);
-				if (nx > 0)
+				if (isSpawnShot == false)
 				{
-					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
-					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+					if (CheckFrameFireBall() && isSpawnFireBallDouble == false)
+					{
+						CFireBall* fireball = new CFireBall(this->nx);
+						if (nx > 0)
+						{
+							fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+							pc->SpawnObject(fireball);
+						}
+						else
+						{
+							fireball->SetPosition(x, y + FIRE_BALL);
+							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+							pc->SpawnObject(fireball);
+						}
+						isSpawnFireBallDouble = true;
+					}
+					isSpawnShot = true;
 				}
-				else
+				if (time_doubleshot > 0 && GetTickCount64() - time_doubleshot > TIME_FIRE_BALL)
 				{
-					fireball->SetPosition(x, y + FIRE_BALL);
-					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
-				}
-				isSpawnShot = true;
-			}
+					if (CheckFrameFireBallDouble() && isSpawnFireBallDouble == false)
+					{
+						CFireBall* fireball = new CFireBall(this->nx);
+						if (nx > 0)
+						{
+							fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+							pc->SpawnObject(fireball);
+						}
+						else
+						{
+							fireball->SetPosition(x, y + FIRE_BALL);
+							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+							pc->SpawnObject(fireball);
+						}
+						time_doubleshot = 0;
 
-			if (time_doubleshot > 0 && GetTickCount64() - time_doubleshot > 200)
-			{
-				CFireBall* fireball = new CFireBall(this->nx);
-				if (nx > 0)
-				{
-					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
-					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+						isSpawnFireBallDouble = true;
+					}
 				}
-				else
-				{
-					fireball->SetPosition(x, y + FIRE_BALL);
-					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
-				}
-				time_doubleshot = 0;
 			}
 		}
 	}
 }
 
-bool CMario::CheckFrameFireBall()
-{
-	if (nx > 0)
-	{
-		int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
-		if (animation_set->at(ani)->GetCurrentFrame() == 1)
-		{
-			return true;
-		}
-	}
-	else
-	{
-		int ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
-		if (animation_set->at(ani)->GetCurrentFrame() == 1 )
-		{
-			return true;
-		}
-	}
-	return false;
-}
+
 
 void CMario::ChangeApperance(int apperance_change)
 {
@@ -596,9 +588,11 @@ void CMario::SetState(int state)
 		isFireBall = true;
 		break;
 	case MARIO_STATE_ATTACK:
-		//isAttack = true;
+		isAttack = true;
 		break;
 	case MARIO_STATE_FIRE_BALL_DOUBLE:
+		isFireBall = true;
+		isSpawnFireBallDouble = true;
 		vy = -MARIO_BIG_JUMP_SPEED_Y;
 		time_doubleshot = GetTickCount64();
 		break;
@@ -649,6 +643,69 @@ void CMario::Reset()
 	SetLevel(MARIO_LEVEL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+}
+bool CMario::CheckFrameFireBall()
+{
+	if (state == MARIO_STATE_FIRE_BALL)
+	{
+		if (nx > 0)
+		{
+			int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
+			if (animation_set->at(ani)->GetCurrentFrame() == 1)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			int ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
+			if (animation_set->at(ani)->GetCurrentFrame() == 1)
+			{
+				return true;
+			}
+		}
+	}
+	else if(state == MARIO_STATE_FIRE_BALL_DOUBLE)
+	{
+		if (nx > 0)
+		{
+			int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT;
+			if (animation_set->at(ani)->GetCurrentFrame() == 1)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT;
+			if (animation_set->at(ani)->GetCurrentFrame() == 1)
+			{
+				return true;
+			}
+		}
+	}
+	else return false;
+}
+
+bool CMario::CheckFrameFireBallDouble()
+{
+	if (nx > 0)
+	{
+		int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT;
+		if (animation_set->at(ani)->GetCurrentFrame() == 1)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT;
+		if (animation_set->at(ani)->GetCurrentFrame() == 1)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool CMario::CheckLastFrameAttack()
@@ -719,7 +776,28 @@ bool CMario::CheckLastFrameAttack()
 			}
 			else
 			{
-				int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
+				int ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
+			}
+		}
+		if (state == MARIO_STATE_FIRE_BALL_DOUBLE)
+		{
+			if (nx > 0)
+			{
+				int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
+			}
+			else
+			{
+				int ani = MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT;
 				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
 				{
 					animation_set->at(ani)->ResetFrame();

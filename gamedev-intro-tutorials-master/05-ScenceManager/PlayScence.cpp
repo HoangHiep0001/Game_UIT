@@ -482,7 +482,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_HOLD);
 		break;
 	case DIK_A:
-		mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+		if (mario->GetApperance() == MARIO_FIRE)
+		{
+			mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+		}
 		break;
 	case DIK_D:
 		if (mario->GetApperance() == MARIO_FIRE)
@@ -551,9 +554,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 				&&mario->GetState() != MARIO_STATE_FLYLING && mario->GetState()!=MARIO_STATE_LANDING)
 			{
-				if (GetTickCount64() - mario->GetTimeJump() <= 200 || mario->GetTimeJump() == 0)
+				if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
 				{
-					mario->SetState(MARIO_STATE_JUMP);
+ 					mario->SetState(MARIO_STATE_JUMP);
 				}
 			}
 		}
@@ -563,7 +566,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 			&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 		{
-			if (GetTickCount64()-mario->GetTimeJump()<=200||mario->GetTimeJump()==0)
+			if (GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0)
 			{
 				mario->SetState(MARIO_STATE_JUMP);
 			}
@@ -604,7 +607,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 				&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 			{
-				if (GetTickCount64() - mario->GetTimeJump() <= 200 || mario->GetTimeJump() == 0)
+				if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
 				{
 					mario->SetState(MARIO_STATE_JUMP);
 				}
@@ -614,11 +617,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	else
 	{
 		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
-			&& (!mario->GetIsAttack()) && !mario->GetIsFireBall() )
+			&& (!mario->GetIsAttack()) && !mario->GetIsFireBall() &&!mario->GetIsFireBallDouble())
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 	}
 	
 }
-
