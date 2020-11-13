@@ -80,45 +80,64 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 		CMario* mario = pc->GetPlayer();
-		if (mario->GetLevel() == MARIO_LEVEL_BIG) 
+		if (mario->GetPick())
 		{
-			if (mario->nx > 0)
+			if (mario->GetLevel() == MARIO_LEVEL_BIG)
 			{
-				x = mario->x + MARIO_BIG_BBOX_WIDTH ;
-				y = mario->y + KOOPAS_BIG_HOLD;
+				if (mario->nx > 0)
+				{
+					x = mario->x + MARIO_BIG_BBOX_WIDTH;
+					y = mario->y + KOOPAS_BIG_HOLD;
+				}
+				else
+				{
+					x = mario->x - KOOPAS_BBOX_LIVING;
+					y = mario->y + KOOPAS_BIG_HOLD;
+				}
 			}
-			else
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL)
 			{
-				x = mario->x - KOOPAS_BBOX_LIVING;
-				y = mario->y + KOOPAS_BIG_HOLD;
+				if (mario->nx > 0)
+				{
+					x = mario->x + MARIO_SMALL_BBOX_WIDTH;
+					y = mario->y - KOOPAS_SMALL_HOLD;
+				}
+				else
+				{
+					x = mario->x - KOOPAS_BBOX_LIVING;
+					y = mario->y - KOOPAS_SMALL_HOLD;
+				}
 			}
 		}
-		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+		else
 		{
-			if (mario->nx > 0)
-			{
-				x = mario->x + MARIO_SMALL_BBOX_WIDTH ;
-				y = mario->y - KOOPAS_SMALL_HOLD;
-			}
-			else
-			{
-				x = mario->x - KOOPAS_BBOX_LIVING;
-				y = mario->y - KOOPAS_SMALL_HOLD;
-			}
+			nx = mario->nx;
+			SetState(KOOPAS_STATE_TORTOISESHELL_UP);
+			ispickup = false;
 		}
 	}
-	if (GetState() == KOOPAS_STATE_LIVING_UP)
+	if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
+	{
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVING)
+		{
+			Destroy();
+		}
+	}
+	if (GetState() == KOOPAS_STATE_LIVING_UP && time>0 && ispickup == false)
 	{
 		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
 		{
+			
 			state = KOOPAS_STATE_LIVE_FOOT_UP;
 		}
 	}
-	if (GetState() == KOOPAS_STATE_LIVE_FOOT_UP)
+	if (GetState() == KOOPAS_STATE_LIVE_FOOT_UP && time>0)
 	{
-		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE_FOOT)
 		{
-			state = KOOPAS_STATE_WALKING;
+			y -= KOOPAS_Y;
+			SetState(KOOPAS_STATE_WALKING);
+			time = 0;
 		}
 	}
 	CGameObject::Update(dt, scene, coObjects);
@@ -334,6 +353,7 @@ void CKoopas::SetState(int state)
 		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
 		vy = 0;
+		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_DIE_DOWN:
 		vx = 0;
@@ -345,9 +365,18 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
-		vx = -KOOPAS_WALKING_SPEED;
+		nx = -1;
+		if (nx > 0)
+		{
+			vx = KOOPAS_WALKING_SPEED;
+		}
+		else
+		{
+			vx = -KOOPAS_WALKING_SPEED;
+		}
 		break;
 	case KOOPAS_STATE_FLYLING:
+		nx = -1;
 		vy = -KOOPAS_JUMP_SPEED_Y;
 		vx = -KOOPAS_WALKING_SPEED;
 		break;
@@ -360,12 +389,12 @@ void CKoopas::SetState(int state)
 		{
 			vx = -KOOPAS_TORTOISESHELL;
 		}
+		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_DOWN:
 		vx = KOOPAS_TORTOISESHELL;
 		break;
 	case KOOPAS_STATE_LIVE_FOOT_UP:
-		time = GetTickCount64();
 		break;
 	}
 

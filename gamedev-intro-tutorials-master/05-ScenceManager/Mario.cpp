@@ -39,11 +39,11 @@ void CMario::UpLevel()
 	
 }
 
-void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+
 	// Calculate dx, dy 
-	CGameObject::Update(dt,scene);
+	CGameObject::Update(dt, scene);
 
 	if (a == 0 && a_stop != 0)
 	{
@@ -66,7 +66,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	if (abs(vx) > MARIO_WALKING_SPEED_MAX)	
+	if (abs(vx) > MARIO_WALKING_SPEED_MAX)
 		vx = vx;
 	else
 		vx += a * dt;
@@ -82,7 +82,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state!=MARIO_STATE_DIE)
+	if (state != MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	//kiem tra tan cong xong chua
@@ -91,7 +91,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 		isAttack = CheckLastFrameAttack();
 	}
 
-	
+	if (state == MARIO_STATE_FIRE_BALL)
+	{
+		isFireBall = CheckLastFrameAttack();
+	}
+
+
 	if (state == MARIO_STATE_FLYLING)
 	{
 		if (GetTickCount64() - time_fly > TIME_FLYLING_MARIO)
@@ -99,7 +104,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -110,15 +115,15 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			state = MARIO_STATE_IDLE;
 	}
 	// No collision occured, proceed normally
-	if (coEvents.size()==0)
+	if (coEvents.size() == 0)
 	{
-		x += dx; 
+		x += dx;
 		y += dy;
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0; 
+		float rdx = 0;
 		float rdy = 0;
 
 		// TODO: This is a very ugly designed function!!!!
@@ -127,11 +132,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		//if (rdx != 0 && rdx!=dx)
 		//	x += nx*abs(rdx); 
-		
+
 		// block every object first!
-		x += min_tx*dx + nx*0.4f;
-		y += min_ty*dy + ny*0.4f;
-		
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
 
 		// Collision logic with other objects
 		//
@@ -141,24 +146,24 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
-				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 				if (e->ny < 0)
 				{
-					if (goomba->GetState()== GOOMBA_STATE_WALKING)
+					if (goomba->GetState() == GOOMBA_STATE_WALKING)
 					{
 						if (goomba->GetApperance() == GOOMBA_RED)
 						{
 							goomba->SetState(GOOMBA_STATE_DIE);
-							
+
 						}
 						if (goomba->GetApperance() == GOOMBA_THERE)
 						{
 							goomba->SetState(GOOMBA_STATE_DIE);
-							
+
 						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
-					if( (goomba->GetState() == GOOMBA_STATE_WALKING_WING)|| (goomba->GetState() == GOOMBA_STATE_FLYLING))
+					if ((goomba->GetState() == GOOMBA_STATE_WALKING_WING) || (goomba->GetState() == GOOMBA_STATE_FLYLING))
 					{
 						if (goomba->GetApperance() == GOOMBA_RED)
 						{
@@ -175,9 +180,9 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 				}
 				if (e->nx != 0)
 				{
-					if (untouchable==0)
+					if (untouchable == 0)
 					{
-						if(state==MARIO_STATE_ATTACK)
+						if (state == MARIO_STATE_ATTACK)
 						{
 							if (goomba->GetApperance() == GOOMBA_RED)
 							{
@@ -189,7 +194,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 								goomba->SetState(GOOMBA_STATE_DIE);
 							}
 						}
-						else if (goomba->GetState()!=GOOMBA_STATE_DIE)
+						else if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -198,20 +203,20 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 									level = MARIO_LEVEL_SMALL;
 									StartUntouchable();
 								}
-								else if (apperance==MARIO_FOX)
+								else if (apperance == MARIO_FOX)
 								{
 									apperance = MARIO_NORMAL;
 									level = MARIO_LEVEL_BIG;
 									StartUntouchable();
 								}
-								else if (apperance==MARIO_FIRE)
+								else if (apperance == MARIO_FIRE)
 								{
 									apperance = MARIO_NORMAL;
 									level = MARIO_LEVEL_SMALL;
 									StartUntouchable();
 								}
 							}
-							else 
+							else
 								SetState(MARIO_STATE_DIE);
 
 						}
@@ -221,106 +226,106 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-					if (e->ny < 0)
+				if (e->ny < 0)
+				{
+					if (koopas->GetState() == KOOPAS_STATE_WALKING)
 					{
-						if (koopas->GetState() == KOOPAS_STATE_WALKING)
+						if (koopas->GetApperance() == KOOPAS_RED)
 						{
-							if (koopas->GetApperance()==KOOPAS_RED)
-							{
-								koopas->SetState(KOOPAS_STATE_LIVING_UP);
-							}
-							if (koopas->GetApperance() == KOOPAS_BULE)
-							{
-								koopas->SetState(KOOPAS_STATE_LIVING_UP);
-							}
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 						}
-						if (koopas->GetState() == KOOPAS_STATE_FLYLING)
+						if (koopas->GetApperance() == KOOPAS_BULE)
+						{
+							koopas->SetState(KOOPAS_STATE_LIVING_UP);
+						}
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+					if (koopas->GetState() == KOOPAS_STATE_FLYLING)
+					{
+						if (koopas->GetApperance() == KOOPAS_RED)
+						{
+							koopas->SetState(KOOPAS_STATE_WALKING);
+						}
+						if (koopas->GetApperance() == KOOPAS_BULE)
+						{
+							koopas->SetState(KOOPAS_STATE_WALKING);
+						}
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+				if (e->nx != 0)
+				{
+					if (untouchable == 0)
+					{
+						if (state == MARIO_STATE_ATTACK)
 						{
 							if (koopas->GetApperance() == KOOPAS_RED)
 							{
-								koopas->SetState(KOOPAS_STATE_WALKING);
+								koopas->SetState(KOOPAS_STATE_DIE_UP);
+
 							}
 							if (koopas->GetApperance() == KOOPAS_BULE)
 							{
-								koopas->SetState(KOOPAS_STATE_WALKING);
+								koopas->SetState(KOOPAS_STATE_DIE_UP);
 							}
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
-					}
-					if (e->nx != 0)
-					{
-						if (untouchable == 0)
+						else if (state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_WALKING_RIGHT)
 						{
-							if (state == MARIO_STATE_ATTACK)
+							if (koopas->state == (KOOPAS_STATE_LIVING_UP))
 							{
-								if (koopas->GetApperance() == KOOPAS_RED)
-								{
-									koopas->SetState(KOOPAS_STATE_DIE_UP);
-
-								}
-								if (koopas->GetApperance() == KOOPAS_BULE)
-								{
-									koopas->SetState(KOOPAS_STATE_DIE_UP);
-								}
-							}
-							else if (state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_WALKING_RIGHT)
-							{
-								if (koopas->state==(KOOPAS_STATE_LIVING_UP))
-								{
-									SetState(MARIO_STATE_STONE_KOOPAS);
-									koopas->nx =- nx;
-									koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
-								}
-							}
-							else if (state== MARIO_STATE_HOLD)
-							{
-								if (koopas->state == (KOOPAS_STATE_LIVING_UP))
-								{
-									koopas->SetIsPick(true);
-								}
-							}
-							else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)&&(koopas->GetState() != KOOPAS_STATE_LIVING_UP))
-							{
-								if (level > MARIO_LEVEL_SMALL)
-								{
-									if (apperance == MARIO_NORMAL)
-									{
-										level = MARIO_LEVEL_SMALL;
-										StartUntouchable();
-									}
-									else if (apperance == MARIO_FOX)
-									{
-										apperance = MARIO_NORMAL;
-										level = MARIO_LEVEL_BIG;
-										StartUntouchable();
-									}
-									else if (apperance == MARIO_FIRE)
-									{
-										apperance = MARIO_NORMAL;
-										level = MARIO_LEVEL_SMALL;
-										StartUntouchable();
-									}
-								}
-								else
-									SetState(MARIO_STATE_DIE);
+								SetState(MARIO_STATE_STONE_KOOPAS);
+								koopas->nx = -nx;
+								koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
 							}
 						}
+						else if (state == MARIO_STATE_HOLD)
+						{
+							if (koopas->state == (KOOPAS_STATE_LIVING_UP))
+							{
+								koopas->SetIsPick(true);
+							}
+						}
+						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_UP))
+						{
+							if (level > MARIO_LEVEL_SMALL)
+							{
+								if (apperance == MARIO_NORMAL)
+								{
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+								else if (apperance == MARIO_FOX)
+								{
+									apperance = MARIO_NORMAL;
+									level = MARIO_LEVEL_BIG;
+									StartUntouchable();
+								}
+								else if (apperance == MARIO_FIRE)
+								{
+									apperance = MARIO_NORMAL;
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+							}
+							else
+								SetState(MARIO_STATE_DIE);
+						}
 					}
+				}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
-				CPortal *p = dynamic_cast<CPortal *>(e->obj);
+				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
-			
 			else if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (e->ny < 0)	
+				if (e->ny < 0)
 				{
 					if (state == MARIO_STATE_LANDING)
 						SetState(MARIO_STATE_IDLE);
 					vy = 0;
+					time_jump = 0;
 				}
 				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
 				{
@@ -330,12 +335,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 				else vy = 0;
 				if (e->nx != 0)
 				{
-					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0) 
+					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
 					{
 						vx = 0;
 						a = 0;
 					}
-					else 
+					else
 					{
 						x += dx;
 					}
@@ -350,15 +355,15 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				if (e->ny < 0)
-				{	
-					vy = 0 ;
+				{
+					vy = 0;
 				}
 				if (e->nx != 0)
 				{
 					vx = 0;
 					a = 0;
 				}
-				
+
 			}
 			else if (dynamic_cast<CQuestionMark*>(e->obj))
 			{
@@ -389,9 +394,9 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
-				if (e->ny != 0||e->nx != 0)
-				{ 
-	 				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+				if (e->ny != 0 || e->nx != 0)
+				{
+					CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 					coin->Destroy();
 					x += dx;
 					y += dy;
@@ -399,7 +404,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else
 			{
-				if (e->nx != 0 )
+				if (e->nx != 0)
 					x += dx;
 				if (e->ny != 0)
 					y += dy;
@@ -417,63 +422,90 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *coObjects)
 		LPGAMEOBJECT e = coObjects->at(i);
 
 	}
-
-	if (state == MARIO_STATE_FIRE_BALL)
+	if (level == MARIO_LEVEL_BIG)
 	{
+		if (apperance == MARIO_FIRE)
+		{
+			if (state == MARIO_STATE_FIRE_BALL)
+			{
+				if (CheckFrameFireBall() && isSpawnFireBall == false)
+				{
+					CFireBall* fireball = new CFireBall(this->nx);
+					if (nx > 0)
+					{
+						fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+						pc->SpawnObject(fireball);
+					}
+					else
+					{
+						fireball->SetPosition(x, y + FIRE_BALL);
+						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+						pc->SpawnObject(fireball);
+					}
+					isSpawnFireBall = true;
+				}
+			}
 
-		CFireBall* fireball = new CFireBall(this->nx);
-		if (nx > 0)
-		{
-			fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
-		}
-		else
-		{
-			fireball->SetPosition(x , y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
-		}
+			if (state == MARIO_STATE_FIRE_BALL_DOUBLE && isSpawnShot == false)
+			{
+				CFireBall* fireball = new CFireBall(this->nx);
+				if (nx > 0)
+				{
+					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+					pc->SpawnObject(fireball);
+				}
+				else
+				{
+					fireball->SetPosition(x, y + FIRE_BALL);
+					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+					pc->SpawnObject(fireball);
+				}
+				isSpawnShot = true;
+			}
 
-	}
-
-	if (state == MARIO_STATE_FIRE_BALL_DOUBLE && isSpawnShot==false)
-	{
-		CFireBall* fireball = new CFireBall(this->nx);
-		if (nx > 0)
-		{
-			fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
+			if (time_doubleshot > 0 && GetTickCount64() - time_doubleshot > 200)
+			{
+				CFireBall* fireball = new CFireBall(this->nx);
+				if (nx > 0)
+				{
+					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+					pc->SpawnObject(fireball);
+				}
+				else
+				{
+					fireball->SetPosition(x, y + FIRE_BALL);
+					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+					pc->SpawnObject(fireball);
+				}
+				time_doubleshot = 0;
+			}
 		}
-		else
-		{
-			fireball->SetPosition(x, y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
-		}
-		isSpawnShot = true;
-	}
-
-	if (time_doubleshot > 0 && GetTickCount64() - time_doubleshot > 200)
-	{
-		CFireBall* fireball = new CFireBall(this->nx);
-		if (nx > 0)
-		{
-			fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
-		}
-		else
-		{
-			fireball->SetPosition(x, y + FIRE_BALL);
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(fireball);
-		}
-		time_doubleshot = 0;
 	}
 }
 
+bool CMario::CheckFrameFireBall()
+{
+	if (nx > 0)
+	{
+		int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
+		if (animation_set->at(ani)->GetCurrentFrame() == 1)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		int ani = MARIO_ANI_BIG_FIRE_BALL_LEFT;
+		if (animation_set->at(ani)->GetCurrentFrame() == 1 )
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 void CMario::ChangeApperance(int apperance_change)
 {
@@ -503,6 +535,10 @@ void CMario::SetState(int state)
 		}
 		else
 			vy = -MARIO_BIG_JUMP_SPEED_Y;
+		if (time_jump == 0)
+		{
+			time_jump = GetTickCount64();
+		}
 		break; 
 	case MARIO_STATE_JUMP_MAX:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
@@ -514,6 +550,7 @@ void CMario::SetState(int state)
 		{
 			vx = 0;
 		}
+		isSpawnFireBall = false;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
@@ -556,6 +593,7 @@ void CMario::SetState(int state)
 		vy = MARIO_LANGDING_SPEED_Y;
 		break;
 	case MARIO_STATE_FIRE_BALL:
+		isFireBall = true;
 		break;
 	case MARIO_STATE_ATTACK:
 		//isAttack = true;
@@ -565,6 +603,9 @@ void CMario::SetState(int state)
 		time_doubleshot = GetTickCount64();
 		break;
 	case MARIO_STATE_STONE_KOOPAS:
+		break;
+	case MARIO_STATE_HOLD:
+		pickingup = true;
 		break;
 	}
 }
@@ -654,6 +695,31 @@ bool CMario::CheckLastFrameAttack()
 			else
 			{
 				int ani = MARIO_ANI_BIG_FOX_FIRE_ATTACK_IDLE_LEFT;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
+			}
+		}
+		break;
+	}
+	case MARIO_FIRE:
+	{
+		if (state == MARIO_STATE_FIRE_BALL)
+		{
+			if (nx > 0)
+			{
+				int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
+				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
+				{
+					animation_set->at(ani)->ResetFrame();
+					return false;
+				}
+			}
+			else
+			{
+				int ani = MARIO_ANI_BIG_FIRE_BALL_RIGHT;
 				if (animation_set->at(ani)->GetCurrentFrame() >= animation_set->at(ani)->GetlastFrame())
 				{
 					animation_set->at(ani)->ResetFrame();

@@ -79,15 +79,15 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 		{
   			for (int i = 0; i < 1; i++)
 			{
-				if (state == GOOMBA_STATE_WALKING_WING)
+				if (GetState() == GOOMBA_STATE_WALKING_WING)
 				{
 					if ((GetTickCount64() - time) >= GOOMBA_TIME_JUMP)
 					{
-						SetState(GOOMBA_STATE_FLYLING);
 						vy = -GOOMBA_JUMP_SPEED_Y;
+						SetState(GOOMBA_STATE_FLYLING);
 					}
 				}
-				if (state == GOOMBA_STATE_FLYLING)
+				if (GetState() == GOOMBA_STATE_FLYLING)
 				{
 					if (vy == 0)
 					{
@@ -249,9 +249,18 @@ void CGoomba::SetState(int state)
 			time_die = GetTickCount64();
 			break;
 		case GOOMBA_STATE_WALKING: 
-			vx = -GOOMBA_WALKING_SPEED;
+			nx = -1;
+			if (nx>0)
+			{
+				vx= GOOMBA_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -GOOMBA_WALKING_SPEED;
+			}	
 			break;
 		case GOOMBA_STATE_FLYLING:
+			nx = -1;
 			if (nx>0)
 			{
 				vx = GOOMBA_WALKING_SPEED;
@@ -262,8 +271,16 @@ void CGoomba::SetState(int state)
 			}		
 			time = GetTickCount64();
 			break;
-	    case GOOMBA_STATE_WALKING_WING:			
-			vx = -GOOMBA_WALKING_SPEED;	
+	    case GOOMBA_STATE_WALKING_WING:	
+			nx = -1;
+			if (nx>0)
+			{
+				vx = GOOMBA_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -GOOMBA_WALKING_SPEED;
+			}	
 			time = GetTickCount64();
 		    break;
 	}

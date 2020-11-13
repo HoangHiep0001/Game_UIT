@@ -10,14 +10,14 @@
 #define	MARIO_ACCELERATION_STOP	0.0008f
 
 //0.1f
-#define MARIO_BIG_JUMP_SPEED_Y	0.27f
-#define MARIO_SMALL_JUMP_SPEED_Y 0.27f
-#define MARIO_JUMP_SPEED_Y_MAX	0.6f
+#define MARIO_BIG_JUMP_SPEED_Y	0.25f
+#define MARIO_SMALL_JUMP_SPEED_Y 0.25f
+#define MARIO_JUMP_SPEED_Y_MAX	0.25f
 #define MARIO_FLYLING_SPEED_Y	0.1f
 #define MARIO_LANGDING_SPEED_Y	0.03f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
-#define MARIO_GRAVITY			0.001f
-#define MARIO_DIE_DEFLECT_SPEED	 0.25f
+#define MARIO_GRAVITY			0.002f
+#define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 
 //state
@@ -207,9 +207,20 @@ class CMario : public CGameObject
 
 	bool isSpawnShot = false;
 	DWORD time_doubleshot = 0;
+	
+	bool isAttack = false;
+
+	bool pickingup = false;
+
+	//fireball
+	bool isFireBall = false;
+	bool isSpawnFireBall = false;
+
+	DWORD time_jump = 0;
 
 public: 
-	bool isAttack = false;
+	DWORD GetTimeJump() { return this->time_jump; }
+	bool GetIsFireBall() { return this->isFireBall; }
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
@@ -233,4 +244,7 @@ public:
 	void ResetTimeFly() { time_fly = 0; }
 	bool GetIsAttack() { return this->isAttack; }
 	bool CheckLastFrameAttack();
+	void SetPick(bool x) { pickingup = x; }
+	bool GetPick() { return this->pickingup; }
+	bool CheckFrameFireBall();
 };
