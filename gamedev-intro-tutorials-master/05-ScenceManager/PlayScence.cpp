@@ -370,8 +370,8 @@ void CPlayScene::Update(DWORD dt)
 	player->GetPosition(x_mario, y_mario);
 
 	CGame *game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	cx -= (float)game->GetScreenWidth() / 2;
+	cy -= (float)game->GetScreenHeight() / 2;
 
 	float x_cam;
 	float y_cam;

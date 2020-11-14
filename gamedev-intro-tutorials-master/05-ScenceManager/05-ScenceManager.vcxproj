@@ -166,9 +166,13 @@
     <ClInclude Include="Textures.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="mario-sample.txt" />
     <Text Include="scene-test.txt" />
-    <Text Include="scene1.txt" />
-    <Text Include="scene2.txt" />
+    <Text Include="scene1.2.txt" />
+    <Text Include="scene2.1.txt" />
+    <Text Include="scene2.2.txt" />
+    <Text Include="scene3.1.txt" />
+    <Text Include="scene3.2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -163,13 +163,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="scene1.txt">
-      <Filter>SceneText</Filter>
-    </Text>
-    <Text Include="scene2.txt">
-      <Filter>SceneText</Filter>
-    </Text>
     <Text Include="scene-test.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene2.1.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene2.2.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene3.1.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene3.2.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="mario-sample.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene1.2.txt">
       <Filter>SceneText</Filter>
     </Text>
   </ItemGroup>

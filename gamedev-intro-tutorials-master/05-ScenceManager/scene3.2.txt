@@ -1,0 +1,788 @@
+﻿# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\mario1.png	255	255	255
+20	textures\misc.png	176	224	248
+1	textures\enemies-3.png	176	224	248
+-6	source\Map1.3\SuperMarioBros3Map1-3.2BG_bank.png	255	255	255
+[TILE_MAP_DATA]
+source\Scene\Scene1.3.2.txt
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# ===-BIG MARIO HAVE FOX--===
+# idle right
+11001	212	443	233	471	0
+# walk right (di)
+11002	262	443	284	471	0
+11003	291	443	314	470	0
+# idle left
+11005	173	443	194	471	0
+# walk left
+11006	122	443	144	471	0
+11007	92	443	115	470	0
+# sitting left
+11011	12	438	34	466	0
+# sitting right
+11012	372	438	394	466	0
+# stop right (chạy nhanh dôi huong)
+11016	175	482	191	512	0
+# stop left
+11017	215	482	231	512	0
+# jump right (nhảy dơ tay)
+11021	331	443	354	470	0
+# jump left
+11022	52	443	75	470	0
+# falling right (chạy)
+11031	211	603	234	631	0
+# falling left
+11032	172	603	195	631	0
+# attack right (quay duoi)
+11041	236	443	259	471	0
+11042	355	483	378	511	0
+11043	147	443	170	471	0
+11044	390	483	413	511	0
+# attack left
+11043	147	443	170	471	0
+11042	355	483	371	511	0
+11041	236	443	259	471	0
+11044	390	483	406	511	0
+# running right ( chạy nhanh)
+110002	211	523	235	551	0
+110003	251	523	275	551	0
+110004	291	523	315	550	0
+# running left
+110006	171	523	195	551	0
+110007	131	523	155	551	0
+110008	91	523	115	551	0
+# jumping when running right (bay mặt dất)
+110211	371	603	395	630	0	
+# jumping when running left
+110221	11	603	35	630	0
+# falling down slownly right (nhay cao quay hương ROI XUONG)
+110310	251	603	274	633	0
+# falling down slownly left   ROI XUONG
+110320	132	603	155	630	0
+#flyling up right (mario fox) ( bay cao)
+110330	291	603	314	631	0
+110331	331	603	354	631	0
+110332	371	603	394	631	0
+flyling up left   (mario fox)
+110340	91	603	114	631	0
+110341	51	603	74	631	0
+110342	11	603	34	631	0
+# cầm rùa phải
+110350	320	522	343	551	0
+110351	350	522	373	551	0
+110352	380	522	403	551	0
+# cầm rùa trái
+110355	62	522	85	551	0
+110356	32	522	55	551	0
+110357	2	522	25	551	0
+#da rua phai
+110358	247	482	268	510	0
+#da rau trai
+110359	137	482	158	510	0
+# =========-----End BIG MARIO HAVE FOX-------========
+# BIG MARIO 
+# idle right
+10001	216	243	230	270	0
+# walk
+10002	255	243	271	270	0		
+10003	295	244	311	270	0
+# idle left
+10011	176	243	190	270	0
+#walk
+10012	135	243	151	270	0
+10013	95	244	111	270	0
+# sitting left
+10050	16	240	30	266	0
+# sitting right
+10051	376	240	390	266	0
+# stop right
+10060	175	283	191	311	0
+# stop left
+10061	215	283	231	311	0
+# jump right
+10070	335	244	351	270	0
+# jump left
+10071	55	244	71	270	0
+# running right
+100001	213	323	232	350	0
+100002	253	323	272	350	0
+100003	293	324	312	350	0
+# running left
+100012	174	323	193	350	0
+100013	134	323	153	350	0
+100014	94	324	113	350	0
+# jumping when running right
+100701	333	364	352	390	0
+# jumping when running left
+100711	54	364	73	390	0
+# cầm rùa phải
+100721	330	323	346	350	0
+100722	356	323	372	350	0
+100723	381	323	397	350	0
+#cầm rùa trái
+100725	60	323	76	350	0
+100726	34	323	50	350	0
+100727	9	323	25	350	0
+#da rua phai
+100728	252	283	273	310	0
+#da rau trai
+100729	133	283	154	310	0
+# =========-----End BIG MARIO-------========
+# die 
+10099	375	209	391	224	0
+# ======--SMALL MARIO--===============
+# idle small right
+10021	217	89	229	104	0
+# walk
+10022	256	89	271	104	0
+10023	255	169	271	185	0
+# idle small left
+10031	177	89	189	104	0
+# walk
+10032	135	89	150	104	0
+10033	135	169	150	185	0
+# stop right
+10080	176	129	190	145	0
+# stop left
+10081	216	129	230	145	0
+# jump right
+10085	335	89	351	104	0
+# jump left
+10086	55	89	71	104	0
+# running right
+10040	215	169	231	184	0
+10041	255	169	271	184	0
+# running left
+10042	175	169	191	184	0
+10043	135	169	151	184	0
+# jumping when running right
+100850	215	209	231	225	0
+# jumping when running left
+100860	175	209	191	225	0
+#cầm rùa phải
+100870	336	169	351	185	0
+100871	376	169	391	185	0
+#cầm rùa trái
+100875	55	169	70	185	0
+100876	15	169	30	185	0
+#da rua phai
+100877	255	129	271	145	0
+#da rau trai
+100878	135	129	151	145	0
+# =================-------end small mario-------=================
+
+# BIG MARIO HAVE FIRE
+# idle right
+10101	215	683	231	710	0
+# walk
+10102	255	683	271	710	0		
+10103	295	683	311	710	0
+# idle left
+10111	176	683	192	710	0
+#walk
+10112	135	683	151	710	0
+10113	95	683	111	710	0
+# sitting left
+10150	16	679	30	706	0
+# sitting right
+10151	376	679	390	706	0
+# stop right
+10160	175	723	191	750	0
+# stop left
+10161	215	723	231	750	0
+# jump right
+10170	335	684	351	711	0
+# jump left
+10171	55	684	71	711	0
+# running right
+110101	213	764	232	791	0
+110102	253	763	272	791	0
+110103	293	764	312	791	0
+# running left
+110111	174	764	193	791	0
+110112	134	763	153	791	0
+110113	94	764	113	791	0
+# jumping when running right
+110131	333	803	352	830	0
+# jumping when running left
+110132	54	803	73	830	0
+# cầm rùa phải
+110140	329	763	345	790	0
+110141	356	763	372	790	0
+110142	380	763	396	790	0
+#càm rùa trái
+110145	61	763	77	790	0
+110146	35	763	51	790	0
+110147	10	763	26	790	0
+# bắn lửa phải
+110150	365	803	381	830	0
+110151	385	803	401	830	0
+#bắn lủa trái
+110155	5	803	21	830	0
+110156	25	803	41	830	0
+#bắn lử kep phải 
+110157	253	803	271	830	0
+110158	293	803	311	830	0
+#bắn lửa kep trái 
+110159	133	803	151	830	0
+110160	93	803	111	830	0
+#da rua phai
+110161	247	482	280	510	0
+#da rau trai
+110162	135	482	158	510	0
+#da rua phai
+110163	252	723	271	750	0
+#da rau trai
+110164	133	723	154	750	0
+# =========-----End BIG MARIO HAVE FIRE-------========
+
+# BIG MARIO HAVE FOX FIRE 
+# idle right
+10201	212	882	235	911	0
+# walk
+10202	262	882	285	911	0
+10203	292	882	315	911	0
+# idle left
+10211	172	882	195	911	0
+#walk
+10212	122	883	145	911	0
+10213	90	884	113	911	0
+# sitting left
+10250	11	879	34	906	0
+# sitting right
+10251	372	879	395	906	0
+# stop right
+10260	175	922	191	951	0
+# stop left
+10261	215	922	231	951	0
+# jump right
+10270	331	882	354	911	0
+# jump left
+10271	51	882	74	911	0
+# running right
+110201	212	962	235	991	0
+110202	252	963	275	991	0
+110203	292	962	315	991	0
+# running left
+110211	171	962	194	991	0
+110212	131	963	154	991	0
+110213	91	962	114	991	0
+# jumping when running right
+110231	332	883	355	911	0
+# jumping when running left
+110232	51	883	74	911	0
+# attack right
+110241	236	883	259	911	0
+110242	351	923	371	951	0
+110243	147	883	170	911	0
+110244	390	923	413	951	0
+# attack left
+110253	147	883	170	911	0
+110252	351	923	371	951	0
+110251	236	883	259	911	0
+110254	390	923	413	951	0
+# falling down slownly right ROI XUONG
+110261	291	883	314	911	0
+# falling down slownly left   ROI XUONG
+110271	91	883	114	911	0
+#flyling up right (mario fox)
+110281	291	1043	314	1071	0
+110282	331	1043	354	1071	0
+110283	371	1043	394	1071	0
+flyling up left   (mario fox)
+110291	91	1043	114	1071	0
+110292	51	1043	74	1071	0
+110293	11	1043	34	1071	0
+#càm rùa phải
+112200	322	962	345	989	0
+112201	352	962	375	989	0
+112202	383	962	405	989	0
+#cầm rùa trái
+112205	62	962	85	989	0
+112206	32	962	55	989	0
+112207	2	962	25	989	0
+#da rua phai
+112208	247	923	268	950	0
+#da rau trai
+112209	137	923	158	950	0
+# =========-----End BIG MARIO HAVE FOX FIRE-------========
+#====----coin----
+# id	left	top	right	bottom	texture_id
+200001	300	171	316	187	20
+200002	336	99	352	115	20
+200003	318	99	334	115	20
+200004	300	99	316	115	20
+
+#==========---Broken---======
+300001	354	153	370	169	20
+#QUESTIONMARK
+40001	300	117	316	133	20
+40002	318	117	334	133	20
+40003	336	117	352	133	20
+40004	354	117	370	133	20
+#kong
+40005	372	117	388	133	20
+#=========== FIRE BALL=======
+#TRAI + PHAI
+50001	174	657	183	666	1
+50002	154	657	163	666	1
+50003	134	657	143	666	1
+50004	114	657	123	666	1
+#==================---------- Goomba----------------==================
+#============----Goomba Nau---------======
+#khong canh
+50500	15	4	31	20	1
+50501	65	4	81	20	1
+# cos canh
+50502	113	0	133	24	1
+50503	163	0	183	24	1
+#di mat dat
+50504	213	1	233	21	1
+50505	263	1	283	21	1
+#chet
+50506	315	0	331	16	1
+#==========-------Goomba do------========
+#khong canh
+50510	15	54	31	70	1
+50511	65	54	81	70	1
+#co canh
+50512	113	50	133	74	1
+50513	163	50	183	74	1
+#di mat dat
+50514	213	51	233	71	1
+50515	263	51	283	71	1
+#chet
+50516	315	80	331	96	1
+#=================----Koopas----================
+#=======----Koopas blue-----=====
+#khong canh ben phai
+50600	215	98	231	125	1
+50601	255	98	271	125	1
+#khong canh ben trai
+50602	165	98	181	125	1
+50603	125	98	141	125	1
+#bay ben phai
+50604	215	148	231	175	1
+50605	255	148	271	175	1
+#bay ben trai
+50606	165	148	181	175	1
+50607	125	148	141	175	1
+#co canh di ben phai
+50608	295	148	311	175	1
+50609	335	148	351	175	1
+#co canh di ben trai
+50610	85	148	101	175	1
+50611	45	148	61	175	1
+# up rua
+50620	50	104	66	120	1
+#up di chuyen
+50621	15	104	31	120	1
+50622	15	129	31	145	1
+50623	15	154	31	170	1
+# ngua rua
+50624	330	104	346	120	1
+# ngua di chuyen
+50625	365	104	381	120	1
+50626	365	129	381	145	1
+50627	265	154	381	170	1
+#co chan
+50628	84	103	102	120	1
+#=======----Koopas red-----=====
+#khong canh ben phai
+50650	215	198	231	225	1
+50651	255	198	271	225	1
+#khong canh ben trai
+50652	165	198	181	225	1
+50653	125	198	141	225	1
+#bay ben phai
+50654	215	248	231	275	1
+50655	255	248	271	275	1
+#bay ben trai
+50656	165	248	181	275	1
+50657	125	248	141	275	1
+#co canh di ben phai
+50658	295	248	311	275	1
+50659	335	248	351	275	1
+#co canh di ben trai
+50660	85	248	101	275	1
+50661	45	248	61	275	1
+# up rua
+50670	50	204	66	220	1
+50671	15	204	31	220	1
+50672	15	229	31	245	1
+50673	15	254	31	270	1
+# ngua rua
+50674	330	204	346	220	1
+50675	365	204	381	220	1
+50676	365	229	381	245	1
+50677	265	254	381	270	1
+#co chan
+50678	84	203	102	220	1
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+# ==== MARIO big =========
+#idle BIG right
+400	10001	100
+#idle BIG left
+401	10011	100
+#idle small right
+402	10021	100
+#idle small left
+403	10031	100
+#idle big have tail right
+404	11001	100
+#idle big have tail left
+405	11005	100
+
+#walk right big
+500	10001	100	10002	100	10003	100
+#walk left big
+501	10011	100	10012	100	10013	100
+#walk right small
+502	10021	100	10022	100	10023	100
+#walk left small
+503	10031	100	10032	100	10033	100
+#walk right big have tail
+504	11001	100	11002	100	11003	100
+#walk left big have tail
+505	11005	100	11006	100	11007	100
+#die
+599	10099	100
+
+#sitting big left	(BIG)
+415	10050	100
+#sitting big right	(BIG)
+416	10051	100
+#jump big right 	(BIG)
+430	10070	200
+#jump big left 	(BIG) JUMK
+431	10071	200
+# falling right	(BIG)
+4300	10003	100
+# falling left	(BIG)
+4301	10013	100
+
+#stop right 	(BIG) 
+450	10060	100
+#stop left	(BIG)	 
+451	10061	100
+# running right		(BIG)
+4321	100001	100	100002	100	100003	100
+# running left		(BIG_WALKING_FAST)
+4322	100012	100	100013	100	100014	100
+# jumping when running right	(BIG)
+4331	100701	100
+# jumping when running left	(BIG)
+4332	100711	100
+#cầm rùa phải
+1501	100721	100	100722	100	100723	100	100721	100
+# cầm rùa trái
+1502	100725	100	100726	100	100727	100	100725	100
+#da rua phai
+6625	100728	500
+#da rau trai
+6626	100729	500
+#========= end big =============
+#
+#=========== big fox============
+#sitting big left	(BIG_FOX)
+417	11012	100
+#sitting big right	(BIG_FOX)
+418	11011	100
+#jump big right 		(BIG_FOX)
+432	11021	100
+#jump big left 		(BIG_FOX)
+433	11022	100
+#stop right 		(BIG_FOX) 
+452	11016	100
+#stop left		(BIG_FOX)	 
+453	11017	100
+# falling right		(BIG_FOX)
+4302	11031	100
+# falling left		(BIG_FOX)
+4303	11032	100
+# attacking right	(BIG_FOX)
+4311	11041	50	11042	50	11043	50	11044	50	11041	50
+# attacking left	(BIG_FOX)
+4312	11043	50	11042	50	11041	50	11044	50	11043	50
+# running right		(BIG_FOX)
+4323	110002	100	110003	100	110004	100
+# running left		(BIG_FOX)
+4324	110006	100	110007	100	110008	100
+# jumping when running right	(BIG_FOX)
+4333	110211	100
+# jumping when running left	(BIG_FOX)
+4334	110221	100
+# falling down slownly right(BIG_FOX) ROI XUONG
+43020	110310	100	11003	100	11031	100
+# falling down slownly left (BIG_FOX) ROI XUONG
+43021	110320	100	11007	100	11032	100
+# fylling up right (BIG_FOX)
+43022	110330	100	110331	100	110332	100
+# fylling up right (BIG_FOX)
+43023	110340	100	110341	100	110342	100
+# cầm rùa phải
+4501	110350	100	110351	100	110352	100	110350	100
+# cầm rùa trái
+4502	110355	100	110356	100	110357	100	110355	100
+#da rua phai
+6627	110358	500
+#da rau trai
+6628	110359	500
+#=========== end big fox ============
+#----small-----
+#stop right 	(SMALL)
+460	10080	100
+#stop left	(SMALL)
+461	10081	100
+#jump big right 	(SMALL)
+440	10085	100
+#jump big left 	(SMALL)
+441	10086	100
+# running right	(SMALL)
+510	10040	100	10041	100
+# running left	(SMALL)
+511	10042	100	10043	100
+# jumping when running right		(SMALL)
+4400	100850	100
+# jumping when running left		(SMALL)	
+4410	100860	100
+#cầm rùa phải
+4411	100870	100	100871	100	100870	100
+cầm rùa trái
+4412	100875	100	100876	100	100875	100
+#da rua phai
+6629	100877	500
+#da rau trai
+6630	100878	500
+#==================end small============
+#===============big fire==========
+#idle BIG right (BIG_FIRE)
+5501	10101	100
+#idle BIG left (BIG_FIRE)
+5502	10111	100
+#walk right big (BIG_FIRE)
+5503	10101	100	10102	100	10103	100
+#walk left big (BIG_FIRE)
+5504	10111	100	10112	100	10113	100
+#sitting big left	(BIG_FIRE)
+5505	10150	100
+#sitting big right	(BIG_FIRE)
+5506	10151	100
+#jump big right 	(BIG_FIRE)
+5507	10170	200
+#jump big left 	(BIG_FIRE)
+5508	10171	200
+# falling right	(BIG_FIRE)
+5509	110103	100
+# falling left	(BIG_FIRE)
+5510	110113	100
+#stop right 	(BIG_FIRE) 
+5511	10160	100
+#stop left	(BIG_FIRE)	 
+5512	10161	100
+# running right		(BIG_FIRE)
+5513	110101	100	110102	100	110103	100
+# running left		(BIG_FIRE)
+5514	110111	100	110112	100	110113	100
+# jumping when running right	(BIG_FIRE)
+5515	110131	100
+# jumping when running left	(BIG_FIRE)
+5516	110132	100
+#cầm rùa phải
+5517	110140	100	110141	100	110142	100	110140	100
+#càm rùa trái
+5518	110145	100	110146	100	110147	100	110145	100
+#bắn lủa phải
+5519	110150	100	110151	200	110150	100
+#bắn lủa trái
+5520	110155	100	110156	200	110155	100
+#bắn lửa kép phải
+5521	110157	200	110131	200	110158	200
+#băn lửa trái
+5522	110159	200	110132	200	110160	200
+#da rua phai
+6631	110163	500
+#da rau trai
+6632	110164	500
+#===============end big feri===================
+#===============Big fox fire===============
+#idle BIG right (BIG_FIRE_FOX)
+6601	10201	100
+#idle BIG left (BIG_FIRE_FOX)
+6602	10211	100
+#walk right big (BIG_FIRE_FOX)
+6603	10201	100	10202	100	10203	100
+#walk left big (BIG_FIRE_FOX)
+6604	10211	100	10212	100	10213	100
+#sitting big left	(BIG_FIRE_FOX)
+6605	10250	100
+#sitting big right	(BIG_FIRE_FOX)
+6606	10251	200
+#jump big right 	(BIG_FIRE_FOX)
+6607	10270	200
+#jump big left 	(BIG_FIRE_FOX)
+6608	10271	200
+# falling right	(BIG_FIRE_FOX)
+6609	110203	100
+# falling left	(BIG_FIRE_FOX)
+6610	110213	100
+#stop right 	(BIG_FIRE_FOX) 
+6611	10260	100
+#stop left	(BIG_FIRE_FOX)	 
+6612	10261	100
+# running right		(BIG_FIRE_FOX)
+6613	110201	100	110202	100	110203	100
+# running left		(BIG_FIRE_FOX)
+6614	110211	100	110212	100	110213	100
+# jumping when running right	(BIG_FIRE_FOX)
+6615	110231	100
+# jumping when running left	(BIG_FIRE_FOX)
+6616	110232	100
+# attacking right	(BIG_FIRE_FOX)
+6617	110241	50	110242	50	110243	50	110244	50	110241	50
+# attacking left	(BIG_FIRE_FOX)
+6618	110253	50	110252	50	110251	50	110254	50	110253	50
+# falling down slownly right (BIG_FIRE_FOX)ROI XUONG
+6619	110261	100	11203	100	110203	100
+# falling down slownly left (BIG_FIRE_FOX) ROI XUONG
+6620	110271	100	10211	100	110213	100
+# flyling up right (BIG_FIRE_FOX)
+6621	110281	100	110282	100	110283	100
+# flyling up left (BIG_FIRE_FOX)
+6622	110291	100	110292	100	110293	100
+#cầm rùa phải
+6623	112200	100	112201	100	112202	100	112200	100
+#cầm rùa trái
+6624	112205	100	112206	100	112207	100	112205	100
+#da rua phai
+6633	112208	500
+#da rau trai
+6634	112209	500
+#================end big fox fire==============
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+# =====COIN=============
+20001	200001	100	200004	100	200003	100	200002	100	200003	100	200004	100
+# ======Brick-======
+20101	300001	100
+# ==== question mark =========
+602	40001	1000	40001	100	40002	100	40003	100	40004	100
+603	40005	100
+#============== fire fall============
+#trai sang phai
+20200	50001	20	50002	20	50003	20	50004	20	50001	20
+#phai sang trai
+20201	50004	20	50003	20	50002	20	50001	20	50004	20
+#=============--------Goomba-----------====================
+#=======----Goomba nau-------------=====
+# ko canh
+20300	50500	100	50501	100
+#co canh
+20301	50502	100	50503	100
+#mat dat
+20302	50504	100	50505	100
+#chet
+20303	50506	100
+#==========---- Goomba do-----====
+# ko canh
+20304	50510	100	50511	100
+#co canh
+20305	50512	100	50513	100
+#mat dat
+20306	50514	100	50515	100
+#chet
+20307	50516	100
+#=============koopas-==============
+#====-koopas blue-------===
+#ko canh phai
+20400	50600	100	50601	100
+#khong canh trai
+20401	50602	100	50603	100
+# bay phai
+20402	50604	100	50609	100
+#bay trai
+20403	50606	100	50611	100
+#up di chuyen
+20404	50621	100	50622	100	50623	100
+#ngua di chuyen
+20405	50625	100	50626	100	50627	100
+#up rua
+20406	50620	100
+#DOWN rua
+20407	50624	100
+#co chan
+20408	50628	200
+#====-koopas red-------===
+#ko canh phai
+20410	50650	100	50651	100
+#khong canh trai
+20411	50652	100	50653	100
+# bay phai
+20412	50654	100	50659	100
+#bay trai
+20413	50656	100	50661	100
+#up di chuyen
+20414	50671	100	50672	100	50673	100
+# down di chuyen
+20415	50675	100	50676	100	50677	100
+#up rua
+20416	50670	100
+#DOWN rua
+20417	50674	100
+#co chan
+20418	50678	200
+#------------------------------------------------------------------------------------------------------------------------------------
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# MARIO
+1	400	401	402	403	500	501	502	503	599	415	416	430	431	450	451	460	461	440	441	404	405	504	505	417	418	432	433	452	453	4300	4301	4302	4303	4311	4312	510	511	4321	4322	4323	4324	4331	4332	4333	4334	4400	4410	43020	43021	5501	5502	5503	5504	5505	5506	5507	5508	5509	5510	5511	5512	5513	5514	5515	5516	6601	6602	6603	6604	6605	6606	6607	6608	6609	6610	6611	6612	6613	6614	6615	6616	6617	6618	6619	6620	43022	43023	6621	6622	1501	1502	4501	4502	4411	4412	5517	5518	6623	6624	5519	5520	5521	5522	6625	6626	6627	6628	6629	6630	6631	6632	6633	6634
+# COIN
+2	20001
+#Brick
+3	20101
+# question mark
+4	602	603
+# FIRE BALL
+5	20200	20201
+# GROOMBA
+6	20300	20301	20302	20303	20304	20305	20306	20307
+# KOOPAS
+7	20400	20401	20402	20403	20404	20405	20406	20407	20410	20411	20412	20413	20414	20415	20416	20417	20408	20418
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question
+# MARIO
+0	32	386	1
+
+#----- coin------
+#type   x	y	andi	width	height	state
+
+#======----- ------========== 
+
+#======----- GROUND------========== 
+#type   x	y	andi	width	height	state
+
+# --- CAMERA ---
+#type x	y	ani_set_id	w	h
+5	0	240	0	176	192
+# --- MAP CAMERA ---
+#type x	y	ani_set_id	w	h
+6	0	0	0	2816	432
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+#5	0	115	98	0	148	150	1
+
+#type   x	y	andi	width	height	state
+#question
+
+# =====------BRICK----======
+# type	x	y	ani_set_id	w	h	state
+
+#==============------ Goomba----=====
+
+#===========KOOPAS=============
