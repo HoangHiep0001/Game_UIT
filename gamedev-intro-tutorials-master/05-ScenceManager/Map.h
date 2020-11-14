@@ -1,7 +1,14 @@
 #pragma once
 #include <d3d9.h>
 #include"Textures.h"
-#include "Sprites.h"
+#include"Sprites.h"
+#include"Textures.h"
+#include"Utils.h"
+#include <iostream>
+#include <fstream>
+#include<string>
+#include <sstream>
+#include"Game.h"
 class Map
 {
 	float camera_x;
@@ -15,14 +22,15 @@ class Map
 	vector<LPSPRITE> tiles;
 	std::vector<std::vector<int>> tileMap;
 	int screenWidth;
+	int screenHeight;
 public:
 	Map(int tileSetID,int rowMap,int columnMap, int rowTileSet,int  columnTileSet, int totalTile);
 	~Map();
 	void Render();
 	void SetTileMapData(std::vector<std::vector<int>> tileMapData);
-	void SetCamera(int x, int y);
+	void SetCamera(float x, float y);
 	void ExtractTileFromTileSet();
-	int GetMapWidth();
-	int GetMapHeight();
+	float GetMapWidth();
+	float GetMapHeight();
 };
 

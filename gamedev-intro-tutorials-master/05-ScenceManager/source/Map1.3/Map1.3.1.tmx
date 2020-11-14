@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="160" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="55">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="160" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="55">
  <tileset firstgid="1" name="SuperMarioBros3Map1-3BG" tilewidth="16" tileheight="16" tilecount="4320" columns="160">
-  <image source="../Map1.3/SuperMarioBros3Map1-3BG.jpg" width="2560" height="432"/>
+  <image source="SuperMarioBros3Map1-3.1BG.png" width="2560" height="432"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="160" height="27">
   <data encoding="csv">

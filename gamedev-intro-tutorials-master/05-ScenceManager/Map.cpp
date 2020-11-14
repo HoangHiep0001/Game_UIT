@@ -13,13 +13,14 @@ Map::Map(int tileSetID, int rowMap, int columnMap, int rowTileSet, int columnTil
 	this->columnTileSet = columnTileSet;
 	this->totalTile = totalTile;
 	screenWidth = CGame::GetInstance()->GetScreenWidth();
+	screenHeight = CGame::GetInstance()->GetScreenHeight();
 }
 
 Map::~Map()
 {
 }
 
-void Map::SetCamera(int x,int y)
+void Map::SetCamera(float x,float y)
 {
 	this->camera_x = x;
 	this->camera_y = y;
@@ -27,12 +28,14 @@ void Map::SetCamera(int x,int y)
 
 void Map::Render()
 {
-	float startingColumn = floor(camera_x / TILE_SIZE);
-	float maxColumn = ceil( (screenWidth + camera_x)/ TILE_SIZE);
+	int startingColumn = floor(camera_x / TILE_SIZE);
+	int maxColumn = ceil( (screenWidth + camera_x)/ TILE_SIZE);
+	int startingRow = floor(camera_y / TILE_SIZE);
+	int maxRow = ceil((screenHeight + camera_y) / TILE_SIZE);
 	//DebugOut(L" start = %f, max = %f\n", startingColumn, maxColumn);
 
 	if (maxColumn >= columnMap) maxColumn = columnMap;
-	for (int currentRow = 0; currentRow < rowMap; currentRow++)
+	for (int currentRow = startingRow; currentRow < maxRow; currentRow++)
 		for (int currentColumn = startingColumn; currentColumn < maxColumn; currentColumn++)
 			tiles.at(tileMap[currentRow][currentColumn] - 1)->Draw(currentColumn * TILE_SIZE, currentRow * TILE_SIZE);
 }
@@ -61,12 +64,12 @@ void Map::ExtractTileFromTileSet()
 	}
 }
 
-int Map::GetMapWidth()
+float Map::GetMapWidth()
 {
 	return columnMap * TILE_SIZE;
 }
 
-int Map::GetMapHeight()
+float Map::GetMapHeight()
 {
 	return rowMap * TILE_SIZE;
 }

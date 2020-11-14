@@ -12,7 +12,7 @@ Ground::Ground(float l, float t, float r, float b,int state)
 
 void Ground::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Ground::GetBoundingBox(float& l, float& t, float& r, float& b)

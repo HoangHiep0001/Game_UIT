@@ -3,7 +3,7 @@
 0	textures\mario1.png	255	255	255
 20	textures\misc.png	176	224	248
 1	textures\enemies-3.png	176	224	248
--1	source\Map1.1\SuperMarioBros3Map1-1-1BG_bank.png	255	255	255
+-1	source\Map1.1\SuperMarioBros3Map1-1BG_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Scene1.1.1.txt
 # id	left	top	right	bottom	texture_id
