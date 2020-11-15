@@ -184,5 +184,17 @@
     <Text Include="scene1.2.txt">
       <Filter>SceneText</Filter>
     </Text>
+    <Text Include="scene4.1.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene4.2.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene5.1.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene5.2.txt">
+      <Filter>SceneText</Filter>
+    </Text>
   </ItemGroup>
 </Project>

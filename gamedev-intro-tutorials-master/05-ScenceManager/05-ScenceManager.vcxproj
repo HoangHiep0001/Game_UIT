@@ -173,6 +173,10 @@
     <Text Include="scene2.2.txt" />
     <Text Include="scene3.1.txt" />
     <Text Include="scene3.2.txt" />
+    <Text Include="scene4.1.txt" />
+    <Text Include="scene4.2.txt" />
+    <Text Include="scene5.1.txt" />
+    <Text Include="scene5.2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

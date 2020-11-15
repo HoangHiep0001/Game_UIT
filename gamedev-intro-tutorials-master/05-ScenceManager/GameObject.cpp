@@ -133,11 +133,11 @@ void CGameObject::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 	if (isSit == false)
 	{
-		CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+		CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 125);
 	}
 	else
 	{
-		CGame::GetInstance()->Draw(x, y+ SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+		CGame::GetInstance()->Draw(x, y+ SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 125);
 
 	}
 }

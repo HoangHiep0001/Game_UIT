@@ -47,8 +47,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define MAX_SCENE_LINE 1024
 
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
 
 
 void CPlayScene::_ParseSection_TEXTURES(string line)

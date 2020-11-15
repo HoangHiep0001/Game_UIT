@@ -1,11 +1,11 @@
-# id	file_path	transparent_color_r	g	b
+﻿# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario1.png	255	255	255
 20	textures\misc.png	176	224	248
 1	textures\enemies-3.png	176	224	248
--2	source\Map1.1\SuperMarioBros3Map1-1.2BG_bank.png	255	255	255
+-9	source\Map1.5\SuperMarioBros3Map1-5.1BG_bank.png	255	255	255
 [TILE_MAP_DATA]
-source\Scene\Scene1.1.2.txt
+source\Scene\Scene1.5.1.txt
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # ===-BIG MARIO HAVE FOX--===
@@ -769,7 +769,7 @@ cầm rùa trái
 
 # --- CAMERA ---
 #type x	y	ani_set_id	w	h
-5	0	192	0	160	160
+5	0	240	0	176	192
 # --- MAP CAMERA ---
 #type x	y	ani_set_id	w	h
 6	0	0	0	2816	432

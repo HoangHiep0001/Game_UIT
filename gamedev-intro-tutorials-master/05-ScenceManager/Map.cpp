@@ -3,7 +3,9 @@
 #include "Utils.h"
 #include "Game.h"
 
-#define TILE_SIZE 16
+using namespace std;
+#define TILE_SIZE 16.0f
+
 Map::Map(int tileSetID, int rowMap, int columnMap, int rowTileSet, int columnTileSet, int totalTile)
 {
 	tileSet =CTextures::GetInstance()->Get(tileSetID);
