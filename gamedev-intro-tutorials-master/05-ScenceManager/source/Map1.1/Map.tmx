@@ -38,7 +38,7 @@
   <object id="29" name="Lever" x="2683" y="331" width="26" height="26"/>
   <object id="53" x="351.333" y="368" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="2" name="gach" visible="0">
+ <objectgroup id="2" name="gach">
   <object id="8" x="1440" y="128" width="16" height="16"/>
   <object id="10" x="1952" y="400" width="16" height="16"/>
   <object id="11" x="1968" y="400" width="16" height="16"/>

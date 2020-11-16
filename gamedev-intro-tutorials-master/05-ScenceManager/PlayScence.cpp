@@ -10,7 +10,7 @@
 #include "Coin.h"
 #include "FireBall.h"
 #include "QuestionMark.h"
-
+#include "Mushrooms.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -41,6 +41,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_COIN	7
 #define OBJECT_TYPE_MAP_CAMERA 6
 #define OBJECT_TYPE_QUESTIONMARK	8
+#define OBJECT_TYPE_MUSHROOMS	9
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -196,6 +197,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CQuestionMark();
 		CQuestionMark* q = dynamic_cast<CQuestionMark*>(obj);
 		q->SetStartY(y);
+		int id = atof(tokens[5].c_str());
+		q->SetItemID(id);
+		int count = atof(tokens[6].c_str());
+		q->SetItemCount(count);
 		obj->SetState(state);
 		break;
 	}
@@ -235,6 +240,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
+	case OBJECT_TYPE_MUSHROOMS:
+	{
+		int app = atof(tokens[4].c_str());
+		obj = new CMushrooms(app);
+		break;
+	}
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

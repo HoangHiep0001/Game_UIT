@@ -129,8 +129,11 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemCoin.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mushrooms.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionMark.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -150,8 +153,11 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemCoin.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Mushrooms.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionMark.h" />
     <ClInclude Include="Utils.h" />

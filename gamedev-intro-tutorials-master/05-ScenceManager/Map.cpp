@@ -37,6 +37,7 @@ void Map::Render()
 	//DebugOut(L" start = %f, max = %f\n", startingColumn, maxColumn);
 
 	if (maxColumn >= columnMap) maxColumn = columnMap;
+	if (maxRow >= rowMap) maxRow = rowMap;
 	for (int currentRow = startingRow; currentRow < maxRow; currentRow++)
 		for (int currentColumn = startingColumn; currentColumn < maxColumn; currentColumn++)
 			tiles.at(tileMap[currentRow][currentColumn] - 1)->Draw(currentColumn * TILE_SIZE, currentRow * TILE_SIZE);

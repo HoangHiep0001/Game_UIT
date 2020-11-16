@@ -43,7 +43,7 @@
  <objectgroup id="5" name="gach " visible="0">
   <object id="13" x="354" y="152" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="4" name="nam" visible="0">
+ <objectgroup id="4" name="nam">
   <object id="10" x="300" y="189" width="16" height="16"/>
   <object id="11" x="318" y="189" width="16" height="16"/>
  </objectgroup>

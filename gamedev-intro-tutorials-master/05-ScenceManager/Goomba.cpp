@@ -61,44 +61,12 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (state == GOOMBA_STATE_DIE)
 	{
-		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE)
+		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
 		{
 			Destroy();
 		}
 	}
-	if (state == GOOMBA_STATE_FLYLING)
-	{
-		if (vy == 0)
-		{
-			SetState(GOOMBA_STATE_WALKING_WING);
-		}
-	}
-    if (state == GOOMBA_STATE_WALKING_WING)
-	{
-		if ((GetTickCount64() - time) >= GOOMBA_TIME_WALK)
-		{
-  			for (int i = 0; i < 1; i++)
-			{
-				if (GetState() == GOOMBA_STATE_WALKING_WING)
-				{
-					if ((GetTickCount64() - time) >= GOOMBA_TIME_JUMP)
-					{
-						vy = -GOOMBA_JUMP_SPEED_Y;
-						SetState(GOOMBA_STATE_FLYLING);
-					}
-				}
-				if (GetState() == GOOMBA_STATE_FLYLING)
-				{
-					if (vy == 0)
-					{
-						SetState(GOOMBA_STATE_WALKING_WING);					
-					}
-				}
-			}
-			vy = -GOOMBA_JUMP_FLY_SPEED_Y;
-			SetState(GOOMBA_STATE_FLYLING);	
-		}
-	}
+	
 	CGameObject::Update(dt, scene,coObjects);
 
 		vy += GOOMBA_GRAVITY * dt;
@@ -152,6 +120,44 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					{
 						nx = -nx;
 						vx = -vx;
+					}
+				}
+				
+				if (state == GOOMBA_STATE_WALKING_WING)
+				{
+					if ((GetTickCount64() - time) >= GOOMBA_TIME_WALK&& time>0)
+					{
+						for (int i = 0; i < 1; i++)
+						{
+							if (GetState() == GOOMBA_STATE_WALKING_WING)
+							{
+								if ((GetTickCount64() - time) >= GOOMBA_TIME_JUMP&&time>0)
+								{
+									vy = -GOOMBA_JUMP_SPEED_Y;
+									SetState(GOOMBA_STATE_FLYLING);
+									time = 0;
+								}
+							}
+							if (GetState() == GOOMBA_STATE_FLYLING)
+							{
+								if (vy == 0)
+								{
+									SetState(GOOMBA_STATE_WALKING_WING);
+								}
+							}
+						}
+						SetState(GOOMBA_STATE_FLYLING);
+						vy = -GOOMBA_JUMP_FLY_SPEED_Y;
+						time = 0;
+					}
+				}
+				else
+				{
+					if (state == GOOMBA_STATE_FLYLING)
+					{
+						{
+							SetState(GOOMBA_STATE_WALKING_WING);
+						}
 					}
 				}
 			}

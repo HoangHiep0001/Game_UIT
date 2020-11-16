@@ -375,9 +375,17 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (e->ny > 0)
 				{
-					if (question->GetState() == MARK_STATE_QUESTION)
+					if (question->GetState() == MARK_STATE_QUESTION || question->GetState() == MARK_STATE_N_EMPTY)
 					{
-						question->SetState(MARK_STATE_EMPTY);
+						question->SetItemCount(question->GetItemCount() - 1);
+						if (question->GetItemCount() == 0)
+						{
+							question->SetState(MARK_STATE_EMPTY);
+						}
+						else
+						{
+							question->SetState(MARK_STATE_N_EMPTY);
+						}
 						vy = 0;
 					}
 					else

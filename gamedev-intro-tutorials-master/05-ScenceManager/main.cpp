@@ -30,7 +30,7 @@
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
 #define SCREEN_WIDTH 400
-#define SCREEN_HEIGHT 230 //loi heingt
+#define SCREEN_HEIGHT 240 //loi heingt
 
 
 #define MAX_FRAME_RATE 120

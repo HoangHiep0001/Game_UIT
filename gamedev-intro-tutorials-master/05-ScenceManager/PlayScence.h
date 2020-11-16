@@ -9,6 +9,7 @@
 #include "Koopas.h"
 #include "Map.h"
 #include "QuestionMark.h"
+#include "COIN.h"
 
 class CPlayScene: public CScene
 {
