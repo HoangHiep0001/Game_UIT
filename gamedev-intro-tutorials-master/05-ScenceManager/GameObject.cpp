@@ -131,14 +131,41 @@ void CGameObject::RenderBoundingBox()
 	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
-	if (isSit == false)
+	if (nx < 0)
 	{
-		CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 125);
+		if (isSit == false)
+		{
+			CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+		}
+		else
+		{
+			CGame::GetInstance()->Draw(x, y + SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+		}
 	}
 	else
 	{
-		CGame::GetInstance()->Draw(x, y+ SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 125);
-
+		if (isTail == false)
+		{
+			if (isSit == false)
+			{
+				CGame::GetInstance()->Draw(x , y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+			}
+			else
+			{
+				CGame::GetInstance()->Draw(x , y + SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+			}
+		}
+		else
+		{
+			if (isSit == false)
+			{
+				CGame::GetInstance()->Draw(x+ TIAL_BBOX_OFFSET, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+			}
+			else
+			{
+				CGame::GetInstance()->Draw(x+ TIAL_BBOX_OFFSET, y + SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+			}
+		}
 	}
 }
 

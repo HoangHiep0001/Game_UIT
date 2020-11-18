@@ -63,9 +63,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Animations.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="PlayScence.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -113,6 +110,18 @@
     </ClCompile>
     <ClCompile Include="ItemCoin.cpp">
       <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemLeaves.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSign.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Cactus.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="ItemCoin.h">
       <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemLeaves.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSign.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Cactus.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

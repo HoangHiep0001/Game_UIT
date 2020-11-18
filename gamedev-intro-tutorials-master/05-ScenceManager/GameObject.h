@@ -12,7 +12,7 @@ using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 #define SIT_BBOX_OFFSET 9
-
+#define TIAL_BBOX_OFFSET 5
 class CGameObject;
 typedef CGameObject * LPGAMEOBJECT;
 
@@ -60,6 +60,7 @@ public:
 	int state;
 
 	bool isSit;
+	bool isTail;
 	DWORD dt; 
 
 	RECT Bound;

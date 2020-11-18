@@ -204,12 +204,17 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
+				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (e->ny < 0)
 				{
 					vy = 0;
 				}
 				if (e->nx != 0)
 				{
+					if (state==KOOPAS_STATE_TORTOISESHELL_UP)
+					{
+						brick->Destroy();
+					}
 					nx = -nx;
 					vx = -vx;
 				}
@@ -224,6 +229,17 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					nx = -nx;
 					vx = -vx;
+				}
+			}
+			else if(dynamic_cast<CGoomba*>(e->obj))
+			{
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				if (e->nx != 0)
+				{
+					if (state == KOOPAS_STATE_LIVING_UP)
+					{
+						goomba->SetState(GOOMBA_STATE_DIE);
+					}
 				}
 			}
 			else

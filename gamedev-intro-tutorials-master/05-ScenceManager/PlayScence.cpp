@@ -11,6 +11,8 @@
 #include "FireBall.h"
 #include "QuestionMark.h"
 #include "Mushrooms.h"
+#include "ItemLeaves.h"
+#include "Cactus.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -42,7 +44,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_MAP_CAMERA 6
 #define OBJECT_TYPE_QUESTIONMARK	8
 #define OBJECT_TYPE_MUSHROOMS	9
-
+#define OBJECT_TYPE_LEAVES 10
+#define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_PORTAL	50
 
 
@@ -176,7 +179,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetState(state);
 		break; 
 	}
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		obj = new CBrick();
+		CBrick* q = dynamic_cast<CBrick*>(obj);
+		int id = atof(tokens[4].c_str());
+		q->SetItemID(id);
+		int count = atof(tokens[5].c_str());
+		q->SetItemCount(count);
+	}break;
 	case OBJECT_TYPE_KOOPAS:
 	{ 
 
@@ -240,10 +251,30 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
+
 	case OBJECT_TYPE_MUSHROOMS:
 	{
 		int app = atof(tokens[4].c_str());
-		obj = new CMushrooms(app);
+		obj = new CMushrooms(app);	
+	}
+	break;
+	case OBJECT_TYPE_LEAVES:
+	{
+		int state = atof(tokens[4].c_str());
+		obj = new CLeaves();
+		obj->SetState(state);
+	}
+	break;
+	case OBJECT_TYPE_CACTUS:
+	{
+		int num = atof(tokens[4].c_str());
+		int app = atof(tokens[5].c_str());
+		int state = atof(tokens[6].c_str());
+		obj = new CCactus(app);
+		CCactus* c= dynamic_cast<CCactus*>(obj);
+		obj->SetState(state);
+		c->SetStartY(y);
+		c->SetNumber(num);
 		break;
 	}
 	default:

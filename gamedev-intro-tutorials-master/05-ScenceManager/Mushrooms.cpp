@@ -2,13 +2,16 @@
 #include "Ground.h"
 #include "Brick.h"
 #include "QuestionMark.h"
+#include "PlayScence.h"
 
 CMushrooms::CMushrooms(int app)
 {
+
 	apperance = app;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(MUSHROOMS_ANI_SET);
 	this->SetAnimationSet(ani_set);
+	vx = 0;
 }
 void CMushrooms::Render()
 {
@@ -49,6 +52,20 @@ void CMushrooms::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
 
+	if (vx == 0)
+	{
+		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+		CMario* mario = pc->GetPlayer();
+		if (mario->nx > 0)
+		{
+			vx = MUSHROOMS_SPEED_X;
+		}
+		else
+		{
+			vx = -MUSHROOMS_SPEED_X;
+		}
+
+	}
 	vy += MUSHROOMS_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
