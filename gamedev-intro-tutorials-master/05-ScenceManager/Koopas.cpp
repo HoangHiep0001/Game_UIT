@@ -86,8 +86,16 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (mario->nx > 0)
 				{
-					x = mario->x + MARIO_BIG_BBOX_WIDTH;
-					y = mario->y + KOOPAS_BIG_HOLD;
+					if (mario->GetApperance()==MARIO_FOX|| mario->GetApperance() == MARIO_FOX_FIRE)
+					{
+						x = mario->x + MARIO_BIG_BBOX_WIDTH + TIAL_BBOX_OFFSET;
+						y = mario->y + KOOPAS_BIG_HOLD;
+					}
+					else
+					{
+						x = mario->x + MARIO_BIG_BBOX_WIDTH;
+						y = mario->y + KOOPAS_BIG_HOLD;
+					}
 				}
 				else
 				{
@@ -111,18 +119,28 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			nx = mario->nx;
-			SetState(KOOPAS_STATE_TORTOISESHELL_UP);
-			ispickup = false;
+			if (state==KOOPAS_STATE_LIVING_UP)
+			{
+				nx = mario->nx;
+				SetState(KOOPAS_STATE_TORTOISESHELL_UP);
+				ispickup = false;
+			}
+			else if(state==KOOPAS_STATE_LIVING_DOWN)
+			{
+				nx = mario->nx;
+				SetState(KOOPAS_STATE_TORTOISESHELL_DOWN);
+				ispickup = false;
+			}
+			
 		}
 	}
-	if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
+	/*if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
 	{
 		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVING)
 		{
 			Destroy();
 		}
-	}
+	}*/
 	if (GetState() == KOOPAS_STATE_LIVING_UP && time>0 && ispickup == false)
 	{
 		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
@@ -330,7 +348,6 @@ void CKoopas::Render()
 				ani = KOOPAS_ANI_BULE_FLYLING_LEFT;
 			}
 			break;
-
 		case KOOPAS_STATE_DIE_UP:
 		case KOOPAS_STATE_LIVING_UP:
 			ani = KOOPAS_ANI_BULE_DIE_UP;
@@ -378,7 +395,7 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_LIVING_DOWN:
 		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
-		vy = 0;
+		vy = -0.4;
 		break;
 	case KOOPAS_STATE_WALKING:
 		nx = -1;

@@ -9,6 +9,7 @@ class CBrick : public CGameObject
 
 	int item_id;
 	int item_count;
+	int item_state;
 	bool Isbroken = false;
 	virtual void Render();
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
@@ -20,4 +21,6 @@ public:
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }
 	void SetItemCount(int count) { this->item_count = count; }
+	int GetItemState() { return this->item_state; }
+	void SetItemState(int nstate) { this->item_state = nstate; }
 };

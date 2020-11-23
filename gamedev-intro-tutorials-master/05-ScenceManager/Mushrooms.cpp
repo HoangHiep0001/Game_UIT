@@ -6,7 +6,7 @@
 
 CMushrooms::CMushrooms(int app)
 {
-
+	 
 	apperance = app;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(MUSHROOMS_ANI_SET);
@@ -33,6 +33,8 @@ void CMushrooms::Render()
 
 void CMushrooms::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
+	if (isDestroy)
+		return;
 	l = x;
 	t = y;
 	r = x + MUSHROOMS_BBOX_X_Y;

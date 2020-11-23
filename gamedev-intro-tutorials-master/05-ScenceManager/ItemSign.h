@@ -8,7 +8,8 @@
 #define SIGN_BBOX_X_Y 16
 
 // ANI
-#define ITEM_SIGN_ANI_SIGN 0
+#define ITEM_SIGN_ANI 0
+#define ITEM_SIGN_ANI_SIGN 1
 
 #define ITEM_SIGN_ANI_SET	11
 

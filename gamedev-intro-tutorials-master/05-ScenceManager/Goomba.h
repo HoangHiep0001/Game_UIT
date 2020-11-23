@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
-#define GOOMBA_WALKING_SPEED 0.05f;
-#define GOOMBA_JUMP_FLY_SPEED_Y	0.27f
-#define GOOMBA_JUMP_SPEED_Y	0.07f
+#define GOOMBA_WALKING_SPEED 0.01f;
+#define GOOMBA_JUMP_FLY_SPEED_Y	0.3f
+#define GOOMBA_JUMP_SPEED_Y	0.05f
 #define GOOMBA_GRAVITY			0.001f
 
 #define GOOMBA_BBOX_WING 20
@@ -16,6 +16,7 @@
 #define GOOMBA_STATE_FLYLING 1
 #define GOOMBA_STATE_WALKING_WING 2
 #define GOOMBA_STATE_DIE 3
+
 // ani
 #define GOOMBA_ANI_RED_WALKING 4
 #define GOOMBA_ANI_RED_FLYLING 5
@@ -27,6 +28,7 @@
 #define GOOMBA_ANI_THERE_FLYLING 1
 #define GOOMBA_ANI_THERE_WALKING_WING 2
 #define GOOMBA_ANI_THERE_DIE 3
+
 
 // APP
 #define GOOMBA_RED 0
@@ -50,4 +52,5 @@ public:
 	int GetApperance() { return apperance; }
 	CGoomba(int appe);
 	virtual void SetState(int state);
+	void Updateflyling();
 };

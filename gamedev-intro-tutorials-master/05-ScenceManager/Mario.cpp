@@ -12,6 +12,9 @@
 #include "Coin.h"
 #include "Koopas.h"
 #include "PlayScence.h"
+#include "Mushrooms.h"
+#include "ItemLeaves.h"
+#include "ItemSign.h"
 
 
 
@@ -244,6 +247,19 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						}
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
+					if (koopas->GetState()==KOOPAS_STATE_TORTOISESHELL_UP)
+					{
+						if (koopas->GetApperance() == KOOPAS_RED)
+						{
+							koopas->SetState(KOOPAS_STATE_LIVING_UP);
+						}
+						if (koopas->GetApperance() == KOOPAS_BULE)
+						{
+							koopas->SetState(KOOPAS_STATE_LIVING_UP);
+						}
+						koopas->vy = -0.00002;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
 				}
 				if (e->nx != 0)
 				{
@@ -253,12 +269,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							if (koopas->GetApperance() == KOOPAS_RED)
 							{
-								koopas->SetState(KOOPAS_STATE_DIE_UP);
+								koopas->SetState(KOOPAS_STATE_LIVING_DOWN);
 
 							}
 							if (koopas->GetApperance() == KOOPAS_BULE)
 							{
-								koopas->SetState(KOOPAS_STATE_DIE_UP);
+								koopas->SetState(KOOPAS_STATE_LIVING_DOWN);
 							}
 						}
 						else if (state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_WALKING_RIGHT)
@@ -269,15 +285,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								koopas->nx = -nx;
 								koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
 							}
+							else if (koopas->state == (KOOPAS_STATE_LIVING_DOWN))
+							{
+								SetState(MARIO_STATE_STONE_KOOPAS);
+								koopas->nx = -nx;
+								koopas->SetState(KOOPAS_STATE_TORTOISESHELL_DOWN);
+							}
 						}
 						else if (state == MARIO_STATE_HOLD)
 						{
-							if (koopas->state == (KOOPAS_STATE_LIVING_UP))
+							if (koopas->state == (KOOPAS_STATE_LIVING_UP)|| koopas->state == (KOOPAS_STATE_LIVING_DOWN))
 							{
 								koopas->SetIsPick(true);
 							}
 						}
-						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_UP))
+						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN))
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -412,6 +434,53 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					x += dx;
 					y += dy;
 				}
+			}
+			else if (dynamic_cast<CMushrooms*>(e->obj))
+			{
+				CMushrooms* mushrooms = dynamic_cast<CMushrooms*>(e->obj);
+				if (ny!=0||nx!=0)
+				{
+					if (level == MARIO_LEVEL_SMALL)
+					{	
+						this->y-= 12;
+						level = MARIO_LEVEL_BIG;
+						mushrooms->Destroy();
+					}
+					else
+					{
+						mushrooms->Destroy();
+					}	
+				}
+            }
+			else if(dynamic_cast<CLeaves*>(e->obj))
+			{
+				CLeaves* leaves = dynamic_cast<CLeaves*>(e->obj);
+				if (level==MARIO_LEVEL_BIG)
+				{
+					if (apperance==MARIO_NORMAL||apperance==MARIO_FIRE)
+					{
+						ChangeApperance(MARIO_FOX);
+						leaves->Destroy();
+					}
+				}
+			}
+			else if (dynamic_cast<CItemSign*>(e->obj))
+			{
+			CItemSign* sign = dynamic_cast<CItemSign*>(e->obj);
+			if (e->ny<0)
+			{
+				vy = 0;
+				time_jump = 0;
+				if (sign->state==ITEM_SIGN_ANI)
+				{
+					sign->SetState(ITEM_SIGN_ANI_SIGN);
+				}
+			}
+			if (e->nx != 0)
+			{
+				vx = 0;
+				a = 0;
+			}
 			}
 			else
 			{
@@ -724,15 +793,29 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		}
 		else if (apperance==MARIO_FOX||apperance==MARIO_FOX_FIRE)
 		{
-			left = x;
-			top = y;
-			if (state == MARIO_STATE_SIT)
+			if (nx>0)
 			{
-				top = y + SIT_BBOX_OFFSET;
+				left = x+ MARIO_FOX_BBOX_OFFSET_X;
+				top = y;
+				if (state == MARIO_STATE_SIT)
+				{
+					top = y + SIT_BBOX_OFFSET;
+				}
+				right = x + MARIO_FOX_BBOX_WIDTH ;
+				bottom = y + MARIO_FOX_BBOX_HEIGHT - MARIO_FOX_BBOX_OFFSET_Y;
 			}
-			right = x + MARIO_FOX_BBOX_WIDTH- MARIO_FOX_BBOX_OFFSET_X;
-			bottom = y + MARIO_FOX_BBOX_HEIGHT - MARIO_FOX_BBOX_OFFSET_Y;
-		
+			else
+			{
+				left = x;
+				top = y;
+				if (state == MARIO_STATE_SIT)
+				{
+					top = y + SIT_BBOX_OFFSET;
+				}
+				right = x + MARIO_FOX_BBOX_WIDTH - MARIO_FOX_BBOX_OFFSET_X;
+				bottom = y + MARIO_FOX_BBOX_HEIGHT - MARIO_FOX_BBOX_OFFSET_Y;
+
+			}	
 		}
 		break;
 	}

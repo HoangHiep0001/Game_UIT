@@ -84,7 +84,7 @@
   <object id="4" x="438" y="998" width="16" height="16"/>
   <object id="5" x="499.735" y="534.159" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="sao" visible="0">
+ <objectgroup id="6" name="sao">
   <object id="12" x="390" y="189" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="5" name="gach " visible="0">
@@ -96,12 +96,12 @@
  </objectgroup>
  <objectgroup id="7" name="la">
   <object id="14" x="531" y="994.875" width="16" height="14"/>
-  <object id="15" x="312" y="979" width="16" height="17"/>
+  <object id="15" x="347.938" y="979.688" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="3" name="tien" visible="0">
   <object id="6" x="499.705" y="554.114" width="16" height="16"/>
   <object id="9" x="553.023" y="533.841" width="14" height="16"/>
   <object id="8" x="541.114" y="533.659" width="14" height="16"/>
-  <object id="7" x="524.5" y="533.5" width="14" height="16"/>
+  <object id="7" x="524" y="533.5" width="16" height="16.3636"/>
  </objectgroup>
 </map>

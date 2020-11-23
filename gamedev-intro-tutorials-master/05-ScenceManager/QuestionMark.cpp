@@ -63,7 +63,7 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 	{
 		vy = MARK_CAKE_VY;
 		Item* item = new Item();
-		item = item->SpawnItem(item_id);
+		item = item->SpawnItem(item_id,scene);
 		float l, t, r, b;
 		item->GetBoundingBox(l, t,r,b);
 		item->SetPosition(x, y - (b - t));

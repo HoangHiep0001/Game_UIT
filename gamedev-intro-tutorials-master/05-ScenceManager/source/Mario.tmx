@@ -169,7 +169,7 @@
     <property name="name_1" value=""/>
    </properties>
   </object>
-  <object id="36" x="137.091" y="482.455" width="21" height="28"/>
+  <object id="36" x="146.5" y="444.5" width="21" height="28"/>
  </objectgroup>
  <objectgroup id="5" name="mario fire">
   <object id="15" name="cầm  rùa phải" x="356" y="763" width="16" height="27">

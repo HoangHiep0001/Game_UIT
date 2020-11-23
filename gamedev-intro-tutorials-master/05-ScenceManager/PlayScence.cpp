@@ -13,6 +13,8 @@
 #include "Mushrooms.h"
 #include "ItemLeaves.h"
 #include "Cactus.h"
+#include "SewerPipes.h"
+#include "ItemCoin.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -45,7 +47,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_QUESTIONMARK	8
 #define OBJECT_TYPE_MUSHROOMS	9
 #define OBJECT_TYPE_LEAVES 10
+#define OBJECT_TYPE_ITEM_COIN	11
 #define OBJECT_TYPE_CACTUS 20
+#define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_PORTAL	50
 
 
@@ -151,7 +155,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
-
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
@@ -176,9 +179,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int app = atof(tokens[4].c_str());
 		int state = atof(tokens[5].c_str());
 		obj = new CGoomba(app);
-		obj->SetState(state);
-		break; 
+		obj->SetState(state); 
 	}
+	break;
 	case OBJECT_TYPE_BRICK:
 	{
 		obj = new CBrick();
@@ -187,7 +190,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		q->SetItemID(id);
 		int count = atof(tokens[5].c_str());
 		q->SetItemCount(count);
-	}break;
+		int state = atof(tokens[6].c_str());
+		q->SetItemState(state);
+	}
+	break;
 	case OBJECT_TYPE_KOOPAS:
 	{ 
 
@@ -195,13 +201,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int state = atof(tokens[5].c_str());
 		obj = new CKoopas(app);
 		obj->SetState(state);
-		break;
 	}
+	break;
 	case OBJECT_TYPE_COIN:
 	{
-		obj = new CCoin();
-		break;
+		obj = new CCoin();	
 	}
+	break;
+	case OBJECT_TYPE_ITEM_COIN:
+	{
+		int nstate = atof(tokens[4].c_str());
+		obj = new CItemCoin(nstate);
+	}
+	break;
 	case OBJECT_TYPE_QUESTIONMARK:
 	{
 		int state = atof(tokens[4].c_str());
@@ -275,6 +287,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetState(state);
 		c->SetStartY(y);
 		c->SetNumber(num);
+		break;
+	}
+	case OBJECT_TYPE_SEWERPIPES:
+	{
+		int state = atof(tokens[4].c_str());
+		obj = new SewerPipes();
+		obj->SetState(state);
 		break;
 	}
 	default:

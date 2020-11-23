@@ -8,6 +8,7 @@ CGoomba::CGoomba(int appe)
 {
 	apperance = appe;
 	SetState(GOOMBA_STATE_WALKING);
+	nx = -1;
 }
 
 void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -26,7 +27,7 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 		break;
 	case GOOMBA_STATE_WALKING_WING:
 		right = x + GOOMBA_BBOX_WING;
-		bottom = y + GOOMBA_BBOX_WING;
+		bottom = y + GOOMBA_BBOX_FLYING_Y;
 		break;
 	case GOOMBA_STATE_DIE:
 		right= x+0;
@@ -69,7 +70,16 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 	
 	CGameObject::Update(dt, scene,coObjects);
 
-		vy += GOOMBA_GRAVITY * dt;
+	if (state == GOOMBA_STATE_WALKING_WING)
+	{
+		if ((GetTickCount64() - time) >= GOOMBA_TIME_WALK && time > 0)
+		{
+			SetState(GOOMBA_STATE_FLYLING);
+			time = 0;
+		}
+	}
+
+	vy += GOOMBA_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -106,8 +116,13 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					}
 					if (e->nx != 0)
 					{
-						nx = -nx;
+						this->nx = -this->nx;
 						vx = -vx;
+						
+					}
+					if (e->ny < 0)
+					{
+						Updateflyling();
 					}
 				}
 				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
@@ -115,75 +130,43 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					if (e->ny < 0)
 					{
 						vy = 0;
+						Updateflyling();
 					}
 					if (e->nx != 0)
 					{
-						nx = -nx;
+						this->nx = -this->nx;
 						vx = -vx;
 					}
 				}
-				
-				if (state == GOOMBA_STATE_WALKING_WING)
-				{
-					if ((GetTickCount64() - time) >= GOOMBA_TIME_WALK&& time>0)
-					{
-						for (int i = 0; i < 1; i++)
-						{
-							if (GetState() == GOOMBA_STATE_WALKING_WING)
-							{
-								if ((GetTickCount64() - time) >= GOOMBA_TIME_JUMP&&time>0)
-								{
-									vy = -GOOMBA_JUMP_SPEED_Y;
-									SetState(GOOMBA_STATE_FLYLING);
-									time = 0;
-								}
-							}
-							if (GetState() == GOOMBA_STATE_FLYLING)
-							{
-								if (vy == 0)
-								{
-									SetState(GOOMBA_STATE_WALKING_WING);
-								}
-							}
-						}
-						SetState(GOOMBA_STATE_FLYLING);
-						vy = -GOOMBA_JUMP_FLY_SPEED_Y;
-						time = 0;
-					}
-				}
-				else
-				{
-					if (state == GOOMBA_STATE_FLYLING)
-					{
-						{
-							SetState(GOOMBA_STATE_WALKING_WING);
-						}
-					}
-				}
+		
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				if (e->ny < 0)
 				{
 					vy = 0;
+					Updateflyling();
 				}
 				if (e->nx != 0)
 				{
-					nx = -nx;
+					this->nx = -this->nx;
 					vx = -vx;
 				}
+			
 			}
 			else if (dynamic_cast<CQuestionMark*>(e->obj))
 			{
 				if (e->ny < 0)
 				{
 					vy = 0;
+					Updateflyling();
 				}
 				if (e->nx != 0)
 				{
-					nx = -nx;
+					this->nx = -this->nx;
 					vx = -vx;
 				}
+				
 			}
 			else
 			{
@@ -255,7 +238,6 @@ void CGoomba::SetState(int state)
 			time_die = GetTickCount64();
 			break;
 		case GOOMBA_STATE_WALKING: 
-			nx = -1;
 			if (nx>0)
 			{
 				vx= GOOMBA_WALKING_SPEED;
@@ -266,7 +248,6 @@ void CGoomba::SetState(int state)
 			}	
 			break;
 		case GOOMBA_STATE_FLYLING:
-			nx = -1;
 			if (nx>0)
 			{
 				vx = GOOMBA_WALKING_SPEED;
@@ -275,10 +256,9 @@ void CGoomba::SetState(int state)
 			{
 				vx = -GOOMBA_WALKING_SPEED;
 			}		
-			time = GetTickCount64();
+			vy = -GOOMBA_JUMP_FLY_SPEED_Y;
 			break;
 	    case GOOMBA_STATE_WALKING_WING:	
-			nx = -1;
 			if (nx>0)
 			{
 				vx = GOOMBA_WALKING_SPEED;
@@ -287,7 +267,16 @@ void CGoomba::SetState(int state)
 			{
 				vx = -GOOMBA_WALKING_SPEED;
 			}	
+			vy = -GOOMBA_JUMP_SPEED_Y;
 			time = GetTickCount64();
 		    break;
+	}
+}
+
+void CGoomba::Updateflyling()
+{
+	if (state == GOOMBA_STATE_FLYLING)
+	{
+			SetState(GOOMBA_STATE_WALKING_WING);
 	}
 }

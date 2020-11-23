@@ -59,8 +59,8 @@
   <object id="26" x="2096" y="400" width="16" height="16"/>
   <object id="27" x="2112" y="400" width="16" height="16"/>
   <object id="28" x="2096" y="384" width="16" height="16"/>
-  <object id="56" x="1863" y="390.5" width="16.5" height="24"/>
-  <object id="57" x="360" y="384" width="16" height="32"/>
+  <object id="56" x="1791.86" y="384.182" width="16.5" height="31.8182"/>
+  <object id="57" x="352" y="368.5" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="tien" visible="0">
   <object id="52" name="tien" x="1856" y="128" width="16" height="16"/>

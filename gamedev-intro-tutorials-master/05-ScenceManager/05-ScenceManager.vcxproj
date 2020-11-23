@@ -139,6 +139,7 @@
     <ClCompile Include="Mushrooms.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionMark.cpp" />
+    <ClCompile Include="SewerPipes.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Mushrooms.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionMark.h" />
+    <ClInclude Include="SewerPipes.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

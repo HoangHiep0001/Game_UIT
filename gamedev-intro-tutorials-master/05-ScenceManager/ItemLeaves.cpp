@@ -50,6 +50,9 @@ void CLeaves::Render()
 
 void CLeaves::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
+
+	if (isDestroy)
+		return;
 	l = x;
 	t = y;
 	r = x + LEAVES_BBOX_X;
@@ -95,7 +98,7 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	}
 	if (y >= start_y - LEAVES_Y)
 	{
-		vy = -LEAVES_SPEED_Y;
+		//vy = -LEAVES_SPEED_Y;
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

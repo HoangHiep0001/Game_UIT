@@ -5,24 +5,39 @@ CItemSign::CItemSign()
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEM_SIGN_ANI_SET);
 	this->SetAnimationSet(ani_set);
-	time = GetTickCount64();
+	//time = GetTickCount64();
 }
 
 void CItemSign::Render()
 {
 	if (isDestroy)
 		return;
-	int ani = ITEM_SIGN_ANI_SIGN;
+	int ani = ITEM_SIGN_ANI;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
 
 void CItemSign::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
+	if (isDestroy)
+	{
+		return;
+	}
+	if (state== ITEM_SIGN_ANI)
+	{
+		l = x;
+		t = y;
+		r = l + SIGN_BBOX_X_Y;
+		b = t + SIGN_BBOX_X_Y;
+	}
+	else
+	{
+    l = x;
 	t = y;
-	r = x + SIGN_BBOX_X_Y;
-	b = y + SIGN_BBOX_X_Y;
+	r = l + SIGN_BBOX_X_Y;
+	b = t + 7;
+	}
+	
 }
 
 void CItemSign::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects)
@@ -41,7 +56,13 @@ void CItemSign::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 	{
 		Destroy();
 	}
-
+	/*if (state== ITEM_SIGN_ANI_SIGN)
+	{
+		if (GetTickCount64() - time >= 2000 && time > 0)
+		{
+			SetState(ITEM_SIGN_ANI);
+		}
+	}*/
 	x += dx;
 	y += dy;
 }

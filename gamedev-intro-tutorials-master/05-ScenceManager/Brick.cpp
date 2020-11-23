@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "PlayScence.h"
 #include "Item.h"
+#include "QuestionMark.h"
 
 void CBrick::Render()
 {
@@ -12,18 +13,33 @@ void CBrick::Render()
 
 void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
+	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	CQuestionMark* mark = dynamic_cast<CQuestionMark*>(pc->GetPlayer());
 	if (isDestroy)
 	{
 		if (item_count != 0)
 		{
-			Item* item = new Item();
-			item = item->SpawnItem(item_id);
-			float l, t, r, b;
-			item->GetBoundingBox(l, t, r, b);
-			item->SetPosition(x, y - (b - t));
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			pc->SpawnObject(item);
-			item_count--;
+			if (item_state == 0)
+			{
+				Item* item = new Item();
+				item = item->SpawnItem(item_id, scene);
+				float l, t, r, b;
+				item->GetBoundingBox(l, t, r, b);
+				item->SetPosition(x, y);
+				pc->SpawnObject(item);
+				item_count--;
+			}
+			else
+			{
+				Item* item = new Item();
+				item = item->SpawnItem(item_id, scene);
+				float l, t, r, b;
+				item->GetBoundingBox(l, t, r, b);
+				item->SetPosition(x, y);
+				pc->SpawnObject(item);
+				//mark->SetState(MARK_STATE_QUESTION);
+				item_count--;
+			}
 		}
 		return;
 	}
