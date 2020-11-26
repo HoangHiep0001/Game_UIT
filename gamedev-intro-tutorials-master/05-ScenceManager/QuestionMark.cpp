@@ -66,7 +66,7 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 		item = item->SpawnItem(item_id,scene);
 		float l, t, r, b;
 		item->GetBoundingBox(l, t,r,b);
-		item->SetPosition(x, y - (b - t));
+		item->SetPosition(x, y - (b - t- MAX_RANGE_Y));
 		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 		pc->SpawnObject(item);
 	}
@@ -75,5 +75,4 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 		vy = 0;
 		y = start_y;
 	}
-
 }

@@ -9,7 +9,7 @@
 #define CACTUS_BBOX_TWO_X 16
 #define CACTUS_BBOX_TWO_Y 32
 
-//
+//state
 #define CACTUS_STATE_IDE_UP_SONG 5
 #define CACTUS_STATE_IDE_UP_SHUT 0
 #define CACTUS_STATE_UP 1
@@ -42,6 +42,9 @@
 // APP
 #define CACTUS_RED 0 
 #define CACTUS_BULE 1
+//type
+#define CACTUS_TYPE_IDE 0 
+#define CACTUS_TYPE_WALK 1
 // NUMBER
 #define CACTUS_NUMBER_ONE 0 
 #define CACTUS_NUMBER_TWO 1
@@ -49,9 +52,14 @@
 class CCactus: public CGameObject
 {
 	int apperance;
+	int type;
 	int number;
-
+	bool isSpawnFireBall = false;
 	int start_y;
+
+	int sewer_pipes;
+
+	float pipes_y;
 
 	DWORD time_die = 0;
 	DWORD time = 0;
@@ -62,7 +70,10 @@ class CCactus: public CGameObject
 public:
 	virtual void SetNumber(int num) { number = num; }
 	int GetApperance() { return apperance; }
-	CCactus(int appe);
+	int GetSewerPipes() { return sewer_pipes; }
+	int GetPipes() { return pipes_y; }
+	int GetType() { return type; }
+	CCactus(int appe,int stype,int sewer,float pipes);
 	virtual void SetState(int state);
 	int GetStartY() { return this->start_y; }
 	void SetStartY(int y) { this->start_y = y; }

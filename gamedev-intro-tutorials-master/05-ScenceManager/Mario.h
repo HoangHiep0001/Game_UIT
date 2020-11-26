@@ -221,6 +221,8 @@ class CMario : public CGameObject
 	bool isSpawnFireBall = false;
 	DWORD time_jump = 0;
 
+	int CountFireball = 0;
+
 public: 
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
@@ -251,4 +253,6 @@ public:
 	bool GetPick() { return this->pickingup; }
 	bool CheckFrameFireBall();
 	bool CheckFrameFireBallDouble();
+	int GetCountFireBall() { return this->CountFireball; }
+	void SetCountFireBall(int count) { this->CountFireball = count; }
 };

@@ -126,6 +126,9 @@
     <ClCompile Include="SewerPipes.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="FireBallCacTus.cpp">
+      <Filter>Object\FireBall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="SewerPipes.h">
       <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBallCacTus.h">
+      <Filter>Object\FireBall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,12 @@
 #define BRICK_BBOX_WIDTH  16
 #define BRICK_BBOX_HEIGHT 16
 
+//STATE
+#define BRICK_STATE_BRICK 0
+#define BRICK_STATE_EMPTY 1
+// ani
+#define BRICK_ANI_BRICK 0
+#define BRICK_ANI_EMPTY 1
 class CBrick : public CGameObject
 {
 
@@ -15,8 +21,9 @@ class CBrick : public CGameObject
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 public:
-	bool  GetBroken(){return this->Isbroken = true;}
-	void SetBroken(bool broken) { this->Isbroken = broken; }
+	/*bool  GetBroken(){return this->Isbroken = true;}
+	void SetBroken(bool broken) { this->Isbroken = broken; }*/
+	CBrick();
 	int GetItemID() { return this->item_id; }
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }

@@ -2,8 +2,8 @@
 
 CItemCoin::CItemCoin(int nsta)
 {
-	nstate = nsta;
-	if (nstate ==ITEM_COIN_STATE_COIN)
+	state = nsta;
+	if (state ==ITEM_COIN_STATE_COIN)
 	{
 		vy = -COIN_FLY_Y;
 		time=GetTickCount64();
@@ -19,11 +19,11 @@ void CItemCoin::Render()
 	if (isDestroy)
 		return;
 	int ani = -1;
-	if (nstate == ITEM_COIN_STATE_COIN)
+	if (state == ITEM_COIN_STATE_COIN)
 	{
 		ani = ITEM_COIN_ANI_COIN;
 	}
-	else if(nstate==ITEM_COIN_STATE_IDE)
+	else if(state==ITEM_COIN_STATE_IDE)
 	{
 		ani = ITEM_COIN_ANI_IDE;
 	}

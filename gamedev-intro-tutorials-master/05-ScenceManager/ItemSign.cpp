@@ -1,20 +1,30 @@
 #include "ItemSign.h"
 
-CItemSign::CItemSign()
+CItemSign::CItemSign(int state)
 {
+	state = state;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEM_SIGN_ANI_SET);
 	this->SetAnimationSet(ani_set);
-	//time = GetTickCount64();
+	
 }
 
 void CItemSign::Render()
 {
 	if (isDestroy)
-		return;
-	int ani = ITEM_SIGN_ANI;
+		return; 
+	int ani = -1;
+	switch (state)
+	{
+	case ITEM_SIGN_STATE_P:
+		 ani = ITEM_SIGN_ANI_P;
+		break;
+	case ITEM_SIGN_STATE_SIGN:
+		 ani = ITEM_SIGN_ANI_SIGN;
+		break;
+	}
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CItemSign::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -23,19 +33,19 @@ void CItemSign::GetBoundingBox(float& l, float& t, float& r, float& b)
 	{
 		return;
 	}
-	if (state== ITEM_SIGN_ANI)
+	if (state== ITEM_SIGN_STATE_P)
 	{
 		l = x;
 		t = y;
 		r = l + SIGN_BBOX_X_Y;
 		b = t + SIGN_BBOX_X_Y;
 	}
-	else
+	else if(state == ITEM_SIGN_STATE_SIGN)
 	{
-    l = x;
-	t = y;
-	r = l + SIGN_BBOX_X_Y;
-	b = t + 7;
+		l = x;
+		t = y+ SIGN_BBOX_YA;
+		r = l + SIGN_BBOX_X_Y;
+		b = t + SIGN_BBOX_YB;
 	}
 	
 }
@@ -52,18 +62,36 @@ void CItemSign::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
 
-	if (GetTickCount64() - time >= 200 && time > 0)
+	/*if (GetTickCount64() - time >= 200 && time > 0)
 	{
 		Destroy();
-	}
-	/*if (state== ITEM_SIGN_ANI_SIGN)
-	{
-		if (GetTickCount64() - time >= 2000 && time > 0)
-		{
-			SetState(ITEM_SIGN_ANI);
-		}
 	}*/
+	if (state == ITEM_SIGN_STATE_SIGN)
+	{
+		if (GetTickCount64() - time >= SIGN_TIME && time > 0)
+		{
+			SetState(ITEM_SIGN_STATE_P);
+			time = 0;
+		}
+	}
 	x += dx;
 	y += dy;
+}
+
+void CItemSign::SetState(int state)
+{
+	CGameObject::SetState(state);
+	if (isDestroy)
+	{
+		return;
+	}
+	switch (state)
+	{
+	case ITEM_SIGN_STATE_SIGN:
+		time = GetTickCount64();
+		break;
+	case ITEM_SIGN_STATE_P:
+		break;
+	}
 }
 

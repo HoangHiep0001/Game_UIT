@@ -129,6 +129,7 @@
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireBall.cpp" />
+    <ClCompile Include="FireBallCacTus.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemCoin.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireBall.h" />
+    <ClInclude Include="FireBallCacTus.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemCoin.h" />

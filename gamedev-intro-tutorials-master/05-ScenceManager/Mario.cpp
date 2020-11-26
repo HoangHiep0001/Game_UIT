@@ -15,6 +15,7 @@
 #include "Mushrooms.h"
 #include "ItemLeaves.h"
 #include "ItemSign.h"
+#include "ItemCoin.h"
 
 
 
@@ -374,9 +375,28 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					vy = 0;
 					time_jump = 0;
 				}
-				else if(e->ny>0)
-				{
-					brick->Destroy();
+				else if (e->ny > 0)
+				{ 
+					if (brick->GetItemState()!=0)
+					{
+						if (brick->GetState()==BRICK_STATE_BRICK)
+						{
+							if (brick->GetItemCount() > 0)
+							{
+								brick->SetState(BRICK_STATE_EMPTY);
+							}
+						}	
+					}
+					else
+					{
+						if (state== MARIO_STATE_JUMP)
+						{
+							brick->Destroy();
+						}
+						
+					}
+						
+					vy = 0;
 				}
 				if (e->nx != 0)
 				{
@@ -390,9 +410,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 			}
 			else if (dynamic_cast<CQuestionMark*>(e->obj))
-			{
+			{   
 				CQuestionMark* question = dynamic_cast<CQuestionMark*>(e->obj);
-
 				if (e->ny < 0)
 				{
 					vy = 0;
@@ -427,9 +446,9 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
+			CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 				if (e->ny != 0 || e->nx != 0)
 				{
-					CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 					coin->Destroy();
 					x += dx;
 					y += dy;
@@ -440,7 +459,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CMushrooms* mushrooms = dynamic_cast<CMushrooms*>(e->obj);
 				if (ny!=0||nx!=0)
 				{
-					if (level == MARIO_LEVEL_SMALL)
+					if (level == MARIO_LEVEL_SMALL&&mushrooms->GetApperance()!=MUSHROOMS_BULE)
 					{	
 						this->y-= 12;
 						level = MARIO_LEVEL_BIG;
@@ -467,14 +486,17 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CItemSign*>(e->obj))
 			{
 			CItemSign* sign = dynamic_cast<CItemSign*>(e->obj);
+			CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+			CItemCoin* coin = dynamic_cast<CItemCoin*>(e->obj);
 			if (e->ny<0)
 			{
+				if (sign->state==ITEM_SIGN_STATE_P)
+				{
+					sign->SetState(ITEM_SIGN_STATE_SIGN);
+					
+				}
 				vy = 0;
 				time_jump = 0;
-				if (sign->state==ITEM_SIGN_ANI)
-				{
-					sign->SetState(ITEM_SIGN_ANI_SIGN);
-				}
 			}
 			if (e->nx != 0)
 			{
@@ -516,12 +538,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 						pc->SpawnObject(fireball);
+						this->CountFireball++;
 					}
 					else
 					{
 						fireball->SetPosition(x, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 						pc->SpawnObject(fireball);
+						this->CountFireball++;
 					}
 					isSpawnFireBall = true;
 				}
@@ -534,13 +558,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+					if (CountFireball < 2)
+					{
+						pc->SpawnObject(fireball);
+						this->CountFireball++;
+					}
 				}
 				else
 				{
 					fireball->SetPosition(x, y + FIRE_BALL);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+					if (CountFireball < 2)
+					{
+						pc->SpawnObject(fireball);
+						this->CountFireball++;
+					}
 				}
 					isSpawnShot = true;
 			}
@@ -551,13 +583,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+					if (CountFireball < 2)
+					{
+						pc->SpawnObject(fireball);
+						this->CountFireball++;
+					}
 				}
 				else
 				{
 					fireball->SetPosition(x, y + FIRE_BALL);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-					pc->SpawnObject(fireball);
+					if (CountFireball < 2)
+					{
+						pc->SpawnObject(fireball);
+						this->CountFireball++;
+					}
 				}
 				time_doubleshot = 0;
 				isFireBall = false;

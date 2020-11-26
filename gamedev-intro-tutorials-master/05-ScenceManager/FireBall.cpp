@@ -4,6 +4,7 @@
 #include "Koopas.h"
 #include "Brick.h"
 #include "QuestionMark.h"
+#include "PlayScence.h"
 
 
 CFireBall::CFireBall(int dir)
@@ -34,6 +35,7 @@ void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
+	
 	if (!isDestroy)
 	{
 		CGameObject::Update(dt,scene, coObjects);
@@ -42,6 +44,13 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		// TO-DO: make sure FIREBALL can interact with the world and to each of them too!
 		// 
 
+		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+		CMario* mario = pc->GetPlayer();
+    if (!CheckInCamera())
+	{
+		mario->SetCountFireBall(mario->GetCountFireBall() - 1);
+		Destroy();
+	}
 		if (!first_time)
 		{
 			if (y < MaxY)
@@ -95,6 +104,7 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							goomba->SetState(GOOMBA_STATE_DIE);
 							goomba->Destroy();
+							mario->SetCountFireBall(mario->GetCountFireBall()-1);
 							Destroy();
 						}
 					}
@@ -109,6 +119,7 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 							koopas->SetState(KOOPAS_STATE_DIE_UP);
 
 							koopas->Destroy();
+							mario->SetCountFireBall(mario->GetCountFireBall() - 1);
 							Destroy();
 						}
 					}
@@ -123,7 +134,9 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (e->nx != 0)
 					{
+						mario->SetCountFireBall(mario->GetCountFireBall() - 1);
 						Destroy();
+
 					}
 				}
 				else if (dynamic_cast<CBrick*>(e->obj))
@@ -136,6 +149,7 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (e->nx != 0)
 					{
+						mario->SetCountFireBall(mario->GetCountFireBall() - 1);
 						Destroy();
 					}
 				}
@@ -149,6 +163,7 @@ void CFireBall::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (e->nx != 0)
 					{
+						mario->SetCountFireBall(mario->GetCountFireBall() - 1);
 						Destroy();
 					}
 				}

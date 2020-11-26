@@ -24,6 +24,7 @@ class CQuestionMark : public CGameObject
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	float start_y;
+	
 public:
 	CQuestionMark();
 	virtual void SetState(int state);
@@ -32,5 +33,6 @@ public:
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }
 	void SetItemCount(int count) { this->item_count = count; }
+	
 };
 

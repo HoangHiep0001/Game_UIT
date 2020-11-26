@@ -5,10 +5,13 @@
 #include "ItemSign.h"
 #include "PlayScence.h"
 #include "Mario.h"
+#include "Brick.h"
 Item* Item::SpawnItem(int id, CScene* scene)
 {
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 	CMario* mario = pc->GetPlayer();
+	CItemSign* sign = dynamic_cast<CItemSign*>(pc->GetPlayer());
+	CBrick* brick = dynamic_cast<CBrick*>(pc->GetPlayer());
 	switch (id)
 	{
 	case MUSHROOMS_ID_RED:
@@ -21,7 +24,6 @@ Item* Item::SpawnItem(int id, CScene* scene)
 		return new CItemCoin(ITEM_COIN_STATE_COIN);
 		break;
 	case COIN_ID_IDE:
-		return new CItemCoin(ITEM_COIN_STATE_IDE);
 		break;
 	case LEAVES_ID:
 		if (mario->GetLevel() == MARIO_LEVEL_BIG)
@@ -34,11 +36,14 @@ Item* Item::SpawnItem(int id, CScene* scene)
 		}
 		break;
 	case SIGN_ID:
-		return new CItemSign();
-		/*if (mario->)
+		return new CItemSign(ITEM_SIGN_STATE_P);
+		if (sign->state == ITEM_SIGN_STATE_SIGN)
 		{
-			return new CLeaves();
-		}*/
+			if (brick->GetItemState() == 1)
+			{
+				return new CItemCoin(ITEM_COIN_STATE_IDE);
+			}
+		}
 		break;
 	}
 }

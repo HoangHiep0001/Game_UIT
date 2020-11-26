@@ -15,6 +15,7 @@
 #include "Cactus.h"
 #include "SewerPipes.h"
 #include "ItemCoin.h"
+#include "ItemSign.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -48,6 +49,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_MUSHROOMS	9
 #define OBJECT_TYPE_LEAVES 10
 #define OBJECT_TYPE_ITEM_COIN	11
+#define OBJECT_TYPE_ITEM_SIGN	12
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_PORTAL	50
@@ -184,14 +186,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_BRICK:
 	{
+		int state = atof(tokens[4].c_str());
 		obj = new CBrick();
 		CBrick* q = dynamic_cast<CBrick*>(obj);
-		int id = atof(tokens[4].c_str());
+		int id = atof(tokens[5].c_str());
 		q->SetItemID(id);
-		int count = atof(tokens[5].c_str());
+		int count = atof(tokens[6].c_str());
 		q->SetItemCount(count);
-		int state = atof(tokens[6].c_str());
-		q->SetItemState(state);
+		int nstate = atof(tokens[7].c_str());
+		q->SetItemState(nstate);
+		obj->SetState(state);
 	}
 	break;
 	case OBJECT_TYPE_KOOPAS:
@@ -282,7 +286,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int num = atof(tokens[4].c_str());
 		int app = atof(tokens[5].c_str());
 		int state = atof(tokens[6].c_str());
-		obj = new CCactus(app);
+		int stype = atof(tokens[7].c_str());
+		int sewer = atof(tokens[8].c_str());
+		int pipes = atof(tokens[9].c_str());
+		obj = new CCactus(app,stype,sewer,pipes);
 		CCactus* c= dynamic_cast<CCactus*>(obj);
 		obj->SetState(state);
 		c->SetStartY(y);
@@ -296,6 +303,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetState(state);
 		break;
 	}
+	case OBJECT_TYPE_ITEM_SIGN:
+	{
+		int nstate = atof(tokens[4].c_str());
+		obj = new CItemSign(nstate);
+	}
+	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -549,7 +562,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (mario->GetApperance() == MARIO_FIRE)
 		{
-			mario->SetState(MARIO_STATE_FIRE_BALL);
+			if (mario->GetCountFireBall() < 2)
+			{
+				mario->SetState(MARIO_STATE_FIRE_BALL);
+			}
 		}
 		else if (mario->GetApperance() == MARIO_FOX)
 		{
