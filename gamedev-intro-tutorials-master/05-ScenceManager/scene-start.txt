@@ -1,12 +1,9 @@
-# id	file_path	transparent_color_r	g	b
+﻿# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario1.png	255	255	255
-20	textures\misc.png	255	255	255
-1	textures\enemies-3.png	176	224	248
-21	textures\enemies.png	0	117	255
--2	source\Map1.1\SuperMarioBros3Map1-1.2BG_bank.png	255	255	255
+-100	source\Start\Start_Start_bank.png	255	255	255
 [TILE_MAP_DATA]
-source\Scene\Scene1.1.2.txt
+source\Scene\Start.txt
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # ===-BIG MARIO HAVE FOX--===
@@ -943,44 +940,35 @@ cầm rùa trái
 
 #----- coin------
 #type   x	y	andi	width	height	state
-7	241	120	2
-7	225	120	2
-7	208	104	2
-7	257	105	2
-7	257	88	2
-7	241	72	2
-7	225	72	2
-7	241	24	2
-7	225	24	2
-7	257	56	2
-7	257	39	2
-7	209	40	2
+
 #======----- ------========== 
 
 #======----- GROUND------========== 
 #type   x	y	andi	width	height	state
-4	127	0	0	1	160	0
-4	384	0	0	1	64	0
-4	128	0	0	32	32	0
-4	160	15	0	192	1	0
-4	352	0	0	32	32	0
-4	128	160	0	128	1	0
-4	336	64	0	48	16	0
-4	288	112	0	16	16	0
-4	320	80	0	16	16	0
-4	304	96	0	16	16	0
-4	256	144	0	16	16	0
-4	272	128	0	16	16	0
-# --- CAMERA ---
-#type x	y	ani_set_id	w	h
-5	0	0	0	160	192
+4	62	31	0	146	1	0
+4	31	32	0	32	32	0
+4	15	80	0	48	96	0
+4	31	64	0	1	16	0
+4	80	48	0	48	48	0
+4	208	32	0	1	142	0
+4	64	176	0	80	1	0
+4	144	144	0	64	32	0
+4	144	80	0	64	48	0
+4	144	48	0	48	16	0
+4	80	144	0	48	16	0
+4	96	112	0	48	16	0
+4	80	112	0	16	32	0
+4	63	80	0	16	1	0
+#- CAMERA ---
+#TYPE x	y	ani_set_id	w	h
+5	0	0	0	256	224
 # --- MAP CAMERA ---
 #type x	y	ani_set_id	w	h
-6	0	0	0	504	192
+6	0	0	0	256	224
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-50	128	16	0	160	32	2
-50	352	16	0	384	32	1
+#50	128	16	0	160	32	2
+#50	352	16	0	384	32	1
 
 #type   x	y	andi	width	height	state
 #question
@@ -991,3 +979,4 @@ cầm rùa trái
 #==============------ Goomba----=====
 
 #===========KOOPAS=============
+

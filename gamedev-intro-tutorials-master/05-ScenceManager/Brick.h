@@ -10,6 +10,8 @@
 // ani
 #define BRICK_ANI_BRICK 0
 #define BRICK_ANI_EMPTY 1
+
+#define BRICK_ANIMATION_SET_ID	3
 class CBrick : public CGameObject
 {
 
@@ -30,4 +32,11 @@ public:
 	void SetItemCount(int count) { this->item_count = count; }
 	int GetItemState() { return this->item_state; }
 	void SetItemState(int nstate) { this->item_state = nstate; }
+
+	void SetAnimationSet()
+	{
+		CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+		LPANIMATION_SET ani_set = animation_sets->Get(BRICK_ANIMATION_SET_ID);
+		this->animation_set = ani_set;
+	}
 };

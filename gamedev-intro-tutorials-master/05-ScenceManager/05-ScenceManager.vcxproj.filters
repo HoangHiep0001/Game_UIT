@@ -46,6 +46,9 @@
     <Filter Include="Framework\Map">
       <UniqueIdentifier>{ac5d6635-5b5c-42e4-9d94-2bdc6a490060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Hud">
+      <UniqueIdentifier>{22fd2b8f-0a2c-43d4-88ff-c97b9f86825e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="FireBallCacTus.cpp">
       <Filter>Object\FireBall</Filter>
+    </ClCompile>
+    <ClCompile Include="Hud.cpp">
+      <Filter>Object\Hud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +218,9 @@
     <ClInclude Include="FireBallCacTus.h">
       <Filter>Object\FireBall</Filter>
     </ClInclude>
+    <ClInclude Include="Hud.h">
+      <Filter>Object\Hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="scene-test.txt">
@@ -245,6 +254,9 @@
       <Filter>SceneText</Filter>
     </Text>
     <Text Include="scene5.2.txt">
+      <Filter>SceneText</Filter>
+    </Text>
+    <Text Include="scene-start.txt">
       <Filter>SceneText</Filter>
     </Text>
   </ItemGroup>

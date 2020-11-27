@@ -1,4 +1,5 @@
 #include "ItemCoin.h"
+#include "PlayScence.h"
 
 CItemCoin::CItemCoin(int nsta)
 {
@@ -54,6 +55,23 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 		return;
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
+
+	if (this->isBornByBrick)
+	{
+		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+		if (pc->GetPlayer()->GetIsP() == false)
+		{
+			float x, y;
+			this->GetPosition(x, y);
+			this->Destroy();
+			CBrick* brick = new CBrick();
+			brick->SetAnimationSet();
+			brick->SetPosition(x, y);
+			brick->SetItemState(0);
+			pc->SpawnObject(brick);
+			this->Destroy();
+		}
+	}
 
 	if (GetTickCount64() - time >= 200 && time>0)
 	{

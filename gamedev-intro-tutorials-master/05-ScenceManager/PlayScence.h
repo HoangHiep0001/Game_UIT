@@ -10,6 +10,9 @@
 #include "Map.h"
 #include "QuestionMark.h"
 #include "COIN.h"
+#include "Hud.h"
+
+class Hud;
 
 class CPlayScene: public CScene
 {
@@ -29,9 +32,12 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_TILEMAP_DATA(string line);
 
+	Hud* hud;
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
+
+	RECT GetCamera() { return this->camera; }
 
 	virtual void Load();
 	virtual void Update(DWORD dt);

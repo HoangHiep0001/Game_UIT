@@ -18,11 +18,15 @@
 	{
 		int state;
 		DWORD time = 0;
+		bool isBornByBrick = false;
 	public:
 		CItemCoin(int nsta);
 		virtual void Render();
 		virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 		virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 		int GetnState() { return state; }
+		bool GetIsBornByBrick() { return this->isBornByBrick; }
+		void SetIsBornByBrick(bool x) { isBornByBrick = x; }
+
 	};
 

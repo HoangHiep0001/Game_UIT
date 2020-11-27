@@ -3,7 +3,7 @@
 #include "FireBall.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
-#define MARIO_WALKING_SPEED_MAX	0.2f 
+#define MARIO_WALKING_SPEED_MAX	0.24f 
 #define MARIO_FLYING_SPEED_X	0.15f 
 #define MARIO_LANDING_SPEED_X	0.15f
 #define MARIO_ACCELERATION	0.0003f
@@ -60,7 +60,7 @@
 #define MARIO_ANI_SMALL_HOLD_LEFT 94
 #define MARIO_ANI_SMALL_STONE_KOOPAS_RIGHT 107
 #define MARIO_ANI_SMALL_STONE_KOOPAS_LEFT 108
-
+#define MARIO_ANI_SMALL_START 113
 #pragma endregion
 
 #pragma region Mario Big
@@ -82,6 +82,7 @@
 #define MARIO_ANI_BIG_HOLD_LEFT 90
 #define MARIO_ANI_BIG_STONE_KOOPAS_RIGHT 103
 #define MARIO_ANI_BIG_STONE_KOOPAS_LEFT 104
+#define MARIO_ANI_BIG_START 114
 #pragma endregion
 
 #pragma region Mario Big fox
@@ -107,6 +108,7 @@
 #define MARIO_ANI_BIG_FOX_HOLD_LEFT 92
 #define MARIO_ANI_BIG_FOX_STONE_KOOPAS_RIGHT 105
 #define MARIO_ANI_BIG_FOX_STONE_KOOPAS_LEFT 106
+#define MARIO_ANI_BIG_FOX_START 115
 #pragma endregion
 
 #pragma region Mario big fire
@@ -132,6 +134,7 @@
 #define MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT 102
 #define MARIO_ANI_BIG_FIRE_STONE_KOOPAS_RIGHT 109
 #define MARIO_ANI_BIG_FIRE_STONE_KOOPAS_LEFT 110
+#define MARIO_ANI_BIG_FIRE_START 116
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -157,6 +160,7 @@
 #define MARIO_ANI_BIG_FOX_FIRE_HOLD_LEFT 98
 #define MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_RIGHT 111
 #define MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_LEFT 112
+#define MARIO_ANI_BIG_FOX_FIRE_START 117
 #pragma endregion
 
 #define MARIO_ANI_DIE 8
@@ -165,7 +169,7 @@
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 
-//ngoai hinh
+//APP
 #define MARIO_NORMAL 0
 #define MARIO_FOX	1
 #define MARIO_FIRE	2
@@ -223,6 +227,8 @@ class CMario : public CGameObject
 
 	int CountFireball = 0;
 
+	bool isP = false;
+	DWORD isP_time = 0;
 public: 
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
@@ -237,6 +243,9 @@ public:
 	void Reset();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+
+	void SetIsP(bool P) { isP = P; }
+	bool GetIsP() { return this->isP; }
 
 	void UpLevel();
 	void ChangeApperance(int apperance);

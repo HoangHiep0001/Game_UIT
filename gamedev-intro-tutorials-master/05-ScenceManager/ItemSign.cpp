@@ -1,4 +1,5 @@
 #include "ItemSign.h"
+#include "Brick.h"
 
 CItemSign::CItemSign(int state)
 {
@@ -6,7 +7,6 @@ CItemSign::CItemSign(int state)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEM_SIGN_ANI_SET);
 	this->SetAnimationSet(ani_set);
-	
 }
 
 void CItemSign::Render()

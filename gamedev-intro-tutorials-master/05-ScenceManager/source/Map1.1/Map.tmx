@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="64">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="69">
  <tileset firstgid="1" name="SuperMarioBros3Map-1BG" tilewidth="16" tileheight="16" tilecount="4752" columns="176">
   <image source="SuperMarioBros3Map1-1BG.png" width="2816" height="432"/>
  </tileset>
@@ -61,6 +61,10 @@
   <object id="28" x="2096" y="384" width="16" height="16"/>
   <object id="56" x="1801.86" y="385.182" width="7.5" height="11.1515"/>
   <object id="57" x="352" y="368.5" width="16" height="32"/>
+  <object id="64" x="2792" y="369.333" width="24" height="48"/>
+  <object id="65" x="2256" y="111" width="32" height="16"/>
+  <object id="66" x="2320" y="384" width="32.6667" height="15.6667"/>
+  <object id="68" x="38.6667" y="442.667" width="228" height="44"/>
  </objectgroup>
  <objectgroup id="3" name="tien" visible="0">
   <object id="52" name="tien" x="1856" y="128" width="16" height="16"/>

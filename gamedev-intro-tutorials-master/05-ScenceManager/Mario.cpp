@@ -85,6 +85,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
+	if (GetTickCount64() - isP_time > 2000)
+	{
+		isP_time = 0;
+		isP = false;
+	}
+
 	// turn off collision when die 
 	if (state != MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -486,8 +492,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CItemSign*>(e->obj))
 			{
 			CItemSign* sign = dynamic_cast<CItemSign*>(e->obj);
-			CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-			CItemCoin* coin = dynamic_cast<CItemCoin*>(e->obj);
 			if (e->ny<0)
 			{
 				if (sign->state==ITEM_SIGN_STATE_P)
@@ -497,6 +501,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 				vy = 0;
 				time_jump = 0;
+				isP = true;
+				isP_time = GetTickCount64();
 			}
 			if (e->nx != 0)
 			{

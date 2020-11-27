@@ -131,6 +131,7 @@
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FireBallCacTus.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemCoin.cpp" />
     <ClCompile Include="ItemLeaves.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FireBallCacTus.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemCoin.h" />
     <ClInclude Include="ItemLeaves.h" />
@@ -183,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="mario-sample.txt" />
+    <Text Include="scene-start.txt" />
     <Text Include="scene-test.txt" />
     <Text Include="scene1.2.txt" />
     <Text Include="scene2.1.txt" />

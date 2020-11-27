@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "QuestionMark.h"
 #include "ItemSign.h"
+#include "ItemCoin.h"
 
 void CBrick::Render()
 {
@@ -24,6 +25,7 @@ void CBrick::Render()
 
 void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
+	
 	if (!CheckInCamera())
 	{
 		return;
@@ -34,9 +36,23 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-	CItemSign *sign = dynamic_cast<CItemSign*>(pc->GetPlayer());
+	if (this->item_state == 0)
+	{
+		if (pc->GetPlayer()->GetIsP() && !isDestroy)
+		{
+			float x, y;
+			this->GetPosition(x, y);
+			this->Destroy();
+			CItemCoin* coin = new CItemCoin(ITEM_COIN_STATE_IDE);
+			coin->SetPosition(x, y);
+			coin->SetIsBornByBrick(true);
+			pc->SpawnObject(coin);
 
-	if (state == BRICK_STATE_EMPTY && this->item_count>0)
+		}
+	}
+	else
+	{
+		if (state == BRICK_STATE_EMPTY && this->item_count > 0)
 	{
 		if (item_state != 0)
 		{
@@ -44,31 +60,32 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			item = item->SpawnItem(item_id, scene);
 			float l, t, r, b;
 			item->GetBoundingBox(l, t, r, b);
-			item->SetPosition(x, y-17);
+			item->SetPosition(x, y - 17);
 			pc->SpawnObject(item);
 			this->item_count--;
 		}
 	}
-	if (isDestroy)
+		if (isDestroy)
 	{
-		if (item_count!=0 && GetState()==BRICK_STATE_BRICK)
+		if (item_count != 0 && GetState() == BRICK_STATE_BRICK)
 		{
-			if (item_state!= 0)
+			if (item_state != 0)
 			{
 				Item* item = new Item();
 				item = item->SpawnItem(item_id, scene);
 				float l, t, r, b;
 				item->GetBoundingBox(l, t, r, b);
-				item->SetPosition(x, y );
+				item->SetPosition(x, y);
 				pc->SpawnObject(item);
 				item_count--;
 			}
-			else 	
+			else
 			{
 				Destroy();
 			}
 		}
 		return;
+	}
 	}
 }
 

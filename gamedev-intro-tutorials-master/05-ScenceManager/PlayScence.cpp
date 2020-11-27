@@ -108,6 +108,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
+	
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
@@ -139,7 +140,6 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 		LPANIMATION ani = animations->Get(ani_id);
 		s->push_back(ani);
 	}
-
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
 }
 
@@ -173,7 +173,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = new CMario(x,y); 
 		player = (CMario*)obj;  
-
+		
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA:
@@ -412,6 +412,7 @@ void CPlayScene::Load()
 
 	CGame::GetInstance()->SetCamPos(0,0);
 
+	hud = new Hud(this);
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -474,6 +475,8 @@ void CPlayScene::Update(DWORD dt)
 	}
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 	tileMap->SetCamera(x_cam, y_cam);
+
+	hud->Update();
 }
 
 void CPlayScene::Render()
@@ -481,7 +484,7 @@ void CPlayScene::Render()
 	tileMap->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-
+	hud->Render();
 }
 
 /*
