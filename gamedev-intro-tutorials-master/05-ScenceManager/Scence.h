@@ -8,11 +8,13 @@ class CScene
 protected:
 	CKeyEventHandler * key_handler;
 	int id;
+	int word;
 	LPCWSTR sceneFilePath;
-
+	
 public: 
-	CScene(int id, LPCWSTR filePath);
-
+	CScene(int id, LPCWSTR filePath, int word);
+	//void SetID(int nword) { nword = word; }
+	//void GetID(int nword) { nword= word; }
 	CKeyEventHandler * GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;
 	virtual void Unload() = 0;

@@ -59,11 +59,11 @@
  </layer>
  <objectgroup id="2" name="Object Layer 1">
   <object id="1" x="3" y="3" width="232" height="28"/>
-  <object id="2" x="163.818" y="34" width="22.3636" height="26.9091"/>
+  <object id="2" x="237" y="36" width="20" height="22"/>
   <object id="3" x="3" y="33" width="8" height="7"/>
-  <object id="4" x="12" y="33" width="15" height="7"/>
-  <object id="5" x="33" y="32" width="8" height="7"/>
-  <object id="6" x="55.2727" y="9.81818" width="6.54545" height="6.72727"/>
-  <object id="9" x="57.2727" y="10"/>
+  <object id="4" x="8" y="43" width="16" height="7"/>
+  <object id="5" x="98" y="52" width="8" height="8"/>
+  <object id="6" x="63" y="9.63636" width="6.54545" height="6.72727"/>
+  <object id="9" x="105.273" y="-28"/>
  </objectgroup>
 </map>

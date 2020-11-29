@@ -35,7 +35,7 @@ protected:
 	Hud* hud;
 	
 public: 
-	CPlayScene(int id, LPCWSTR filePath);
+	CPlayScene(int id, LPCWSTR filePath,int word);
 
 	RECT GetCamera() { return this->camera; }
 
