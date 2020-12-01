@@ -12,6 +12,8 @@
 #include "COIN.h"
 #include "Hud.h"
 
+
+#define GAME_TIME 1000
 class Hud;
 
 class CPlayScene: public CScene
@@ -33,10 +35,10 @@ protected:
 	void _ParseSection_TILEMAP_DATA(string line);
 
 	Hud* hud;
-	
+	DWORD time_start=0;
 public: 
-	CPlayScene(int id, LPCWSTR filePath,int word);
-
+	CPlayScene(int id, LPCWSTR filePath, int word, int time);
+	
 	RECT GetCamera() { return this->camera; }
 
 	virtual void Load();
@@ -44,7 +46,11 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void SpawnObject(LPGAMEOBJECT object) { objects.push_back(object); }
+
 	CMario * GetPlayer() { return player; } 
+    int GetWord() { return word; }
+	int GetTime() { return time; }
+	int GetTime_Start() {return time_start= GetTickCount64() ; }
 
 	//friend class CPlayScenceKeyHandler;
 };

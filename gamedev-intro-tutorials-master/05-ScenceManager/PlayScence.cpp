@@ -16,12 +16,13 @@
 #include "SewerPipes.h"
 #include "ItemCoin.h"
 #include "ItemSign.h"
+#include "CTree.h"
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath,int word):
-	CScene(id, filePath,word)
+CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, filePath, word, time)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	time_start = GetTickCount64();
 }
 
 /*
@@ -51,6 +52,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath,int word):
 #define OBJECT_TYPE_ITEM_COIN	11
 #define OBJECT_TYPE_ITEM_SIGN	12
 #define OBJECT_TYPE_CACTUS 20
+#define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_PORTAL	50
 
@@ -309,11 +311,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CItemSign(nstate);
 	}
 	break;
+	case OBJECT_TYPE_TREE:
+	{
+		obj = new CTree();
+	}
+	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
+	
 	// General object setup
 	if (object_type != OBJECT_TYPE_CAMERA && object_type != OBJECT_TYPE_MAP_CAMERA)
 	{
@@ -324,7 +331,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		objects.push_back(obj);
 
 	}
-
 
 }
 
@@ -421,7 +427,10 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
+	if(GetTickCount()- time_start > GAME_TIME)
+	{
+		time_start = 0;
+	}
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{

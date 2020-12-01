@@ -128,6 +128,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="CTree.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FireBallCacTus.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="CTree.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FireBallCacTus.h" />
     <ClInclude Include="Ground.h" />

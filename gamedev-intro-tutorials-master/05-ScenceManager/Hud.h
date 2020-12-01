@@ -69,12 +69,15 @@ class Hud
 	bool isDestroy = false;
 	CGame* Game;
 	CPlayScene* PlayScene;
-	CScene* scenne ;
 	float x, y;
-	int nword;
+	int word;
 	int maxv=0;
-	DWORD time = 0;
+	int time;
+	int time1;
+	int time2;
+	int time3;
 	int number=0;
+	DWORD time_start = 0;
 public:
 	void Destroy() { this->isDestroy = true; }
 	Hud(CPlayScene* Scene);

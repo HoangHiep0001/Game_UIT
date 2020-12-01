@@ -31,9 +31,6 @@
     <Filter Include="Object\Enemy">
       <UniqueIdentifier>{47765a5d-2766-41bc-bafa-94df5be0e616}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Ground">
-      <UniqueIdentifier>{c8c252b7-f2f6-4ca2-a98c-3e6d1c3a5fae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SceneText">
       <UniqueIdentifier>{b13ea25b-58b9-42e5-902d-f4b28c777334}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="Object\Hud">
       <UniqueIdentifier>{22fd2b8f-0a2c-43d4-88ff-c97b9f86825e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Mario\Ground">
+      <UniqueIdentifier>{c8c252b7-f2f6-4ca2-a98c-3e6d1c3a5fae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +85,7 @@
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
-      <Filter>Object\Ground</Filter>
+      <Filter>Object\Mario\Ground</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
@@ -127,13 +127,16 @@
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="SewerPipes.cpp">
-      <Filter>Object\Ground</Filter>
+      <Filter>Object\Mario\Ground</Filter>
     </ClCompile>
     <ClCompile Include="FireBallCacTus.cpp">
       <Filter>Object\FireBall</Filter>
     </ClCompile>
     <ClCompile Include="Hud.cpp">
       <Filter>Object\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="CTree.cpp">
+      <Filter>Object\StaticOject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +177,7 @@
       <Filter>Object\StaticOject</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
-      <Filter>Object\Ground</Filter>
+      <Filter>Object\Mario\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Framework\Map</Filter>
@@ -213,13 +216,16 @@
       <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="SewerPipes.h">
-      <Filter>Object\Ground</Filter>
+      <Filter>Object\Mario\Ground</Filter>
     </ClInclude>
     <ClInclude Include="FireBallCacTus.h">
       <Filter>Object\FireBall</Filter>
     </ClInclude>
     <ClInclude Include="Hud.h">
       <Filter>Object\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="CTree.h">
+      <Filter>Object\StaticOject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

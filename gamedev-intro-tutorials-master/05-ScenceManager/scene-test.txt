@@ -6,6 +6,7 @@
 21	textures\enemies.png	0	117	255
 22	textures\hub.png	255	0	255
 23	textures\Super.png	255	255	255
+24	textures\smb3_map.png	255	255	255
 -1	source\Map1.1\SuperMarioBros3Map1-1BG_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Scene1.1.1.txt
@@ -600,6 +601,11 @@ flyling up left   (mario fox)
 1143	8	43	24	50	22
 #THE GIOI M
 1144	8	50	24	57	22
+
+#======================- TREE--======================
+1200	1	27	17	43	24
+1201	19	27	35	43	24
+1202	37	2	53	43	24
 #===============================================================================================================================
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -997,7 +1003,8 @@ cầm rùa trái
 #===============Big fox fire===============
 5004	1008	100	1009	100
 #================end big fox fire==============
-
+#==================--TREE--=================
+5100	1200	100	1201	100	1202	100
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
@@ -1028,6 +1035,8 @@ cầm rùa trái
 
 #SewerPipes
 20	20600	20601
+#TREE
+21	5100
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes

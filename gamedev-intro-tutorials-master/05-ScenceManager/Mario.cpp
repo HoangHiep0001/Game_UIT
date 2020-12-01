@@ -264,9 +264,37 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 						}
-						koopas->vy = -0.00002;
+						//koopas->vy = -0.00002;
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
+				}
+				else
+				{
+					if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) || (koopas->GetState() != KOOPAS_STATE_DIE_DOWN) /*&& (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN)*/)
+						{
+						if (level > MARIO_LEVEL_SMALL)
+						{
+							if (apperance == MARIO_NORMAL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							else if (apperance == MARIO_FOX)
+							{
+								apperance = MARIO_NORMAL;
+								level = MARIO_LEVEL_BIG;
+								StartUntouchable();
+							}
+							else if (apperance == MARIO_FIRE)
+							{
+								apperance = MARIO_NORMAL;
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+						}
+						else
+							SetState(MARIO_STATE_DIE);
+						}
 				}
 				if (e->nx != 0)
 				{
@@ -292,7 +320,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								koopas->nx = -nx;
 								koopas->SetState(KOOPAS_STATE_TORTOISESHELL_UP);
 							}
-							else if (koopas->state == (KOOPAS_STATE_LIVING_DOWN))
+							if (koopas->state == (KOOPAS_STATE_LIVING_DOWN))
 							{
 								SetState(MARIO_STATE_STONE_KOOPAS);
 								koopas->nx = -nx;
@@ -306,7 +334,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								koopas->SetIsPick(true);
 							}
 						}
-						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN))
+						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)|| (koopas->GetState() != KOOPAS_STATE_DIE_DOWN) /*&& (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN)*/)
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -482,11 +510,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CLeaves* leaves = dynamic_cast<CLeaves*>(e->obj);
 				if (level==MARIO_LEVEL_BIG)
 				{
-					if (apperance==MARIO_NORMAL||apperance==MARIO_FIRE)
-					{
-						ChangeApperance(MARIO_FOX);
-						leaves->Destroy();
-					}
+					ChangeApperance(MARIO_FOX);
+					leaves->Destroy();
 				}
 			}
 			else if (dynamic_cast<CItemSign*>(e->obj))

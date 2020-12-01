@@ -9,12 +9,11 @@ protected:
 	CKeyEventHandler * key_handler;
 	int id;
 	int word;
+	int time;
 	LPCWSTR sceneFilePath;
 	
 public: 
-	CScene(int id, LPCWSTR filePath, int word);
-	//void SetID(int nword) { nword = word; }
-	//void GetID(int nword) { nword= word; }
+	CScene(int id, LPCWSTR filePath, int word, int time);
 	CKeyEventHandler * GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
