@@ -76,8 +76,9 @@ class Hud
 	int time1;
 	int time2;
 	int time3;
-	int number=0;
-	DWORD time_start = 0;
+	int number;
+	int number1;
+	int number2;
 public:
 	void Destroy() { this->isDestroy = true; }
 	Hud(CPlayScene* Scene);

@@ -480,10 +480,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
+			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 			CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 				if (e->ny != 0 || e->nx != 0)
 				{
 					coin->Destroy();
+					pc->GetCountNumber();
 					x += dx;
 					y += dy;
 				}

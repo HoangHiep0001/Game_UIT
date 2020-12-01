@@ -19,7 +19,7 @@
 #include "CTree.h"
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, filePath, word, time)
+CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time, int number):CScene(id, filePath, word, time,number)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 	time_start = GetTickCount64();
@@ -427,10 +427,7 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-	if(GetTickCount()- time_start > GAME_TIME)
-	{
-		time_start = 0;
-	}
+	GetCountDown();
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -508,6 +505,27 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
+void CPlayScene::GetCountDown()
+{
+	if (time_start == 0)
+	{
+		time_start = GetTickCount64();
+	}
+	else
+	{
+		if (GetTickCount64()-this->time_start>1000)
+		{
+			time--;
+			time_start = 0;
+		}
+	}
+}
+
+void CPlayScene::GetCountNumber()
+{
+	this->number++;
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)

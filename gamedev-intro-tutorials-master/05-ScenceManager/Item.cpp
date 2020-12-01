@@ -28,6 +28,7 @@ Item* Item::SpawnItem(int id, CScene* scene)
 		return new CMushrooms(MUSHROOMS_BULE);
 		break;
 	case COIN_ID_WALK:
+		pc->GetCountNumber();
 		return new CItemCoin(ITEM_COIN_STATE_COIN);
 		break;
 	case COIN_ID_IDE:

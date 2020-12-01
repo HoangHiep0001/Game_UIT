@@ -7,7 +7,7 @@ Hud::Hud(CPlayScene* Scene)
 	y += Game->GetInstance()->GetScreenHeight() - SEEN_HEIGHT;
 	word = PlayScene->GetWord();
 	time = PlayScene->GetTime();
-	time_start = PlayScene->GetTime_Start();
+	number = PlayScene->GetNumber();
 }
 
 void Hud::Render()
@@ -180,6 +180,71 @@ void Hud::Render()
 		CSprites::GetInstance()->Get(HUB_SPIRE_9)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 15, 255);
 		break;
 	}
+	switch (number1)
+	{
+	case 0:
+		break;
+	case 1:
+		CSprites::GetInstance()->Get(HUB_SPIRE_1)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 2:
+		CSprites::GetInstance()->Get(HUB_SPIRE_2)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 3:
+		CSprites::GetInstance()->Get(HUB_SPIRE_3)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 4:
+		CSprites::GetInstance()->Get(HUB_SPIRE_4)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 5:
+		CSprites::GetInstance()->Get(HUB_SPIRE_5)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 6:
+		CSprites::GetInstance()->Get(HUB_SPIRE_6)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 7:
+		CSprites::GetInstance()->Get(HUB_SPIRE_7)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 8:
+		CSprites::GetInstance()->Get(HUB_SPIRE_8)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 9:
+		CSprites::GetInstance()->Get(HUB_SPIRE_9)->Draw(x + HUB_LOCATION_HUB_X + 132, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	}
+	switch (number2)
+	{
+	case 0:
+		CSprites::GetInstance()->Get(HUB_SPIRE_0)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 1:
+		CSprites::GetInstance()->Get(HUB_SPIRE_1)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 2:
+		CSprites::GetInstance()->Get(HUB_SPIRE_2)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 3:
+		CSprites::GetInstance()->Get(HUB_SPIRE_3)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 4:
+		CSprites::GetInstance()->Get(HUB_SPIRE_4)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 5:
+		CSprites::GetInstance()->Get(HUB_SPIRE_5)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 6:
+		CSprites::GetInstance()->Get(HUB_SPIRE_6)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 7:
+		CSprites::GetInstance()->Get(HUB_SPIRE_7)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 8:
+		CSprites::GetInstance()->Get(HUB_SPIRE_8)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	case 9:
+		CSprites::GetInstance()->Get(HUB_SPIRE_9)->Draw(x + HUB_LOCATION_HUB_X + 140, y + HUB_LOCATION_HUB_Y + 7, 255);
+		break;
+	}
 }
 void Hud::Update()
 {
@@ -187,7 +252,7 @@ void Hud::Update()
 	y += Game->GetInstance()->GetScreenHeight() - SEEN_HEIGHT;
 	word=PlayScene->GetWord();
 	time = PlayScene->GetTime();
-	time_start = PlayScene->GetTime_Start();
+	number = PlayScene->GetNumber();
 	CMario*  mario = PlayScene->GetPlayer();
 	if (mario->GetState() != MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_LEFT)
 	{
@@ -213,108 +278,16 @@ void Hud::Update()
 			maxv = 0;
 		}
 	}
-	switch (word)
+	
+	if (time>=0)
 	{
-	case 0:
-		break;
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
-	case 7:
-		break;
-	case 8:
-		break;
-	case 9:
-		break;
+		time3 = time % 10;
+		time2 = (time / 10) % 10;
+		time1 = time / 100;
 	}
-
-	for (time; time >= 0; time--)
+	if (number>=0)
 	{
-		if (GetTickCount64() - time_start > 1000)
-		{
-			time3 = time % 10;
-			time2 = (time / 10) % 10;
-			time1 = time / 100;
-
-			switch (time1)
-			{
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			}
-			switch (time2)
-			{
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			}
-			switch (time3)
-			{
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			}
-			time_start = 0;
-		}
+		number1 = number /10;
+		number2 = number % 10;
 	}
 }

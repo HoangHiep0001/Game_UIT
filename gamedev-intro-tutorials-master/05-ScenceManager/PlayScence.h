@@ -35,9 +35,10 @@ protected:
 	void _ParseSection_TILEMAP_DATA(string line);
 
 	Hud* hud;
-	DWORD time_start=0;
+	DWORD time_start;
+	
 public: 
-	CPlayScene(int id, LPCWSTR filePath, int word, int time);
+	CPlayScene(int id, LPCWSTR filePath, int word, int time, int number);
 	
 	RECT GetCamera() { return this->camera; }
 
@@ -50,8 +51,9 @@ public:
 	CMario * GetPlayer() { return player; } 
     int GetWord() { return word; }
 	int GetTime() { return time; }
-	int GetTime_Start() {return time_start= GetTickCount64() ; }
-
+	int GetNumber() { return number; }
+	void GetCountDown();
+	void GetCountNumber();
 	//friend class CPlayScenceKeyHandler;
 };
 

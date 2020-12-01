@@ -1,5 +1,6 @@
 #include "Coin.h"
 
+
 void CCoin::Render()
 {
 	if (isDestroy)
