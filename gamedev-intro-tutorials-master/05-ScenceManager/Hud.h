@@ -70,6 +70,7 @@ class Hud
 	CGame* Game;
 	CPlayScene* PlayScene;
 	float x, y;
+	int cam;
 	int word;
 	int maxv=0;
 	int time;
@@ -79,11 +80,15 @@ class Hud
 	int number;
 	int number1;
 	int number2;
+	int life1;
+	int life2;
+	int score[7];
 public:
 	void Destroy() { this->isDestroy = true; }
 	Hud(CPlayScene* Scene);
 	void Render();
 	void Update();
-
+	int drawNumber(int num);
+	void GetScore();
 };
 

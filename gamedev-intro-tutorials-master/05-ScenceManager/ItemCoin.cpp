@@ -9,6 +9,7 @@ CItemCoin::CItemCoin(int nsta)
 		vy = -COIN_FLY_Y;
 		time=GetTickCount64();
 	}
+	this->score = COIN_SCORE;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEMCOIN_ANI_SET);
 	this->SetAnimationSet(ani_set);

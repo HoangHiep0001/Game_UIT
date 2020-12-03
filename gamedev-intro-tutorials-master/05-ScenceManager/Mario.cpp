@@ -33,6 +33,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y; 
 	this->x = x; 
 	this->y = y; 
+
+	this->life = 10;
+	this->score = 1000;
 }
 
 void CMario::UpLevel()
@@ -152,6 +155,9 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
+			if (this == NULL)
+				return;
+
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
@@ -264,11 +270,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 						}
-						//koopas->vy = -0.00002;
+						koopas->vy = -KOOPAS_Y;
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
-				else
+				else if(ny>0)
 				{
 					if ((koopas->GetState() != KOOPAS_STATE_DIE_UP) || (koopas->GetState() != KOOPAS_STATE_DIE_DOWN) /*&& (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN)*/)
 						{
@@ -334,7 +340,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								koopas->SetIsPick(true);
 							}
 						}
-						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)|| (koopas->GetState() != KOOPAS_STATE_DIE_DOWN) /*&& (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN)*/)
+						else if ((koopas->GetState() != KOOPAS_STATE_DIE_UP)|| (koopas->GetState() != KOOPAS_STATE_DIE_DOWN) && (koopas->GetState() != KOOPAS_STATE_LIVING_UP) && (koopas->GetState() != KOOPAS_STATE_LIVING_DOWN))
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -365,6 +371,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
+				CGame::GetInstance()->GetProperties()->SetMarioPosition(p->GetMarioX(), p->GetMarioY());
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 			else if (dynamic_cast<Ground*>(e->obj))
@@ -488,6 +495,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					pc->GetCountNumber();
 					x += dx;
 					y += dy;
+					this->score += coin->GetScore();
+					this->number += coin->GetNumber();
 				}
 			}
 			else if (dynamic_cast<CMushrooms*>(e->obj))
@@ -503,6 +512,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
+						this->life++;
 						mushrooms->Destroy();
 					}	
 				}

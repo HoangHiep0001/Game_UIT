@@ -37,10 +37,12 @@ protected:
 	Hud* hud;
 	DWORD time_start;
 	
+	bool oldmap = false;
 public: 
 	CPlayScene(int id, LPCWSTR filePath, int word, int time, int number);
 	
 	RECT GetCamera() { return this->camera; }
+	
 
 	virtual void Load();
 	virtual void Update(DWORD dt);

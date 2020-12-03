@@ -11,6 +11,7 @@
 #include <dinput.h>
 
 #include "Scence.h"
+#include "SceneProperties.h"
 
 using namespace std;
 
@@ -37,7 +38,7 @@ class CGame
 
 	int cam_x = 0.0f;
 	int cam_y = 0.0f;
-
+	int cam;
 	int screen_width;
 	int screen_height; 
 
@@ -47,11 +48,21 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
+	SceneProperties* sceneporperties = new SceneProperties();
+
 public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 256);
+
+	void SetSceneProperties(int l, int s, int level, int a, int t, int n)
+	{
+		sceneporperties->SetSceneProperties(l, s, level, a, t, n);
+	}
+	SceneProperties* GetProperties() {
+		return this->sceneporperties;
+	}
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
@@ -82,8 +93,8 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
-	void GetCamPos(float &x, float &y) { x = cam_x; y = cam_y; }
+	void SetCamPos(float x, float y) { cam_x = x; cam_y = y;  }
+	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
 	static CGame * GetInstance();
 
 	~CGame();

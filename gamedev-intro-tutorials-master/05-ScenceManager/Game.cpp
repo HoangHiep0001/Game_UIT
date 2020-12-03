@@ -35,9 +35,8 @@ void CGame::Init(HWND hWnd)
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
 
-	screen_height = r.bottom + 1;
-	screen_width = r.right + 1;
-
+	screen_height = r.bottom+1 ;
+	screen_width = r.right +1;
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -65,7 +64,7 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	D3DXVECTOR3 p(x - cam_x, y - cam_y,0);
 	RECT r; 
 	r.left = left;
 	r.top = top;
@@ -386,6 +385,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 void CGame::SwitchScene(int scene_id)
 {
+
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
 	scenes[current_scene]->Unload();;

@@ -17,6 +17,8 @@
 #include "ItemCoin.h"
 #include "ItemSign.h"
 #include "CTree.h"
+#include "Trigger.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time, int number):CScene(id, filePath, word, time,number)
@@ -54,6 +56,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time, int number)
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_SEWERPIPES 40
+#define OBJECT_TYPE_TRIGGERPIPES 41
 #define OBJECT_TYPE_PORTAL	50
 
 
@@ -255,6 +258,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
+		//int cam= atoi(tokens[6].c_str());
 		mapCamera.left = x;
 		mapCamera.top = y;
 		mapCamera.right = x + w;
@@ -266,7 +270,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
+		float mariox = atof(tokens[7].c_str());
+		float marioy = atof(tokens[8].c_str());
+		obj = new CPortal(x, y, r, b, scene_id,mariox,marioy);
 	}
 	break;
 
@@ -303,6 +309,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int state = atof(tokens[4].c_str());
 		obj = new SewerPipes();
 		obj->SetState(state);
+		break;
+	}
+	case OBJECT_TYPE_TRIGGERPIPES:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int state = atof(tokens[6].c_str());
+		obj = new Trigger(x, y, w, h, state);
 		break;
 	}
 	case OBJECT_TYPE_ITEM_SIGN:
@@ -414,6 +428,13 @@ void CPlayScene::Load()
 
 	f.close();
 
+	if (CGame::GetInstance()->GetProperties()->GetFlag())
+	{
+		player->SetMarioProperties();
+		time = CGame::GetInstance()->GetProperties()->Gettime();
+		number = CGame::GetInstance()->GetProperties()->Getcoin_numer();
+	}
+
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	CGame::GetInstance()->SetCamPos(0,0);
@@ -498,12 +519,16 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
+	if (player != NULL)
+	{
+		CGame::GetInstance()->SetSceneProperties(player->GetLife(), player->GetScore(), player->GetLevel(), player->GetApperance(), this->time, this->number);
+		CGame::GetInstance()->GetProperties()->SetFlag();
+	}
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
-	objects.clear();
 	player = NULL;
-
+	objects.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 

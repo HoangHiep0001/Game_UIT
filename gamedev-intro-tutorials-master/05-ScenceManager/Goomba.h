@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define GOOMBA_WALKING_SPEED 0.01f;
+#define GOOMBA_WALKING_SPEED 0.03f;
 #define GOOMBA_JUMP_FLY_SPEED_Y	0.3f
 #define GOOMBA_JUMP_SPEED_Y	0.05f
 #define GOOMBA_GRAVITY			0.001f

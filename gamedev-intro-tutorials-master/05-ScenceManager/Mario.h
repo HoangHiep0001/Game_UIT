@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "FireBall.h"
+#include"Game.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
 #define MARIO_WALKING_SPEED_MAX	0.3f 
@@ -229,7 +230,13 @@ class CMario : public CGameObject
 
 	bool isP = false;
 	DWORD isP_time = 0;
+	int number;
+	int score;
+	int life;
 public: 
+	int GetScore() { return this->score; }
+	int GetLife() { return this->life; }
+	int GetNumber() { return this->number; }
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -264,4 +271,12 @@ public:
 	bool CheckFrameFireBallDouble();
 	int GetCountFireBall() { return this->CountFireball; }
 	void SetCountFireBall(int count) { this->CountFireball = count; }
+
+	void SetMarioProperties()
+	{
+		this->level = CGame::GetInstance()->GetProperties()->GetLevel();
+		this->apperance = CGame::GetInstance()->GetProperties()->GetApperance();
+		this->score = CGame::GetInstance()->GetProperties()->GetScore();
+		this->life = CGame::GetInstance()->GetProperties()->GetLife();
+	}
 };
