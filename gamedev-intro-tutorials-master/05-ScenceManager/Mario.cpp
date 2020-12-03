@@ -34,8 +34,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 
-	this->life = 10;
-	this->score = 1000;
+	this->life = 1;
+	this->score = 0;
+	this->coin_number = 0;
 }
 
 void CMario::UpLevel()
@@ -422,7 +423,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (brick->GetState()==BRICK_STATE_BRICK)
 						{
-							if (brick->GetItemCount() > 0)
+							if (brick->GetItemCount() >= 0)
 							{
 								brick->SetState(BRICK_STATE_EMPTY);
 							}
@@ -443,7 +444,20 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (state == MARIO_STATE_ATTACK)
 					{
-						brick->Destroy();
+						if (brick->GetItemState()==1)
+						{
+							if (brick->GetState() == BRICK_STATE_BRICK)
+							{
+								if (brick->GetItemCount() >= 0)
+								{
+									brick->SetState(BRICK_STATE_EMPTY);
+								}
+							}
+						}
+						else 
+						{
+							brick->Destroy();
+						}
 					}
 					vx = 0;
 					a = 0;
@@ -466,6 +480,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						if (question->GetItemCount() == 0)
 						{
 							question->SetState(MARK_STATE_EMPTY);
+
 						}
 						else
 						{
@@ -492,12 +507,24 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0 || e->nx != 0)
 				{
 					coin->Destroy();
-					pc->GetCountNumber();
 					x += dx;
 					y += dy;
 					this->score += coin->GetScore();
-					this->number += coin->GetNumber();
+					this->coin_number += coin->GetCoin_number();
 				}
+			}
+			else if (dynamic_cast<CItemCoin*>(e->obj))
+			{
+			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+			CItemCoin* coin = dynamic_cast<CItemCoin*>(e->obj);
+			if (e->ny != 0 || e->nx != 0)
+			{
+				coin->Destroy();
+				x += dx;
+				y += dy;
+				this->score += coin->GetScore();
+				this->coin_number += coin->GetCoin_number();
+			}
 			}
 			else if (dynamic_cast<CMushrooms*>(e->obj))
 			{

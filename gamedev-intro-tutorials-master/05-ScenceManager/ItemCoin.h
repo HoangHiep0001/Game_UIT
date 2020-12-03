@@ -13,12 +13,15 @@
 #define ITEM_COIN_ANI_IDE 1
 
 #define ITEMCOIN_ANI_SET	9
+#define ITEMCOIN_SCORE 100;
 
 	class CItemCoin : public Item
 	{
 		int state;
 		DWORD time = 0;
 		bool isBornByBrick = false;
+		int score = ITEMCOIN_SCORE;
+		int coin_number = 0;
 	public:
 		CItemCoin(int nsta);
 		virtual void Render();
@@ -27,6 +30,7 @@
 		int GetnState() { return state; }
 		bool GetIsBornByBrick() { return this->isBornByBrick; }
 		void SetIsBornByBrick(bool x) { isBornByBrick = x; }
-
+		int GetScore() { return this->score; }
+		int GetCoin_number() { return this->coin_number; }
 	};
 

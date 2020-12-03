@@ -77,7 +77,6 @@ class Hud
 	int time1;
 	int time2;
 	int time3;
-	int number;
 	int number1;
 	int number2;
 	int life1;

@@ -39,7 +39,7 @@ protected:
 	
 	bool oldmap = false;
 public: 
-	CPlayScene(int id, LPCWSTR filePath, int word, int time, int number);
+	CPlayScene(int id, LPCWSTR filePath, int word, int time);
 	
 	RECT GetCamera() { return this->camera; }
 	
@@ -53,7 +53,6 @@ public:
 	CMario * GetPlayer() { return player; } 
     int GetWord() { return word; }
 	int GetTime() { return time; }
-	int GetNumber() { return number; }
 	void GetCountDown();
 	void GetCountNumber();
 	//friend class CPlayScenceKeyHandler;

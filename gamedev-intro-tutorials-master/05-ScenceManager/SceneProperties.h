@@ -50,6 +50,6 @@ public:
 	int GetLevel() { return this->mario_level; }
 	int GetApperance() { return this->mario_apperance; }
 	int Gettime() { return this->time; }
-	int Getcoin_numer() { return this->coin_numer; }
+	int GetCoin_numer() { return this->coin_numer; }
 };
 

@@ -38,7 +38,6 @@ class CGame
 
 	int cam_x = 0.0f;
 	int cam_y = 0.0f;
-	int cam;
 	int screen_width;
 	int screen_height; 
 
@@ -56,9 +55,9 @@ public:
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 256);
 
-	void SetSceneProperties(int l, int s, int level, int a, int t, int n)
+	void SetSceneProperties(int l, int s, int level, int a, int t,int n)
 	{
-		sceneporperties->SetSceneProperties(l, s, level, a, t, n);
+		sceneporperties->SetSceneProperties(l, s, level, a, t,n);
 	}
 	SceneProperties* GetProperties() {
 		return this->sceneporperties;

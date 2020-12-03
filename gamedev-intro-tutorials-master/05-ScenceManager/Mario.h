@@ -230,13 +230,13 @@ class CMario : public CGameObject
 
 	bool isP = false;
 	DWORD isP_time = 0;
-	int number;
+	int coin_number;
 	int score;
 	int life;
 public: 
 	int GetScore() { return this->score; }
 	int GetLife() { return this->life; }
-	int GetNumber() { return this->number; }
+	int GetCoin_number() { return this->coin_number; }
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -278,5 +278,6 @@ public:
 		this->apperance = CGame::GetInstance()->GetProperties()->GetApperance();
 		this->score = CGame::GetInstance()->GetProperties()->GetScore();
 		this->life = CGame::GetInstance()->GetProperties()->GetLife();
+		this->coin_number = CGame::GetInstance()->GetProperties()->GetCoin_numer();
 	}
 };

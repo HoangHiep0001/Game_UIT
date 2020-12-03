@@ -21,7 +21,7 @@
 
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time, int number):CScene(id, filePath, word, time,number)
+CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, filePath, word, time)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 	time_start = GetTickCount64();
@@ -432,7 +432,7 @@ void CPlayScene::Load()
 	{
 		player->SetMarioProperties();
 		time = CGame::GetInstance()->GetProperties()->Gettime();
-		number = CGame::GetInstance()->GetProperties()->Getcoin_numer();
+	
 	}
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -521,7 +521,7 @@ void CPlayScene::Unload()
 {
 	if (player != NULL)
 	{
-		CGame::GetInstance()->SetSceneProperties(player->GetLife(), player->GetScore(), player->GetLevel(), player->GetApperance(), this->time, this->number);
+		CGame::GetInstance()->SetSceneProperties(player->GetLife(), player->GetScore(), player->GetLevel(), player->GetApperance(), this->time,player->GetCoin_number());
 		CGame::GetInstance()->GetProperties()->SetFlag();
 	}
 	for (int i = 0; i < objects.size(); i++)
@@ -547,10 +547,9 @@ void CPlayScene::GetCountDown()
 		}
 	}
 }
-
 void CPlayScene::GetCountNumber()
 {
-	this->number++;
+	
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)

@@ -14,7 +14,6 @@ class Item : public CGameObject
 protected:
 	int ID;
 	int score=0;
-	int number = 0;
 public:
 	virtual void Render() {};
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) {};

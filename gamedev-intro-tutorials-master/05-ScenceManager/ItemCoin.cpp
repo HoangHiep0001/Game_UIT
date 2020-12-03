@@ -9,7 +9,7 @@ CItemCoin::CItemCoin(int nsta)
 		vy = -COIN_FLY_Y;
 		time=GetTickCount64();
 	}
-	this->score = COIN_SCORE;
+	
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEMCOIN_ANI_SET);
 	this->SetAnimationSet(ani_set);
@@ -41,8 +41,8 @@ void CItemCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 	l = x;
 	t = y;
-	r = l + 14;
-	b = t + COIN_BBOX_X_Y;
+	r = l + 0;
+	b = t + 0;
 }
 
 void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects)

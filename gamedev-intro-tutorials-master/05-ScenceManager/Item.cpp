@@ -28,7 +28,6 @@ Item* Item::SpawnItem(int id, CScene* scene)
 		return new CMushrooms(MUSHROOMS_BULE);
 		break;
 	case COIN_ID_WALK:
-		pc->GetCountNumber();
 		return new CItemCoin(ITEM_COIN_STATE_COIN);
 		break;
 	case COIN_ID_IDE:
@@ -45,13 +44,6 @@ Item* Item::SpawnItem(int id, CScene* scene)
 		break;
 	case SIGN_ID:
 		return new CItemSign(ITEM_SIGN_STATE_P);
-		if (sign->state == ITEM_SIGN_STATE_SIGN)
-		{
-			if (brick->GetItemState() == 1)
-			{
-				return new CItemCoin(ITEM_COIN_STATE_IDE);
-			}
-		}
 		break;
 	}
 }

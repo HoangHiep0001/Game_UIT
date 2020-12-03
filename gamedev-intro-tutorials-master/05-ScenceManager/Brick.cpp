@@ -60,7 +60,7 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			item = item->SpawnItem(item_id, scene);
 			float l, t, r, b;
 			item->GetBoundingBox(l, t, r, b);
-			item->SetPosition(x, y - 17);
+			item->SetPosition(x, y -(b-t));
 			pc->SpawnObject(item);
 			this->item_count--;
 		}
@@ -75,7 +75,7 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				item = item->SpawnItem(item_id, scene);
 				float l, t, r, b;
 				item->GetBoundingBox(l, t, r, b);
-				item->SetPosition(x, y);
+				item->SetPosition(x, y-(b - t));
 				pc->SpawnObject(item);
 				item_count--;
 			}

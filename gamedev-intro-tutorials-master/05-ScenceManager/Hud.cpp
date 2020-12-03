@@ -7,7 +7,6 @@ Hud::Hud(CPlayScene* Scene)
 	y += Game->GetInstance()->GetScreenHeight() - SEEN_HEIGHT;
 	word = PlayScene->GetWord();
 	time = PlayScene->GetTime();
-	number = PlayScene->GetNumber();
 }
 
 void Hud::Render()
@@ -56,7 +55,6 @@ void Hud::Update()
 	y += Game->GetInstance()->GetScreenHeight() - SEEN_HEIGHT;
 	word=PlayScene->GetWord();
 	time = PlayScene->GetTime();
-	number = PlayScene->GetNumber();
 	CMario*  mario = PlayScene->GetPlayer();
 	if (mario->GetState() != MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_LEFT)
 	{
@@ -89,15 +87,15 @@ void Hud::Update()
 		time2 = (time / 10) % 10;
 		time1 = time / 100;
 	}
-	if (number>=0)
+	if (PlayScene->GetPlayer()->GetCoin_number() >= 0)
 	{
-		number1 = number /10;
-		number2 = number % 10;
+		number1 = PlayScene->GetPlayer()->GetCoin_number() /10;
+		number2 = PlayScene->GetPlayer()->GetCoin_number() % 10;
 	}
 	if (PlayScene->GetPlayer()->GetLife() >= 0)
 	{
-		life2 = PlayScene->GetPlayer()->GetLife() / 10;
-		life1 = PlayScene->GetPlayer()->GetLife() % 10;
+		life1 = PlayScene->GetPlayer()->GetLife() / 10;
+		life2 = PlayScene->GetPlayer()->GetLife() % 10;
 	}
 }
 

@@ -9,10 +9,10 @@
 class CCoin : public CGameObject
 {
 	int score = COIN_SCORE;
-	int number = 1;
+	int coin_number = 1;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int GetScore() { return this->score; }
-	int GetNumber() { return this->number; }
+	int GetCoin_number() { return this->coin_number; }
 };
