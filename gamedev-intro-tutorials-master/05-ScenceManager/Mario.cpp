@@ -16,6 +16,7 @@
 #include "ItemLeaves.h"
 #include "ItemSign.h"
 #include "ItemCoin.h"
+#include "Trigger_ChangeCamera.h"
 
 
 
@@ -33,7 +34,6 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y; 
 	this->x = x; 
 	this->y = y; 
-
 	this->life = 1;
 	this->score = 0;
 	this->coin_number = 0;
@@ -271,7 +271,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 						}
-						koopas->vy = -KOOPAS_Y;
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
@@ -375,6 +374,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->GetProperties()->SetMarioPosition(p->GetMarioX(), p->GetMarioY());
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+			else if (dynamic_cast<Trigger_ChangeCamera*>(e->obj))
+			{
+				Trigger_ChangeCamera* trigger = dynamic_cast<Trigger_ChangeCamera*>(e->obj);
+				CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+				pc->SetMapCamera(pc->GetListMapCamera().at(trigger->getCameraMapID()));
+				this->SetPosition(trigger->getMarioX(), trigger->getMarioY());
+				pc->SetCamera(pc->GetListCamera().at(trigger->getCameraMapID()));
+			}
 			else if (dynamic_cast<Ground*>(e->obj))
 			{
 				if (e->ny < 0)
@@ -431,11 +438,13 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
-						if (state== MARIO_STATE_JUMP)
+						if (level > MARIO_LEVEL_SMALL)
 						{
-							brick->Destroy();
+							if (state == MARIO_STATE_JUMP)
+							{
+								brick->Destroy();
+							}
 						}
-						
 					}
 						
 					vy = 0;
@@ -480,7 +489,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						if (question->GetItemCount() == 0)
 						{
 							question->SetState(MARK_STATE_EMPTY);
-
 						}
 						else
 						{
@@ -496,6 +504,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->nx != 0)
 				{
+					if (state == MARIO_STATE_ATTACK)
+					{
+						if (question->GetState() == MARK_STATE_QUESTION || question->GetState() == MARK_STATE_N_EMPTY)
+						{
+							question->SetItemCount(question->GetItemCount() - 1);
+							if (question->GetItemCount() == 0)
+							{
+								question->SetState(MARK_STATE_EMPTY);
+							}
+							else
+							{
+								question->SetState(MARK_STATE_N_EMPTY);
+							}
+						}
+					}
 					vx = 0;
 					a = 0;
 				}
@@ -587,13 +610,32 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	bool flagOnGround = false;
+	//for (std::size_t i = 0; i < coObjects->size(); i++)
+	//{
+	//	LPGAMEOBJECT e = coObjects->at(i);
+	//	if (dynamic_cast<Ground*>(e) && !flagOnGround)
+	//	{
+	//		Ground* f = dynamic_cast<Ground*> (e);
+
+	//		float l, t, r, b, el, et, er, eb;
+	//		this->GetBoundingBox(l, t, r, b);
+	//		b = b + 15;
+	//		f->GetBoundingBox(el, et, er, eb);
+	//		if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+	//		{
+	//			flagOnGround = true;
+	//		}
+	//	}
+	//}
+
+	//if (!flagOnGround && this->state != MARIO_STATE_JUMP
+	//	&& this->state != MARIO_STATE_FLYLING)
+	//{
+	//	this->state = MARIO_STATE_IDLE;
+	//}
 
 
-	for (std::size_t i = 0; i < coObjects->size(); i++)
-	{
-		LPGAMEOBJECT e = coObjects->at(i);
-
-	}
 	if (level == MARIO_LEVEL_BIG)
 	{
 		if (apperance == MARIO_FIRE)

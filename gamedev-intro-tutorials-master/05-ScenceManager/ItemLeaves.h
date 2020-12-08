@@ -4,8 +4,8 @@
 #include "Item.h"
 
 #define LEAVES_SPEED_X 0.05f
-#define LEAVES_SPEED_Y 0.35f
-#define LEAVES_GRAVITY	0.0001f
+#define LEAVES_SPEED_Y 0.01f
+#define LEAVES_GRAVITY	0.05f
 // BBOX
 #define LEAVES_BBOX_X 16
 #define LEAVES_BBOX_Y 14

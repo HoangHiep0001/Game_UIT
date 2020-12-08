@@ -21,12 +21,13 @@
 		DWORD time = 0;
 		bool isBornByBrick = false;
 		int score = ITEMCOIN_SCORE;
-		int coin_number = 0;
+		int coin_number=1;
 	public:
 		CItemCoin(int nsta);
 		virtual void Render();
 		virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 		virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+		void SetState(int state);
 		int GetnState() { return state; }
 		bool GetIsBornByBrick() { return this->isBornByBrick; }
 		void SetIsBornByBrick(bool x) { isBornByBrick = x; }

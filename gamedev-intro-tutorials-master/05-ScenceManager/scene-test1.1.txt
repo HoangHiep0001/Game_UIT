@@ -1040,9 +1040,9 @@ cầm rùa trái
 21	5100
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger 42 trigger_changecamera
 # MARIO
-0	1432	158	1
+0	30	360	1
 
 #----- coin------
 #type   x	y	andi	width	height	state
@@ -1123,24 +1123,24 @@ cầm rùa trái
 4	2240	592	0	16	16	0
 # --- CAMERA ---
 #type x	y	ani_set_id	w	h
-5	0	240	0	176	192
+5	0	240	0	176	192	0
+5	0	464	0	176	192	1
 # --- MAP CAMERA ---
-#type x	y	ani_set_id	w	h
-6	0	0	0	2816	656
-#6	1968	464	0	2480	656	1
+#type x	y	ani_set_id	w	h id_camera
+6	0	0	0	2816	432	0
+6	1968	464	0	2480	656	1
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
 #50	2792	368	0	2816	416	3	138	32
 50	2256	111	0	2288	127	11	2326	496
 50	110	370	0	130	380	11	2326	496
-50	2320	464	0	2348	496	11	2326	356
 #Question
 #type   x	y	andi	state	item_id	item_count
 8	1472	368	4	0	4	1
 8	704	352	4	0	2	1
 8	656	384	4	0	4	1
 8	416	320	4	0	4	1
-8	240	304	4	0	1	1
+8	240	304	4	0	4	1
 8	224	304	4	0	2	1
 8	192	352	4	0	2	1
 8	176	352	4	0	2	1
@@ -1178,7 +1178,6 @@ cầm rùa trái
 1	2224	520	3	0	3	1	0
 1	2224	503	3	0	3	1	0
 1	2176	503	3	0	3	1	0
-1	2106	496	3	0	3	1	0
 #==============------ Goomba----=====
 2	224	399.99	6	1	0
 2	416	399.99	6	1	0
@@ -1202,5 +1201,10 @@ cầm rùa trái
 40	1792	384	20	2
 40	1856	368	20	1
 #======----- GROUND------========== 
+#============---trigger_changecamera---======
 #type   x	y	andi	width	height	state
 41	2256	110	0	32	1	1
+#============---trigger_changecamera---======
+#type   x	y	andi	width	height	id_camera mx my
+#42	50	400	0	32	1	1	2106	496
+42	2320	496	0	32	1	0	2326	356

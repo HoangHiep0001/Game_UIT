@@ -14,16 +14,6 @@ Item* Item::SpawnItem(int id, CScene* scene)
 	CBrick* brick = dynamic_cast<CBrick*>(pc->GetPlayer());
 	switch (id)
 	{
-	case MUSHROOMS_ID_RED:
-		if (mario->GetLevel() == MARIO_LEVEL_BIG)
-		{
-			return new CLeaves();
-		}
-		else
-		{
-			return new CMushrooms(MUSHROOMS_RED);
-		}
-		break;
 	case MUSHROOMS_ID_BULE:
 		return new CMushrooms(MUSHROOMS_BULE);
 		break;

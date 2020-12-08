@@ -11,6 +11,7 @@
 #include "QuestionMark.h"
 #include "COIN.h"
 #include "Hud.h"
+#include "Item.h"
 
 
 #define GAME_TIME 1000
@@ -22,7 +23,7 @@ protected:
 	RECT camera;
 	RECT mapCamera;
 	CMario *player;					// A play scene has to have player, right? 
-
+	
 	vector<LPGAMEOBJECT> objects;
 
 	Map* tileMap;
@@ -36,13 +37,23 @@ protected:
 
 	Hud* hud;
 	DWORD time_start;
-	
+	int coin_number=0;
 	bool oldmap = false;
+	unordered_map<int, RECT> mapCameras;
+	unordered_map<int, RECT> Cameras;
 public: 
 	CPlayScene(int id, LPCWSTR filePath, int word, int time);
 	
 	RECT GetCamera() { return this->camera; }
 	
+	void SetMapCamera(RECT map) { this->mapCamera = map; }
+	void SetCamera(RECT cam) { this -> camera = cam; }
+	unordered_map<int, RECT> GetListMapCamera() {
+		return this->mapCameras;
+	}
+	unordered_map<int, RECT> GetListCamera() {
+		return this->Cameras;
+	}
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
@@ -54,7 +65,6 @@ public:
     int GetWord() { return word; }
 	int GetTime() { return time; }
 	void GetCountDown();
-	void GetCountNumber();
 	//friend class CPlayScenceKeyHandler;
 };
 

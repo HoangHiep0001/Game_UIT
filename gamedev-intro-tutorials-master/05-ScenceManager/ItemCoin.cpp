@@ -3,13 +3,11 @@
 
 CItemCoin::CItemCoin(int nsta)
 {
-	state = nsta;
-	if (state ==ITEM_COIN_STATE_COIN)
+	if (state == ITEM_COIN_STATE_COIN)
 	{
-		vy = -COIN_FLY_Y;
-		time=GetTickCount64();
+		time = GetTickCount64();
 	}
-	
+	state = nsta;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(ITEMCOIN_ANI_SET);
 	this->SetAnimationSet(ani_set);
@@ -49,6 +47,7 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 {
 	if (isDestroy)
 	{
+	
 		return;
 	}
 	if (!CheckInCamera())
@@ -56,10 +55,11 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 		return;
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
-
+    CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	CMario* mario = pc->GetPlayer();
 	if (this->isBornByBrick)
 	{
-		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+		
 		if (pc->GetPlayer()->GetIsP() == false)
 		{
 			float x, y;
@@ -74,11 +74,34 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 		}
 	}
 
-	if (GetTickCount64() - time >= 200 && time>0)
+	
+	if (state==ITEM_COIN_STATE_COIN)
 	{
-		Destroy();
-	}
+		vy = -COIN_FLY_Y;
 
+		if (GetTickCount64() - time >= 200 )
+		{
+			mario->SetScore(score+ mario->GetScore());
+			mario->SetCoin_number(coin_number + mario->GetCoin_number());
+			Destroy();
+		}
+		
+	}
 	x += dx;
 	y += dy;
+}
+
+void CItemCoin::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case ITEM_COIN_STATE_COIN:
+		time = GetTickCount64();
+		break;
+	case ITEM_COIN_STATE_IDE:
+		vy = 0;
+		vx = 0;
+		break;
+	}
 }

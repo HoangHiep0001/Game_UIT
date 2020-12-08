@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "QuestionMark.h"
 #include "Utils.h"
+#include "Koopas.h"
 
 CGoomba::CGoomba(int appe)
 {
@@ -178,6 +179,9 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+
+
 }
 
 void CGoomba::Render()

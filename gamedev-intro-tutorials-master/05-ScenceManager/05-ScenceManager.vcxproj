@@ -145,6 +145,7 @@
     <ClCompile Include="SceneProperties.cpp" />
     <ClCompile Include="SewerPipes.cpp" />
     <ClCompile Include="Trigger.cpp" />
+    <ClCompile Include="Trigger_ChangeCamera.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="SceneProperties.h" />
     <ClInclude Include="SewerPipes.h" />
     <ClInclude Include="Trigger.h" />
+    <ClInclude Include="Trigger_ChangeCamera.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

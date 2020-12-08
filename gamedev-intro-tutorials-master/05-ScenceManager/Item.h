@@ -13,8 +13,10 @@ class Item : public CGameObject
 {
 protected:
 	int ID;
-	int score=0;
+	int ox;
 public:
+	int GetID() { return this->ID; }
+	void SetOX(int ox) { this->ox = ox; }
 	virtual void Render() {};
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) {};
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL) {};

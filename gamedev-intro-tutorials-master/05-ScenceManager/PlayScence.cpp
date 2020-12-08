@@ -18,6 +18,7 @@
 #include "ItemSign.h"
 #include "CTree.h"
 #include "Trigger.h"
+#include "Trigger_ChangeCamera.h"
 
 using namespace std;
 
@@ -57,6 +58,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, 
 #define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_TRIGGERPIPES 41
+#define OBJECT_TYPE_TRIGGER_CHANGE_CAMERA 42
 #define OBJECT_TYPE_PORTAL	50
 
 
@@ -246,23 +248,27 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_CAMERA:
 	{
+		RECT cam;
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
-		camera.left = x;
-		camera.top = y;
-		camera.right = x + w;
-		camera.bottom = y + h;
+		int id = atoi(tokens[6].c_str());
+		cam.left = x;
+		cam.top = y;
+		cam.right = x + w;
+		cam.bottom = y + h;
+		Cameras[id] = cam;
 		break;
 	}
 	case OBJECT_TYPE_MAP_CAMERA:
 	{
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
-		//int cam= atoi(tokens[6].c_str());
+		int id= atoi(tokens[6].c_str());
 		mapCamera.left = x;
 		mapCamera.top = y;
 		mapCamera.right = x + w;
 		mapCamera.bottom = y + h;
+		mapCameras[id] = mapCamera;
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
@@ -319,6 +325,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Trigger(x, y, w, h, state);
 		break;
 	}
+	case OBJECT_TYPE_TRIGGER_CHANGE_CAMERA:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int id_camera = atof(tokens[6].c_str());
+		float mx = atof(tokens[7].c_str());
+		float my = atof(tokens[8].c_str());
+		obj = new Trigger_ChangeCamera(x, y, w, h, id_camera,mx,my);
+	}
+		break;
 	case OBJECT_TYPE_ITEM_SIGN:
 	{
 		int nstate = atof(tokens[4].c_str());
@@ -440,7 +456,8 @@ void CPlayScene::Load()
 	CGame::GetInstance()->SetCamPos(0,0);
 
 	hud = new Hud(this);
-
+	mapCamera = mapCameras.at(0);
+	camera = Cameras.at(0);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -473,14 +490,14 @@ void CPlayScene::Update(DWORD dt)
 	cx -= (float)game->GetScreenWidth() / 2;
 	cy -= (float)game->GetScreenHeight() / 2;
 
-	float x_cam;
+	float x_cam;	//0	0
 	float y_cam;
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 
 	//khoa cam x
 	if (cx < mapCamera.left)
 	{
-		cx = 0;
+		cx = mapCamera.left;
 	}
 	else if (cx > mapCamera.right- game->GetScreenWidth())
 	{
@@ -546,10 +563,6 @@ void CPlayScene::GetCountDown()
 			time_start = 0;
 		}
 	}
-}
-void CPlayScene::GetCountNumber()
-{
-	
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)

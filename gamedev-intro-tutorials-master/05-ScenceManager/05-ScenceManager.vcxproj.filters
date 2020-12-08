@@ -144,6 +144,9 @@
     <ClCompile Include="SceneProperties.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Trigger_ChangeCamera.cpp">
+      <Filter>Object\StaticOject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="SceneProperties.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger_ChangeCamera.h">
+      <Filter>Object\StaticOject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

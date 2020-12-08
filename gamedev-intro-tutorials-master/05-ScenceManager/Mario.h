@@ -237,6 +237,8 @@ public:
 	int GetScore() { return this->score; }
 	int GetLife() { return this->life; }
 	int GetCoin_number() { return this->coin_number; }
+	void SetCoin_number(int coin) { coin_number = coin; }
+	void SetScore(int core) { score = core; }
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
 	CMario(float x = 0.0f, float y = 0.0f);

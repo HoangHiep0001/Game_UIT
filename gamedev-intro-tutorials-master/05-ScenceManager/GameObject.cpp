@@ -1,4 +1,4 @@
-#include <d3dx9.h>
+﻿#include <d3dx9.h>
 #include <algorithm>
 
 
@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "Koopas.h"
 
 CGameObject::CGameObject()
 {
@@ -60,6 +61,17 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	return e;
 }
 
+
+bool CGameObject::AABB(float l, float t, float r, float b, float l1, float t1, float r1, float b1)
+{
+	// kiểm tra 2 hình chữ nhật có đang chèn nhau hay không
+	float left = l1 - r;
+	float top = b1 - t;
+	float right = r1 - l;
+	float bottom = t1 - b;
+	//  xét ngược lại cho nhanh hơn
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
 /*
 	Calculate potential collisions with the list of colliable objects 
 	
@@ -70,12 +82,15 @@ void CGameObject::CalcPotentialCollisions(
 	vector<LPGAMEOBJECT> *coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
+
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 		if (e->t > 0 && e->t <= 1.0f)
+		{
 			coEvents.push_back(e);
+		}
 		else
 			delete e;
 	}

@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#define TRIGGER_STATE_SEWERPIPES_MAP1 1
 class Trigger : public CGameObject
 {
 	int State;

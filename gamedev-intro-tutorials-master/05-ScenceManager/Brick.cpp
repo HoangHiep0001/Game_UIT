@@ -36,6 +36,7 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	
 	if (this->item_state == 0)
 	{
 		if (pc->GetPlayer()->GetIsP() && !isDestroy)

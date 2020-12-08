@@ -87,7 +87,7 @@ void Hud::Update()
 		time2 = (time / 10) % 10;
 		time1 = time / 100;
 	}
-	if (PlayScene->GetPlayer()->GetCoin_number() >= 0)
+	if ((PlayScene->GetPlayer()->GetCoin_number()) >= 0)
 	{
 		number1 = PlayScene->GetPlayer()->GetCoin_number() /10;
 		number2 = PlayScene->GetPlayer()->GetCoin_number() % 10;

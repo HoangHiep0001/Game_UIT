@@ -95,6 +95,8 @@ public:
 
 	CGameObject();
 
+	bool AABB(float l, float t, float r, float b, float l1, float t1, float r1, float b1);
+
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt,CScene* scene, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;

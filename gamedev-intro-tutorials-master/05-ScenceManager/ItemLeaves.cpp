@@ -10,19 +10,10 @@ CLeaves::CLeaves()
 }
 void CLeaves::SetState(int state)
 {
-	CGameObject::SetState(state);
+	this->state = state;
 	if (state==LEAVES_STATE_FALL)
 	{
 		nx = -1;
-		if (nx>0)
-		{
-			vx = LEAVES_SPEED_X;
-		}
-		else
-		{
-			vx =-LEAVES_SPEED_X;
-		}
-	//	vy = -LEAVES_SPEED_Y;
 	}
 }
 void CLeaves::Render()
@@ -72,7 +63,7 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
 
-	vy += LEAVES_GRAVITY * dt;
+	vy = LEAVES_SPEED_Y;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -82,7 +73,7 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		x += dx;
+		x = 14 * sin(y * 0.2f) + ox;;
 		y += dy;
 	}
 	else
@@ -94,6 +85,9 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
+
+		x = 14 * sin(y * 0.2f) + ox;;
+		y += dy;
 
 	}
 	if (y >= start_y - LEAVES_Y)
