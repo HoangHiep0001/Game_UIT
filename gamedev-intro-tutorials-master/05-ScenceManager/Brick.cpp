@@ -18,6 +18,9 @@ void CBrick::Render()
 	case BRICK_STATE_EMPTY:
 		ani = BRICK_ANI_EMPTY;
 		break;
+	case BRICK_STATE_BROKEN:
+		ani = BRICK_ANI_BROKEN;
+		break;
 	}
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();

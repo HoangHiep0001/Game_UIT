@@ -3,6 +3,8 @@
 
 void CFireBallCacTus::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	if (isDestroy)
+		return;
 	left = x;
 	top = y;
 	right = x + FIREBAL_CACTUS_BBOX_WIDTH;
@@ -29,6 +31,8 @@ CFireBallCacTus::CFireBallCacTus(int dir)
 
 void CFireBallCacTus::SetState(int state)
 {
+	if (isDestroy)
+		return;
 
 	CGameObject::SetState(state);
 	switch (state)
@@ -90,8 +94,6 @@ void CFireBallCacTus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coll
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				
-				
 				{
 					if (e->nx != 0)
 						x += dx;
@@ -100,8 +102,6 @@ void CFireBallCacTus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coll
 				}
 			}
 		}
-
-
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 

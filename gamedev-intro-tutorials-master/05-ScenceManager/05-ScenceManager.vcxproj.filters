@@ -49,6 +49,9 @@
     <Filter Include="Object\StaticOject\Ground">
       <UniqueIdentifier>{c8c252b7-f2f6-4ca2-a98c-3e6d1c3a5fae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\StaticOject\Trigger">
+      <UniqueIdentifier>{7ed8effe-9b34-4ef5-a30f-96a5b9c6923b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -138,13 +141,19 @@
     <ClCompile Include="CTree.cpp">
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
-    <ClCompile Include="Trigger.cpp">
-      <Filter>Object\StaticOject</Filter>
-    </ClCompile>
     <ClCompile Include="SceneProperties.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Trigger.cpp">
+      <Filter>Object\StaticOject\Trigger</Filter>
+    </ClCompile>
     <ClCompile Include="Trigger_ChangeCamera.cpp">
+      <Filter>Object\StaticOject\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="CTail.cpp">
+      <Filter>Object\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="CBroken.cpp">
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -236,13 +245,19 @@
     <ClInclude Include="CTree.h">
       <Filter>Object\StaticOject</Filter>
     </ClInclude>
-    <ClInclude Include="Trigger.h">
-      <Filter>Object\StaticOject</Filter>
-    </ClInclude>
     <ClInclude Include="SceneProperties.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>Object\StaticOject\Trigger</Filter>
+    </ClInclude>
     <ClInclude Include="Trigger_ChangeCamera.h">
+      <Filter>Object\StaticOject\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="CTail.h">
+      <Filter>Object\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="CBroken.h">
       <Filter>Object\StaticOject</Filter>
     </ClInclude>
   </ItemGroup>

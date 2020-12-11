@@ -24,10 +24,13 @@ class CQuestionMark : public CGameObject
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	float start_y;
+	bool is_up = false;
 	
 public:
 	CQuestionMark();
 	virtual void SetState(int state);
+	bool getIsUp() { return this->is_up; }
+	void SetIsUp(bool x) { this->is_up = x; }
 	void SetStartY(float y) { start_y = y; }
 	int GetItemID() { return this->item_id; }
 	void SetItemID(int id) { this->item_id = id; }

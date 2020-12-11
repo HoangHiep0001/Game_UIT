@@ -20,6 +20,7 @@
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 #define MARIO_FIRE_JUMP_SPEED_Y	0.45f
+#define MARIO_FALL_DOWN_SLOW_VY	0.1f
 
 //state
 #pragma region State
@@ -41,7 +42,7 @@
 #define MARIO_STATE_FIRE_BALL 1400
 #define MARIO_STATE_FIRE_BALL_DOUBLE 1500
 #define MARIO_STATE_STONE_KOOPAS 1700
-
+#define MARIO_STATE_FALL_DOWN	1800
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -233,7 +234,11 @@ class CMario : public CGameObject
 	int coin_number;
 	int score;
 	int life;
+	bool is_tail = false;
+	bool is_fall_slow = false;
+	bool is_colii_top = false;
 public: 
+	bool GetColliTop() { return this->is_colii_top; }
 	int GetScore() { return this->score; }
 	int GetLife() { return this->life; }
 	int GetCoin_number() { return this->coin_number; }
@@ -245,8 +250,13 @@ public:
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 
+	void SetIsTail(bool tail) { is_tail = tail; }
+	bool GetIsTail() { return this->is_tail; }
+	void SetIsFallSlow(bool x) { is_fall_slow = x; }
+	bool GetIsFallSlow() { return this->is_fall_slow; }
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
+	void SetApperance(int app) { apperance = app; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();
@@ -273,7 +283,6 @@ public:
 	bool CheckFrameFireBallDouble();
 	int GetCountFireBall() { return this->CountFireball; }
 	void SetCountFireBall(int count) { this->CountFireball = count; }
-
 	void SetMarioProperties()
 	{
 		this->level = CGame::GetInstance()->GetProperties()->GetLevel();

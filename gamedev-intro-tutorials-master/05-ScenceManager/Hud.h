@@ -50,6 +50,7 @@ class CPlayScene;
 #define HUB_SPIRE_STAR 1142
 #define HUB_SPIRE_NETWORK_M 1143
 #define HUB_SPIRE_NETWORK_L 1144
+#define HUB_SPIRE_BLACK 1145
 
 
 // location

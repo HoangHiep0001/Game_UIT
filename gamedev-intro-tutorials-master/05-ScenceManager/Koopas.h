@@ -6,6 +6,7 @@
 #define KOOPAS_GRAVITY 0.001f
 #define KOOPAS_TORTOISESHELL 0.15f
 #define KOOPAS_VY 0.002f
+#define KOOPAS_DIE_VY 0.35f
 //BBOX
 #define KOOPAS_BBOX_WIDTH 16
 #define KOOPAS_BBOX_HEIGHT 27
@@ -53,6 +54,7 @@
 #define KOOPAS_TIME_LIVE 4000
 #define KOOPAS_TIME_LIVE_FOOT 6000
 #define KOOPAS_TIME_LIVING 6000
+#define KOOPAS_TIME_DIE 1000
 #define KOOPAS_Y 13
 class CKoopas : public CGameObject
 {
@@ -62,6 +64,7 @@ class CKoopas : public CGameObject
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	bool ispickup= false;
+	bool iskoopas = false;
 
 public:
 	int GetApperance() { return apperance; }
@@ -69,6 +72,9 @@ public:
 	void SetState(int state);
 	void SetIsPick(bool flag) {
 		this->ispickup = flag;
+	}
+	void SetIsKoopas(bool pas) {
+		this->iskoopas = pas;
 	}
 };
 

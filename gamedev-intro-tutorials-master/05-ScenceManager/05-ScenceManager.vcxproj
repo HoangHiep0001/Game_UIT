@@ -127,7 +127,9 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cactus.cpp" />
+    <ClCompile Include="CBroken.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="CTail.cpp" />
     <ClCompile Include="CTree.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FireBallCacTus.cpp" />
@@ -161,7 +163,9 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cactus.h" />
+    <ClInclude Include="CBroken.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="CTail.h" />
     <ClInclude Include="CTree.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FireBallCacTus.h" />

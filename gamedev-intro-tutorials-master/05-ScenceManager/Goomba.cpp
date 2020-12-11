@@ -34,7 +34,12 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right= x+0;
 		bottom = y+0;
 		break;
-
+	case GOOMBA_STATE_WALKING_DOWN:
+	case GOOMBA_STATE_FLYLING_DOWN:
+	case GOOMBA_STATE_WALKING_WING_DOWN:
+		right = x + 0;
+		bottom = y + 0;
+		break;
 	}
 	Bound.left = left;
 	Bound.right = right;
@@ -61,7 +66,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 	{
 		DebugOut(L"[ERROR] Sprite ID %d cannot be found!\n", (GetTickCount64()-time_die));
 	}
-	if (state == GOOMBA_STATE_DIE)
+	if (state == GOOMBA_STATE_DIE||state==GOOMBA_STATE_FLYLING_DOWN|| state == GOOMBA_STATE_WALKING_DOWN||state==GOOMBA_STATE_WALKING_WING_DOWN)
 	{
 		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
 		{
@@ -205,6 +210,15 @@ void CGoomba::Render()
 		case GOOMBA_STATE_DIE:
 			ani = GOOMBA_ANI_RED_DIE;
 			break;
+		case GOOMBA_STATE_WALKING_DOWN:
+			ani = GOOMBA_ANI_RED_WALKING_DOWN;
+			break;
+		case GOOMBA_STATE_FLYLING_DOWN:
+			ani = GOOMBA_ANI_RED_FLYLING_DOWN;
+			break;
+		case GOOMBA_STATE_WALKING_WING_DOWN:
+			ani = GOOMBA_ANI_RED_WALKING_WING_DOWN;
+			break;
 		}
 	}
 	else if (apperance== GOOMBA_THERE)
@@ -223,6 +237,15 @@ void CGoomba::Render()
 		case GOOMBA_STATE_DIE:
 			ani = GOOMBA_ANI_THERE_DIE;
 			break;
+		case GOOMBA_STATE_WALKING_DOWN:
+			ani = GOOMBA_ANI_THERE_WALKING_DOWN;
+			break;
+		case GOOMBA_STATE_FLYLING_DOWN:
+			ani = GOOMBA_ANI_THERE_FLYLING_DOWN;
+			break;
+		case GOOMBA_STATE_WALKING_WING_DOWN:
+			ani = GOOMBA_ANI_THERE_WALKING_WING_DOWN;
+			break;
 		}
 	}
 	
@@ -236,6 +259,7 @@ void CGoomba::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
+
 		case GOOMBA_STATE_DIE:
 			vx = 0;
 			vy = 0;
@@ -274,6 +298,13 @@ void CGoomba::SetState(int state)
 			vy = -GOOMBA_JUMP_SPEED_Y;
 			time = GetTickCount64();
 		    break;
+		case GOOMBA_STATE_WALKING_DOWN:
+		case GOOMBA_STATE_FLYLING_DOWN:
+		case GOOMBA_STATE_WALKING_WING_DOWN:
+			vx = 0;
+			vy = -GOOMBA_JUMP_SPEED_Y;
+			time_die = GetTickCount64();
+			break;
 	}
 }
 

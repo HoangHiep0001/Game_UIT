@@ -7,10 +7,12 @@
 //STATE
 #define BRICK_STATE_BRICK 0
 #define BRICK_STATE_EMPTY 1
+#define BRICK_STATE_BROKEN 2
+
 // ani
 #define BRICK_ANI_BRICK 0
 #define BRICK_ANI_EMPTY 1
-
+#define BRICK_ANI_BROKEN 2
 #define BRICK_ANIMATION_SET_ID	3
 class CBrick : public CGameObject
 {

@@ -19,7 +19,8 @@
 #include "CTree.h"
 #include "Trigger.h"
 #include "Trigger_ChangeCamera.h"
-
+#include "CTail.h"
+#include "CBroken.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, filePath, word, time)
@@ -54,6 +55,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, 
 #define OBJECT_TYPE_LEAVES 10
 #define OBJECT_TYPE_ITEM_COIN	11
 #define OBJECT_TYPE_ITEM_SIGN	12
+#define OBJECT_TYPE_BROKEN	13
+
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_SEWERPIPES 40
@@ -344,6 +347,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TREE:
 	{
 		obj = new CTree();
+	}
+	break;
+	case OBJECT_TYPE_BROKEN:
+	{
+		obj = new CBroken();
 	}
 	break;
 	default:
@@ -708,7 +716,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 			&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 		{
-			if (GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0)
+			if ((GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0) && !mario->GetColliTop())
 			{
 				mario->SetState(MARIO_STATE_JUMP);
 			}

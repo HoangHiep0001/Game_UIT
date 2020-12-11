@@ -65,13 +65,13 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 	{
 		vy = MARK_CAKE_VY;
 		Item* item = new Item();
-		item = item->SpawnItem(item_id,scene);
+		item = item->SpawnItem(item_id, scene);
 		float l, t, r, b;
-		item->GetBoundingBox(l, t,r,b);
+		item->GetBoundingBox(l, t, r, b);
 		if (item_id == LEAVES_ID && mario->GetLevel() == MARIO_LEVEL_BIG)
 		{
 			item->SetPosition(x, y - (b - t) - 15);
-			item->SetOX(x + MARK_BBOX_WIDTH/2);
+			item->SetOX(x + MARK_BBOX_WIDTH / 2);
 		}
 		else
 		{
@@ -82,6 +82,7 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 	}
 	if (vy > 0 && y >= start_y)
 	{
+		is_up = false;
 		vy = 0;
 		y = start_y;
 	}

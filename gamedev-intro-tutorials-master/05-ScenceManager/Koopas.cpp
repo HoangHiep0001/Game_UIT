@@ -158,6 +158,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			time = 0;
 		}
 	}
+
 	CGameObject::Update(dt, scene, coObjects);
 	if (!ispickup)
 	{
@@ -255,7 +256,8 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 				if (e->nx != 0)
 				{
-					if (state == KOOPAS_STATE_LIVING_UP)
+					if (state == KOOPAS_STATE_LIVING_UP||state== KOOPAS_STATE_LIVING_DOWN
+						||state == KOOPAS_STATE_TORTOISESHELL_UP|| state== KOOPAS_STATE_TORTOISESHELL_DOWN)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
 					}
@@ -266,6 +268,26 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						if (e->ny != 0)
 							y += dy;
 					}
+				}
+			}
+			else if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+				if (state == KOOPAS_STATE_LIVING_UP || state == KOOPAS_STATE_LIVING_DOWN
+					|| state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+				{
+					koopas->SetState(KOOPAS_STATE_DIE_DOWN);
+					if (GetTickCount64()-time> KOOPAS_TIME_DIE)
+					{
+						koopas->Destroy();
+					}
+				}
+				else
+				{
+					if (e->nx != 0)
+						x += dx;
+					if (e->ny != 0)
+						y += dy;
 				}
 			}
 			else
@@ -398,12 +420,13 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_DIE_DOWN:
 		vx = 0;
-		vy = 0;
+		vy = vy = -KOOPAS_DIE_VY;
+		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_LIVING_DOWN:
 		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
-		vy = -0.4;
+		vy = -KOOPAS_DIE_VY;
 		break;
 	case KOOPAS_STATE_WALKING:
 		nx = -1;
