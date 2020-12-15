@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "FireBall.h"
 #include"Game.h"
+#include "CTail.h"
+
 
 #define MARIO_WALKING_SPEED		0.15f 
 #define MARIO_WALKING_SPEED_MAX	0.3f 
@@ -43,6 +45,9 @@
 #define MARIO_STATE_FIRE_BALL_DOUBLE 1500
 #define MARIO_STATE_STONE_KOOPAS 1700
 #define MARIO_STATE_FALL_DOWN	1800
+#define MARIO_STATE_START 1900
+#define MARIO_STATE_START_UP 2000
+#define MARIO_STATE_START_DOWN 2100
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -63,6 +68,8 @@
 #define MARIO_ANI_SMALL_STONE_KOOPAS_RIGHT 107
 #define MARIO_ANI_SMALL_STONE_KOOPAS_LEFT 108
 #define MARIO_ANI_SMALL_START 113
+#define MARIO_ANI_SMALL_START_UP 113
+#define MARIO_ANI_SMALL_START_DOWN 113
 #pragma endregion
 
 #pragma region Mario Big
@@ -85,6 +92,8 @@
 #define MARIO_ANI_BIG_STONE_KOOPAS_RIGHT 103
 #define MARIO_ANI_BIG_STONE_KOOPAS_LEFT 104
 #define MARIO_ANI_BIG_START 114
+#define MARIO_ANI_BIG_START_UP 114
+#define MARIO_ANI_BIG_START_DOWN 114
 #pragma endregion
 
 #pragma region Mario Big fox
@@ -111,6 +120,8 @@
 #define MARIO_ANI_BIG_FOX_STONE_KOOPAS_RIGHT 105
 #define MARIO_ANI_BIG_FOX_STONE_KOOPAS_LEFT 106
 #define MARIO_ANI_BIG_FOX_START 115
+#define MARIO_ANI_BIG_FOX_START_UP 115
+#define MARIO_ANI_BIG_FOX_START_DOWN 115
 #pragma endregion
 
 #pragma region Mario big fire
@@ -137,6 +148,8 @@
 #define MARIO_ANI_BIG_FIRE_STONE_KOOPAS_RIGHT 109
 #define MARIO_ANI_BIG_FIRE_STONE_KOOPAS_LEFT 110
 #define MARIO_ANI_BIG_FIRE_START 116
+#define MARIO_ANI_BIG_FIRE_START_UP 116
+#define MARIO_ANI_BIG_FIRE_START_DOWN 116
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -163,6 +176,8 @@
 #define MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_RIGHT 111
 #define MARIO_ANI_BIG_FOX_FIRE_STONE_KOOPAS_LEFT 112
 #define MARIO_ANI_BIG_FOX_FIRE_START 117
+#define MARIO_ANI_BIG_FOX_FIRE_START_UP 117
+#define MARIO_ANI_BIG_FOX_FIRE_START_DOWN 117
 #pragma endregion
 
 #define MARIO_ANI_DIE 8
@@ -186,6 +201,9 @@
 
 #define MARIO_FOX_BBOX_WIDTH	21
 #define MARIO_FOX_BBOX_HEIGHT	28
+
+#define MARIO_START_WIDTH  15
+#define MARIO_START_HEIGHT 15
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
@@ -234,10 +252,15 @@ class CMario : public CGameObject
 	int coin_number;
 	int score;
 	int life;
+	int intro;
 	bool is_tail = false;
 	bool is_fall_slow = false;
 	bool is_colii_top = false;
+
+	CTail* tail;
 public: 
+	
+	int GetIntro() {return this->intro; }
 	bool GetColliTop() { return this->is_colii_top; }
 	int GetScore() { return this->score; }
 	int GetLife() { return this->life; }
@@ -246,7 +269,7 @@ public:
 	void SetScore(int core) { score = core; }
 	DWORD GetTimeJump() { return this->time_jump; }
 	bool GetIsFireBall() { return this->isFireBall; }
-	CMario(float x = 0.0f, float y = 0.0f);
+	CMario(int intro, float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 
@@ -258,6 +281,8 @@ public:
 	void SetLevel(int l) { level = l; }
 	void SetApperance(int app) { apperance = app; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+
+	int xcore;
 
 	void Reset();
 

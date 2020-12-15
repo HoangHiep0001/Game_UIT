@@ -13,6 +13,7 @@ using namespace std;
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 #define SIT_BBOX_OFFSET 9
 #define TIAL_BBOX_OFFSET 5
+#define START_BBOX_OFFSET 3
 class CGameObject;
 typedef CGameObject * LPGAMEOBJECT;
 
@@ -61,12 +62,15 @@ public:
 
 	bool isSit;
 	bool isTail;
+	bool isIntro;
+	bool isStatemario;
 	DWORD dt; 
 
 	RECT Bound;
 
 	LPANIMATION_SET animation_set;
 	bool isDestroy = false;
+	bool isQuestionBroken = false;
 
 public: 
 	void Destroy() { this->isDestroy = true; }

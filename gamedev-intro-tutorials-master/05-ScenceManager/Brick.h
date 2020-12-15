@@ -14,13 +14,17 @@
 #define BRICK_ANI_EMPTY 1
 #define BRICK_ANI_BROKEN 2
 #define BRICK_ANIMATION_SET_ID	3
+#define BRICK_SCORE 10
 class CBrick : public CGameObject
 {
+	vector<LPGAMEOBJECT> listBrick;
 
 	int item_id;
 	int item_count;
 	int item_state;
+	int score = BRICK_SCORE;
 	bool Isbroken = false;
+	bool is_broken = false;
 	virtual void Render();
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
@@ -34,7 +38,8 @@ public:
 	void SetItemCount(int count) { this->item_count = count; }
 	int GetItemState() { return this->item_state; }
 	void SetItemState(int nstate) { this->item_state = nstate; }
-
+	virtual void SetState(int state);
+	int GetScore() { return this->score; }
 	void SetAnimationSet()
 	{
 		CAnimationSets* animation_sets = CAnimationSets::GetInstance();

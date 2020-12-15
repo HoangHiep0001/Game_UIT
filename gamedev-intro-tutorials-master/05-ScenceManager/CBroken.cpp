@@ -1,16 +1,20 @@
 #include "CBroken.h"
 #include "PlayScence.h"
-CBroken::CBroken()
+#include "Game.h"
+CBroken::CBroken(D3DXVECTOR2 position, int nx, int ny)
 {
-	SetState(BROKEN_STATE_BROKEN);
+	x = position.x;
+	y = position.y;
+	vx = 0.07 * nx;
+	vy = -0.17 * ny;
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(BROKEN_ANIMATION_SET_ID);
+	this->animation_set = ani_set;
 }
 
 void CBroken::Render()
 {
-	CSprites::GetInstance()->Get(BROKEN_ANI_BROKEN)->Draw(x, y, 255);
-	CSprites::GetInstance()->Get(BROKEN_ANI_BROKEN)->Draw(x+8, y, 255);
-	CSprites::GetInstance()->Get(BROKEN_ANI_BROKEN)->Draw(x, y+8, 255);
-	CSprites::GetInstance()->Get(BROKEN_ANI_BROKEN)->Draw(x + 8, y+8, 255);
+	animation_set->at(0)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -20,25 +24,10 @@ void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
+	vy += 0.004 * dt;
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
-	y += dy;
-	switch (state)
-	{
-	case 1:
-		state = BROKEN_ANI_BROKEN;
-		break;
-	case 2:
-		state = BROKEN_ANI_BROKEN;
-		break;
-	case 3:
-		state = BROKEN_ANI_BROKEN;
-		break;
-	case 4:
-		state = BROKEN_ANI_BROKEN;
-		break;
-	}
-	 
+	y += dy; 
 }
 
 
@@ -47,10 +36,10 @@ void CBroken::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 	if (isDestroy)
 		return;
-	l = x;
-	t = y;
-	r = x + BROKEN_BBOX_WIDTH;
-	b = y + BROKEN_BBOX_HEIGHT;
+	l = 0;
+	t = 0;
+	r = 0;
+	b = 0;
 }
 
 

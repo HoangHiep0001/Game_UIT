@@ -10,10 +10,11 @@ protected:
 	int id;
 	int word;
 	int time;
+	int intro;
 	LPCWSTR sceneFilePath;
 	
 public: 
-	CScene(int id, LPCWSTR filePath, int word, int time);
+	CScene(int id, LPCWSTR filePath, int word, int time,int intro);
 	CKeyEventHandler * GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;
 	virtual void Unload() = 0;

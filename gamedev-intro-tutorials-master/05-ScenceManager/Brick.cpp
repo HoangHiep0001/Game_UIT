@@ -4,6 +4,7 @@
 #include "QuestionMark.h"
 #include "ItemSign.h"
 #include "ItemCoin.h"
+#include "CBroken.h"
 
 void CBrick::Render()
 {
@@ -33,7 +34,27 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
+	int num_vanishPiece = 0;
 
+	for (LPGAMEOBJECT piece : listBrick)
+	{
+		piece->Update(dt, scene, coObjects);
+		if (piece->isQuestionBroken)
+			num_vanishPiece++;
+	}
+	if (num_vanishPiece == 4)
+	{
+		isQuestionBroken = true;
+	}
+	if (state==BRICK_ANI_BRICK)
+	{
+		CBroken* topLeftPiece = new CBroken({ x - 1, y - 2 }, -1, -1);
+		CBroken* topRightPiece = new CBroken({ x + 9, y - 2 }, 1, -1);
+		CBroken* bottomLeftPiece = new CBroken({ x - 1, y + 10 }, -1, 1);
+		CBroken* bottomRightPiece = new CBroken({ x + 9, y + 10 }, 1, 1);
+		
+		is_broken = true;
+	}
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
 	y += dy;
@@ -70,26 +91,26 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 		if (isDestroy)
-	{
-		if (item_count != 0 && GetState() == BRICK_STATE_BRICK)
 		{
-			if (item_state != 0)
+			if (item_count != 0 && GetState() == BRICK_STATE_BRICK)
 			{
-				Item* item = new Item();
-				item = item->SpawnItem(item_id, scene);
-				float l, t, r, b;
-				item->GetBoundingBox(l, t, r, b);
-				item->SetPosition(x, y-(b - t));
-				pc->SpawnObject(item);
-				item_count--;
+				if (item_state != 0)
+				{
+					Item* item = new Item();
+					item = item->SpawnItem(item_id, scene);
+					float l, t, r, b;
+					item->GetBoundingBox(l, t, r, b);
+					item->SetPosition(x, y-(b - t));
+					pc->SpawnObject(item);
+					item_count--;
+				}
+				else
+				{
+					Destroy();
+				}
 			}
-			else
-			{
-				Destroy();
-			}
+			return;
 		}
-		return;
-	}
 	}
 }
 
@@ -106,4 +127,14 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 CBrick::CBrick()
 {
 	SetState(BRICK_STATE_BRICK);
+}
+
+void CBrick::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case BRICK_STATE_BRICK:
+		break;
+	}
 }

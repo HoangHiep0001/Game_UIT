@@ -42,7 +42,7 @@ protected:
 	unordered_map<int, RECT> mapCameras;
 	unordered_map<int, RECT> Cameras;
 public: 
-	CPlayScene(int id, LPCWSTR filePath, int word, int time);
+	CPlayScene(int id, LPCWSTR filePath, int word, int time, int intro);
 	
 	RECT GetCamera() { return this->camera; }
 	
@@ -64,6 +64,7 @@ public:
 	CMario * GetPlayer() { return player; } 
     int GetWord() { return word; }
 	int GetTime() { return time; }
+	int GetIntro() { return intro; }
 	void GetCountDown();
 	//friend class CPlayScenceKeyHandler;
 };

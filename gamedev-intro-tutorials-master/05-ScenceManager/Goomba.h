@@ -44,11 +44,11 @@
 #define GOOMBA_TIME_DIE 200
 #define GOOMBA_TIME_WALK 800
 #define GOOMBA_TIME_JUMP 200
-
+#define GOOMBA_SCORE 100
 class CGoomba : public CGameObject
 {
 	int apperance;
-
+	int score = GOOMBA_SCORE;
 	DWORD time_die = 0;
 	DWORD time = 0;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -56,8 +56,10 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public: 	
+
 	int GetApperance() { return apperance; }
 	CGoomba(int appe);
 	virtual void SetState(int state);
 	void Updateflyling();
+	int GetScore() { return this->score; }
 };

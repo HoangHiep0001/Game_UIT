@@ -18,9 +18,11 @@
 #define LEAVES_ANI_SET	10
 
 #define LEAVES_Y 5
+#define LEAVES_SCORE 1000
 class CLeaves : public Item
 {
 	int item_id;
+	int score = LEAVES_SCORE;
 	float start_y;
 public:
 	void SetStartY(float y) { start_y = y; }
@@ -28,6 +30,7 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	int GetScore() { return this->score; }
 	CLeaves();
 	
 }; 

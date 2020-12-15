@@ -23,7 +23,7 @@
 #include "CBroken.h"
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time):CScene(id, filePath, word, time)
+CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):CScene(id, filePath, word, time, intro)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 	time_start = GetTickCount64();
@@ -181,9 +181,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
 		
+		obj = new CMario(this->intro,x,y); 
+		player = (CMario*)obj;  
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA:
@@ -349,10 +349,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CTree();
 	}
 	break;
-	case OBJECT_TYPE_BROKEN:
-	{
-		obj = new CBroken();
-	}
 	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -655,122 +651,142 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 {
 	CGame *game = CGame::GetInstance();
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-
-	if(mario!=NULL)
-	// disable control key when Mario die 
-	if (mario->GetState() == MARIO_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_DOWN))
+	if (mario->GetIntro()==0)
 	{
-		if (mario->GetState() != MARIO_STATE_JUMP)
+		if(mario!=NULL)
+		// disable control key when Mario die 
+		if (mario->GetState() == MARIO_STATE_DIE) return;
+		if (game->IsKeyDown(DIK_DOWN))
 		{
-			mario->SetState(MARIO_STATE_SIT);
-		}
-	}
-	else if (game->IsKeyDown(DIK_RIGHT))
-	{
-		if (!mario->GetIsAttack())
-		{
-			if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() < 0)
+			if (mario->GetState() != MARIO_STATE_JUMP)
 			{
-				if (mario->GetState() != MARIO_STATE_FLYLING)
+				mario->SetState(MARIO_STATE_SIT);
+			}
+		}
+		else if (game->IsKeyDown(DIK_RIGHT))
+		{
+			if (!mario->GetIsAttack())
+			{
+				if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() < 0)
 				{
-					if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
+					if (mario->GetState() != MARIO_STATE_FLYLING)
 					{
-						mario->SetState(MARIO_STATE_STOP); // dang di thi chuyen sang trang thai danh tay
-					}
-					else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO) // gettickcount64 la ham lay thoi gian hien tai
-					{
-						if (mario->GetState() != MARIO_STATE_JUMP)
+						if (mario->GetState() == MARIO_STATE_WALKING_LEFT || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST) // kiem tra khi bam nut phai thi co dang di ve ben trai khong ?
 						{
-							if (game->IsKeyDown(DIK_LSHIFT))
+							mario->SetState(MARIO_STATE_STOP); // dang di thi chuyen sang trang thai danh tay
+						}
+						else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO) // gettickcount64 la ham lay thoi gian hien tai
+						{
+							if (mario->GetState() != MARIO_STATE_JUMP)
 							{
-								mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
-							}
-							else
-							{
-								mario->SetState(MARIO_STATE_WALKING_RIGHT);
-							}
-							if (game->IsKeyDown(DIK_B))
-							{
-								mario->SetState(MARIO_STATE_HOLD);
+								if (game->IsKeyDown(DIK_LSHIFT))
+								{
+									mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
+								}
+								else
+								{
+									mario->SetState(MARIO_STATE_WALKING_RIGHT);
+								}
+								if (game->IsKeyDown(DIK_B))
+								{
+									mario->SetState(MARIO_STATE_HOLD);
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		if (game->IsKeyDown(DIK_SPACE))
-		{
-			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
-				&&mario->GetState() != MARIO_STATE_FLYLING && mario->GetState()!=MARIO_STATE_LANDING)
+			if (game->IsKeyDown(DIK_SPACE))
 			{
-				if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
+				if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
+					&&mario->GetState() != MARIO_STATE_FLYLING && mario->GetState()!=MARIO_STATE_LANDING)
 				{
- 					mario->SetState(MARIO_STATE_JUMP);
-				}
-			}
-		}
-	}
-	else if (game->IsKeyDown(DIK_SPACE))
-	{
-		if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
-			&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
-		{
-			if ((GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0) && !mario->GetColliTop())
-			{
-				mario->SetState(MARIO_STATE_JUMP);
-			}
-		}
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (!mario->GetIsAttack())
-		{
-			if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() > 0)
-			{
-				if (mario->GetState() != MARIO_STATE_FLYLING)
-				{
-					if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
+					if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
 					{
-						mario->SetState(MARIO_STATE_STOP);
-					}
-					else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
-					{
-						if (mario->GetState() != MARIO_STATE_JUMP)
-						{
-							if (game->IsKeyDown(DIK_LSHIFT))
-							{
-								mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
-							}
-							else mario->SetState(MARIO_STATE_WALKING_LEFT);
-							if (game->IsKeyDown(DIK_B))
-							{
-								mario->SetState(MARIO_STATE_HOLD);
-							}
-						}
+ 						mario->SetState(MARIO_STATE_JUMP);
 					}
 				}
 			}
 		}
-		if (game->IsKeyDown(DIK_SPACE))
+		else if (game->IsKeyDown(DIK_SPACE))
 		{
 			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 				&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 			{
-				if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
+				if ((GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0) && !mario->GetColliTop())
 				{
 					mario->SetState(MARIO_STATE_JUMP);
 				}
 			}
 		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			if (!mario->GetIsAttack())
+			{
+				if (mario->GetState() != MARIO_STATE_LANDING || mario->GetNx() > 0)
+				{
+					if (mario->GetState() != MARIO_STATE_FLYLING)
+					{
+						if (mario->GetState() == MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST)
+						{
+							mario->SetState(MARIO_STATE_STOP);
+						}
+						else if (GetTickCount64() - mario->GetTimeStop() > TIME_STOP_MARIO)
+						{
+							if (mario->GetState() != MARIO_STATE_JUMP)
+							{
+								if (game->IsKeyDown(DIK_LSHIFT))
+								{
+									mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
+								}
+								else mario->SetState(MARIO_STATE_WALKING_LEFT);
+								if (game->IsKeyDown(DIK_B))
+								{
+									mario->SetState(MARIO_STATE_HOLD);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (game->IsKeyDown(DIK_SPACE))
+			{
+				if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
+					&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
+				{
+					if (GetTickCount64() - mario->GetTimeJump() <= TIME_JUMP_MARIO || mario->GetTimeJump() == 0)
+					{
+						mario->SetState(MARIO_STATE_JUMP);
+					}
+				}
+			}
+		}
+		else
+		{
+			if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
+				&& (!mario->GetIsAttack()) && !mario->GetIsFireBall()&& mario->GetIntro()==0)
+			{
+				mario->SetState(MARIO_STATE_IDLE);
+			}
+		}
 	}
 	else
 	{
-		if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
-			&& (!mario->GetIsAttack()) && !mario->GetIsFireBall())
+		if (game->IsKeyDown(DIK_RIGHT))
 		{
-			mario->SetState(MARIO_STATE_IDLE);
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
+		else if(game->IsKeyDown(DIK_LEFT))
+		{
+			mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
+		else if (game->IsKeyDown(DIK_UP))
+		{
+			mario->SetState(MARIO_STATE_START_UP);
+		}
+		else if (game->IsKeyDown(DIK_DOWN))
+		{
+			mario->SetState(MARIO_STATE_START_DOWN);
 		}
 	}
-	
 }

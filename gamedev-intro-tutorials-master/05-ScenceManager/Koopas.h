@@ -56,10 +56,13 @@
 #define KOOPAS_TIME_LIVING 6000
 #define KOOPAS_TIME_DIE 1000
 #define KOOPAS_Y 13
+
+#define KOOPAS_SCORE 100
 class CKoopas : public CGameObject
 {
 	DWORD time = 0;
 	int apperance;
+	int score = KOOPAS_SCORE;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
