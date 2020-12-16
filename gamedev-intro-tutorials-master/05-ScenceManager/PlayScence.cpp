@@ -21,6 +21,7 @@
 #include "Trigger_ChangeCamera.h"
 #include "CTail.h"
 #include "CBroken.h"
+#include "CCheckStop.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):CScene(id, filePath, word, time, intro)
@@ -56,6 +57,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):C
 #define OBJECT_TYPE_ITEM_COIN	11
 #define OBJECT_TYPE_ITEM_SIGN	12
 #define OBJECT_TYPE_BROKEN	13
+#define OBJECT_TYPE_CHECKSTOP 15
 
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_TREE 21
@@ -248,6 +250,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int state = atof(tokens[6].c_str());
 		obj = new Ground(x, y, w, h, state);
 		break; 
+	}
+	case OBJECT_TYPE_CHECKSTOP:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int direction = atof(tokens[6].c_str());
+		obj = new CCheckStop(x, y, w, h, direction);
+		break;
 	}
 	case OBJECT_TYPE_CAMERA:
 	{
@@ -499,27 +509,35 @@ void CPlayScene::Update(DWORD dt)
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 
 	//khoa cam x
-	if (cx < mapCamera.left)
+	if (this->intro == 1)
 	{
-		cx = mapCamera.left;
-	}
-	else if (cx > mapCamera.right- game->GetScreenWidth())
-	{
-		cx = mapCamera.right-game->GetScreenWidth();
-	}
+		CGame::GetInstance()->SetCamPos(camera.left, camera.top/*cy*/);
 
-	//khoa cam y
-	if ((y_mario > camera.top + (game->GetScreenHeight()*1 / 4)) )
-	{
-		CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
-	}
-	else if (y_cam <= mapCamera.top)
-	{
-		CGame::GetInstance()->SetCamPos(cx, y_cam/*cy*/);
 	}
 	else
 	{
-		CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);
+		if (cx < mapCamera.left)
+		{
+			cx = mapCamera.left;
+		}
+		else if (cx > mapCamera.right - game->GetScreenWidth())
+		{
+			cx = mapCamera.right - game->GetScreenWidth();
+		}
+
+		//khoa cam y
+		if ((y_mario > camera.top + (game->GetScreenHeight() * 1 / 4)))
+		{
+			CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
+		}
+		else if (y_cam <= mapCamera.top)
+		{
+			CGame::GetInstance()->SetCamPos(cx, y_cam/*cy*/);
+		}
+		else
+		{
+			CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);
+		}
 	}
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 	tileMap->SetCamera(x_cam, y_cam);
@@ -593,57 +611,93 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	CPlayScene* scene = dynamic_cast<CPlayScene*>(scence);
-	switch (KeyCode)
+	if (mario->GetIntro() == 0)
 	{
-	case DIK_SPACE:
-		if (((abs(mario->GetV()) >= MARIO_WALKING_SPEED_MAX &&
-			(mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE)))
-			|| mario->GetState() == MARIO_STATE_FLYLING || mario->GetState() == MARIO_STATE_LANDING)
+		switch (KeyCode)
 		{
-			mario->SetState(MARIO_STATE_FLYLING);
-		}
-		break;
-	case DIK_W: 
-		mario->Reset();
-		break;
-	case DIK_L:
-		mario->UpLevel();
-		break;
-	case DIK_K:
-		mario->ChangeApperance(MARIO_FOX);
-		break;
-	case DIK_J:
-		mario->ChangeApperance(MARIO_FIRE);
-		break;
-	case DIK_I:
-		mario->ChangeApperance(MARIO_FOX_FIRE);
-		break;
-	case DIK_M:
-		mario->SetState(MARIO_STATE_FLY);
-		break;
-	case DIK_B:
-		mario->SetState(MARIO_STATE_HOLD);
-		break;
-	case DIK_A:
-		if (mario->GetApperance() == MARIO_FIRE)
-		{
-			mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
-		}
-		break;
-	case DIK_D:
-		if (mario->GetApperance() == MARIO_FIRE)
-		{
-			if (mario->GetCountFireBall() < 2)
+		case DIK_SPACE:
+			if (((abs(mario->GetV()) >= MARIO_WALKING_SPEED_MAX &&
+				(mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE)))
+				|| mario->GetState() == MARIO_STATE_FLYLING || mario->GetState() == MARIO_STATE_LANDING)
 			{
-				mario->SetState(MARIO_STATE_FIRE_BALL);
+				mario->SetState(MARIO_STATE_FLYLING);
 			}
-		}
-		else if (mario->GetApperance() == MARIO_FOX)
-		{
-			mario->SetState(MARIO_STATE_ATTACK);
-		}
-		break;
+			break;
+		case DIK_W:
+			mario->Reset();
+			break;
+		case DIK_L:
+			mario->UpLevel();
+			break;
+		case DIK_K:
+			mario->ChangeApperance(MARIO_FOX);
+			break;
+		case DIK_J:
+			mario->ChangeApperance(MARIO_FIRE);
+			break;
+		case DIK_I:
+			mario->ChangeApperance(MARIO_FOX_FIRE);
+			break;
+		case DIK_M:
+			mario->SetState(MARIO_STATE_FLY);
+			break;
+		case DIK_B:
+			mario->SetState(MARIO_STATE_HOLD);
+			break;
+		case DIK_A:
+			if (mario->GetApperance() == MARIO_FIRE)
+			{
+				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+			}
+			break;
+		case DIK_D:
+			if (mario->GetApperance() == MARIO_FIRE)
+			{
+				if (mario->GetCountFireBall() < 2)
+				{
+					mario->SetState(MARIO_STATE_FIRE_BALL);
+				}
+			}
+			else if (mario->GetApperance() == MARIO_FOX)
+			{
+				mario->SetState(MARIO_STATE_ATTACK);
+			}
+			break;
 
+		}
+	}
+	else
+	{
+		switch (KeyCode)
+		{
+		case DIK_RIGHT:
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			break;
+		case DIK_LEFT:
+			mario->SetState(MARIO_STATE_WALKING_LEFT);
+			break;
+		case DIK_UP:
+			mario->SetState(MARIO_STATE_START_UP);
+			break;
+		case DIK_DOWN:
+			mario->SetState(MARIO_STATE_START_DOWN);
+			break;
+		case DIK_W:
+			mario->Reset();
+			break;
+		case DIK_L:
+			mario->UpLevel();
+			break;
+		case DIK_K:
+			mario->ChangeApperance(MARIO_FOX);
+			break;
+		case DIK_J:
+			mario->ChangeApperance(MARIO_FIRE);
+			break;
+		case DIK_I:
+			mario->ChangeApperance(MARIO_FOX_FIRE);
+			break;
+		}
 	}
 }
 
@@ -658,9 +712,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if (mario->GetState() == MARIO_STATE_DIE) return;
 		if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (mario->GetState() != MARIO_STATE_JUMP)
+			if (mario->getisDownPipe())
 			{
-				mario->SetState(MARIO_STATE_SIT);
+				mario->SetState(MARIO_STATE_DOWN);
+			}
+			else
+			{
+				if (mario->GetState() != MARIO_STATE_JUMP)
+				{
+					mario->SetState(MARIO_STATE_SIT);
+				}
 			}
 		}
 		else if (game->IsKeyDown(DIK_RIGHT))
@@ -770,23 +831,5 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			}
 		}
 	}
-	else
-	{
-		if (game->IsKeyDown(DIK_RIGHT))
-		{
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
-		}
-		else if(game->IsKeyDown(DIK_LEFT))
-		{
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
-		}
-		else if (game->IsKeyDown(DIK_UP))
-		{
-			mario->SetState(MARIO_STATE_START_UP);
-		}
-		else if (game->IsKeyDown(DIK_DOWN))
-		{
-			mario->SetState(MARIO_STATE_START_DOWN);
-		}
-	}
+	
 }

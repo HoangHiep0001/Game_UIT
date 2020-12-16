@@ -197,6 +197,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					if (e->ny > 0)
 					{
 						y += dy;
+						vy = 0;
 					}
 					else vy = 0;
 					if (e->nx != 0)
@@ -256,8 +257,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 				if (e->nx != 0)
 				{
-					if (state == KOOPAS_STATE_LIVING_UP||state== KOOPAS_STATE_LIVING_DOWN
-						||state == KOOPAS_STATE_TORTOISESHELL_UP|| state== KOOPAS_STATE_TORTOISESHELL_DOWN)
+					if (state == KOOPAS_STATE_TORTOISESHELL_UP|| state== KOOPAS_STATE_TORTOISESHELL_DOWN)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
 					}

@@ -1,5 +1,6 @@
 #include "ItemLeaves.h"
 #include "PlayScence.h"
+#include "Ground.h"
 
 CLeaves::CLeaves()
 {
@@ -73,7 +74,7 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		x = 14 * sin(y * 0.2f) + ox;;
+		x = 18 * sin(y * 0.25f) + ox;;
 		y += dy;
 	}
 	else
@@ -93,6 +94,38 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	if (y >= start_y - LEAVES_Y)
 	{
 		//vy = -LEAVES_SPEED_Y;
+
+	}
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+		if (dynamic_cast<Ground*>(e->obj))
+		{
+				x += dx;
+				y += dy;
+		}
+		else if (dynamic_cast<CBrick*>(e->obj))
+		{
+			if (e->nx != 0)
+				x += dx;
+			if (e->ny != 0)
+				y += dy;
+		}
+		else if (dynamic_cast<CQuestionMark*>(e->obj))
+		{
+			if (e->nx != 0)
+				x += dx;
+			if (e->ny != 0)
+				y += dy;
+		}
+		else
+		{
+			if (e->nx != 0)
+				x += dx;
+			if (e->ny != 0)
+				y += dy;
+		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }

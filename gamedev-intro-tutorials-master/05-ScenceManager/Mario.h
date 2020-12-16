@@ -48,6 +48,7 @@
 #define MARIO_STATE_START 1900
 #define MARIO_STATE_START_UP 2000
 #define MARIO_STATE_START_DOWN 2100
+#define MARIO_STATE_DOWN 2200
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -70,6 +71,7 @@
 #define MARIO_ANI_SMALL_START 113
 #define MARIO_ANI_SMALL_START_UP 113
 #define MARIO_ANI_SMALL_START_DOWN 113
+#define MARIO_ANI_SMALL_DOWN 118
 #pragma endregion
 
 #pragma region Mario Big
@@ -94,6 +96,7 @@
 #define MARIO_ANI_BIG_START 114
 #define MARIO_ANI_BIG_START_UP 114
 #define MARIO_ANI_BIG_START_DOWN 114
+#define MARIO_ANI_BIG_DOWN 119
 #pragma endregion
 
 #pragma region Mario Big fox
@@ -122,6 +125,7 @@
 #define MARIO_ANI_BIG_FOX_START 115
 #define MARIO_ANI_BIG_FOX_START_UP 115
 #define MARIO_ANI_BIG_FOX_START_DOWN 115
+#define MARIO_ANI_BIG_FOX_DOWN 120
 #pragma endregion
 
 #pragma region Mario big fire
@@ -150,6 +154,7 @@
 #define MARIO_ANI_BIG_FIRE_START 116
 #define MARIO_ANI_BIG_FIRE_START_UP 116
 #define MARIO_ANI_BIG_FIRE_START_DOWN 116
+#define MARIO_ANI_BIG_FIRE_DOWN 121
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -178,6 +183,7 @@
 #define MARIO_ANI_BIG_FOX_FIRE_START 117
 #define MARIO_ANI_BIG_FOX_FIRE_START_UP 117
 #define MARIO_ANI_BIG_FOX_FIRE_START_DOWN 117
+#define MARIO_ANI_BIG_FOX_FIRE_DOWN 122
 #pragma endregion
 
 #define MARIO_ANI_DIE 8
@@ -193,6 +199,9 @@
 #define MARIO_FOX_FIRE	3
 
 //bbox
+#define MARIO_BIG_BBOX	13
+#define MARIO_FOX_BBOX	1
+
 #define MARIO_BIG_BBOX_WIDTH  16
 #define MARIO_BIG_BBOX_HEIGHT 27
 
@@ -256,10 +265,13 @@ class CMario : public CGameObject
 	bool is_tail = false;
 	bool is_fall_slow = false;
 	bool is_colii_top = false;
+	bool is_die = false;
 
 	CTail* tail;
+
+	bool isDownPipe = false;
 public: 
-	
+	bool getisDownPipe() { return this->isDownPipe; }
 	int GetIntro() {return this->intro; }
 	bool GetColliTop() { return this->is_colii_top; }
 	int GetScore() { return this->score; }

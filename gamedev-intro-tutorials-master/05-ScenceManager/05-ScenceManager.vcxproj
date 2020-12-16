@@ -128,6 +128,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="CBroken.cpp" />
+    <ClCompile Include="CCheckStop.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CTail.cpp" />
     <ClCompile Include="CTree.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="CBroken.h" />
+    <ClInclude Include="CCheckStop.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CTail.h" />
     <ClInclude Include="CTree.h" />

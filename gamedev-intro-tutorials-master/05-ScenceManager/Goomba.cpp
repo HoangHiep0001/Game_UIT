@@ -119,6 +119,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					if (e->ny > 0)
 					{
 						y += dy;
+						vy = 0;
 					}
 					if (e->nx != 0)
 					{
@@ -128,6 +129,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					}
 					if (e->ny < 0)
 					{
+						vy = 0;
 						Updateflyling();
 					}
 				}

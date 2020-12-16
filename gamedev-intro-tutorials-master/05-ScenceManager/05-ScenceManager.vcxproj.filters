@@ -156,6 +156,9 @@
     <ClCompile Include="CBroken.cpp">
       <Filter>Object\StaticOject</Filter>
     </ClCompile>
+    <ClCompile Include="CCheckStop.cpp">
+      <Filter>Object\StaticOject\Trigger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="CBroken.h">
       <Filter>Object\StaticOject</Filter>
+    </ClInclude>
+    <ClInclude Include="CCheckStop.h">
+      <Filter>Object\StaticOject\Trigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

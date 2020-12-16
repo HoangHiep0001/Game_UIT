@@ -172,7 +172,7 @@
   <object id="36" x="146.5" y="444.5" width="21" height="28"/>
  </objectgroup>
  <objectgroup id="8" name="Object Layer 7">
-  <object id="38" x="215" y="-0.0909091" width="16" height="23.0909"/>
+  <object id="38" x="15.8958" y="48.9299" width="16" height="23.0909"/>
  </objectgroup>
  <objectgroup id="5" name="mario fire">
   <object id="15" name="cầm  rùa phải" x="356" y="763" width="16" height="27">

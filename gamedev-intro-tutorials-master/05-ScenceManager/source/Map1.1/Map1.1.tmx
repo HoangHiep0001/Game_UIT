@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="28">
+<map version="1.4" tiledversion="2020.10.30" orientation="orthogonal" renderorder="right-down" width="176" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="30">
  <tileset firstgid="1" source="SuperMarioBros3Map1.tsx"/>
  <layer id="1" name="Tile Layer 1" width="176" height="41">
   <data encoding="csv">
@@ -74,5 +74,7 @@
   <object id="25" name="maro" x="2106" y="496" width="13" height="27"/>
   <object id="26" x="2320.24" y="483.576" width="16.6667" height="15"/>
   <object id="27" x="1431" y="159.333" width="18.6667" height="31.3333"/>
+  <object id="28" x="352" y="361.5" width="31" height="3.5"/>
+  <object id="29" x="353" y="399" width="29" height="14"/>
  </objectgroup>
 </map>
