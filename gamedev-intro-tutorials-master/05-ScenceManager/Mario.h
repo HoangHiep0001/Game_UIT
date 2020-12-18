@@ -3,14 +3,17 @@
 #include "FireBall.h"
 #include"Game.h"
 #include "CTail.h"
+#include "CPortalintro.h"
 
-
-#define MARIO_WALKING_SPEED		0.15f 
+#define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_SPEED_MAX	0.3f 
 #define MARIO_FLYING_SPEED_X	0.15f 
 #define MARIO_LANDING_SPEED_X	0.15f
 #define MARIO_ACCELERATION	0.0003f
 #define	MARIO_ACCELERATION_STOP	0.0008f
+#define MARIO_START	0.1f
+#define MARIO_START_UP	0.1f
+#define MARIO_START_DOWN	0.1f
 
 //0.1f
 #define MARIO_BIG_JUMP_SPEED_Y	0.25f
@@ -49,6 +52,7 @@
 #define MARIO_STATE_START_UP 2000
 #define MARIO_STATE_START_DOWN 2100
 #define MARIO_STATE_DOWN 2200
+#define MARIO_STATE_UP 2300
 #pragma endregion
 //animation
 #pragma region Mario_small
@@ -72,6 +76,7 @@
 #define MARIO_ANI_SMALL_START_UP 113
 #define MARIO_ANI_SMALL_START_DOWN 113
 #define MARIO_ANI_SMALL_DOWN 118
+#define MARIO_ANI_SMALL_UP 118
 #pragma endregion
 
 #pragma region Mario Big
@@ -97,6 +102,7 @@
 #define MARIO_ANI_BIG_START_UP 114
 #define MARIO_ANI_BIG_START_DOWN 114
 #define MARIO_ANI_BIG_DOWN 119
+#define MARIO_ANI_BIG_UP 119
 #pragma endregion
 
 #pragma region Mario Big fox
@@ -126,6 +132,7 @@
 #define MARIO_ANI_BIG_FOX_START_UP 115
 #define MARIO_ANI_BIG_FOX_START_DOWN 115
 #define MARIO_ANI_BIG_FOX_DOWN 120
+#define MARIO_ANI_BIG_FOX_UP 120
 #pragma endregion
 
 #pragma region Mario big fire
@@ -155,6 +162,7 @@
 #define MARIO_ANI_BIG_FIRE_START_UP 116
 #define MARIO_ANI_BIG_FIRE_START_DOWN 116
 #define MARIO_ANI_BIG_FIRE_DOWN 121
+#define MARIO_ANI_BIG_FIRE_UP 121
 #pragma endregion 
 
 #pragma region Mario big fox fire
@@ -184,6 +192,7 @@
 #define MARIO_ANI_BIG_FOX_FIRE_START_UP 117
 #define MARIO_ANI_BIG_FOX_FIRE_START_DOWN 117
 #define MARIO_ANI_BIG_FOX_FIRE_DOWN 122
+#define MARIO_ANI_BIG_FOX_FIRE_UP 122
 #pragma endregion
 
 #define MARIO_ANI_DIE 8
@@ -266,12 +275,29 @@ class CMario : public CGameObject
 	bool is_fall_slow = false;
 	bool is_colii_top = false;
 	bool is_die = false;
-
+	float mario_x;
+	float mario_y;
 	CTail* tail;
 
 	bool isDownPipe = false;
+	bool isUpPipe = false;
+	bool isStatePipe = false;
+
+	CPortalintro* portal;
+	bool isInPortal=false;
+
+	bool isSpawnTail = false;
 public: 
+	
+	bool GetStatePipe() { return this->isStatePipe; }
+	void SetisUpPipe(bool isup) { isUpPipe = isup; }
+	bool GetisUpPipe() { return this->isUpPipe; }
+	void SetisDownPipe(bool isdown) { isDownPipe = isdown; }
 	bool getisDownPipe() { return this->isDownPipe; }
+
+	CPortalintro* GetPortal() { return this->portal; }
+	bool GetIsInPortal() { return this->isInPortal; }
+
 	int GetIntro() {return this->intro; }
 	bool GetColliTop() { return this->is_colii_top; }
 	int GetScore() { return this->score; }
@@ -327,5 +353,6 @@ public:
 		this->score = CGame::GetInstance()->GetProperties()->GetScore();
 		this->life = CGame::GetInstance()->GetProperties()->GetLife();
 		this->coin_number = CGame::GetInstance()->GetProperties()->GetCoin_numer();
+		this->SetPosition(CGame::GetInstance()->GetProperties()->GetX(), CGame::GetInstance()->GetProperties()->GetY());
 	}
 };

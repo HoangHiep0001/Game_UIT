@@ -11,7 +11,6 @@ class SceneProperties
 	float marioy;
 
 	//scene properties
-	int time;
 	int coin_numer;
 
 public:
@@ -24,16 +23,14 @@ public:
 		mario_apperance = 0;
 		mariox = 0;
 		marioy = 0;
-		time = 0;
 		coin_numer = 0;
 	};
-	void SetSceneProperties(int l, int s,int level, int a,int t,int n)
+	void SetSceneProperties(int l, int s,int level, int a,int n)
 	{
 		life = l;
 		score = s;
 		mario_level = level;
 		mario_apperance = a;
-		time = t;
 		coin_numer = n;
 	}
 	void SetMarioPosition(float x, float y)
@@ -49,7 +46,6 @@ public:
 	int GetScore() { return this->score; }
 	int GetLevel() { return this->mario_level; }
 	int GetApperance() { return this->mario_apperance; }
-	int Gettime() { return this->time; }
 	int GetCoin_numer() { return this->coin_numer; }
 };
 

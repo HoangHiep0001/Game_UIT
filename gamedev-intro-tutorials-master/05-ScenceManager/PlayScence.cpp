@@ -22,6 +22,7 @@
 #include "CTail.h"
 #include "CBroken.h"
 #include "CCheckStop.h"
+#include "CPortalintro.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):CScene(id, filePath, word, time, intro)
@@ -64,6 +65,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):C
 #define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_TRIGGERPIPES 41
 #define OBJECT_TYPE_TRIGGER_CHANGE_CAMERA 42
+#define OBJECT_TYPE_PORTALINTRO	49
 #define OBJECT_TYPE_PORTAL	50
 
 
@@ -294,6 +296,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id,mariox,marioy);
 	}
 	break;
+	case OBJECT_TYPE_PORTALINTRO:
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		float mariox = atof(tokens[7].c_str());
+		float marioy = atof(tokens[8].c_str());
+		obj = new CPortalintro(x, y, r, b, scene_id, mariox, marioy);
+	}
+	break;
 
 	case OBJECT_TYPE_MUSHROOMS:
 	{
@@ -461,8 +473,6 @@ void CPlayScene::Load()
 	if (CGame::GetInstance()->GetProperties()->GetFlag())
 	{
 		player->SetMarioProperties();
-		time = CGame::GetInstance()->GetProperties()->Gettime();
-	
 	}
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -560,12 +570,11 @@ void CPlayScene::Unload()
 {
 	if (player != NULL)
 	{
-		CGame::GetInstance()->SetSceneProperties(player->GetLife(), player->GetScore(), player->GetLevel(), player->GetApperance(), this->time,player->GetCoin_number());
+		CGame::GetInstance()->SetSceneProperties(player->GetLife(), player->GetScore(), player->GetLevel(), player->GetApperance(),player->GetCoin_number());
 		CGame::GetInstance()->GetProperties()->SetFlag();
 	}
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
-
 	player = NULL;
 	objects.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -623,6 +632,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FLYLING);
 			}
 			break;
+		
 		case DIK_W:
 			mario->Reset();
 			break;
@@ -670,6 +680,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		switch (KeyCode)
 		{
+		case DIK_S:
+			if (mario->GetIsInPortal()) {
+				CGame::GetInstance()->GetProperties()->SetMarioPosition(mario->GetPortal()->GetMarioX(), mario->GetPortal()->GetMarioY());
+				CGame::GetInstance()->SwitchScene(mario->GetPortal()->GetSceneId());
+			}
+			break;
 		case DIK_RIGHT:
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 			break;
@@ -771,8 +787,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (game->IsKeyDown(DIK_SPACE))
 		{
-			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
-				&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
+			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 			{
 				if ((GetTickCount64()-mario->GetTimeJump()<= TIME_JUMP_MARIO ||mario->GetTimeJump()==0) && !mario->GetColliTop())
 				{
@@ -822,9 +837,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				}
 			}
 		}
+		else if (game->IsKeyDown(DIK_UP))
+		{
+			if (mario->GetisUpPipe())
+			{
+				mario->SetState(MARIO_STATE_UP);
+			}
+		}
 		else
 		{
-			if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE)
+			if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE && mario->GetState() != MARIO_STATE_UP&&mario->GetState()!=MARIO_STATE_DOWN)
 				&& (!mario->GetIsAttack()) && !mario->GetIsFireBall()&& mario->GetIntro()==0)
 			{
 				mario->SetState(MARIO_STATE_IDLE);

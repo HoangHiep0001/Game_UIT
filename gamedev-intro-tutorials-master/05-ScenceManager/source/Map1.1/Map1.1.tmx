@@ -51,7 +51,7 @@
   <object id="2" x="2352" y="464" width="1" height="64"/>
   <object id="3" x="2096" y="464" width="32" height="32"/>
   <object id="4" x="2128" y="479" width="192" height="1"/>
-  <object id="5" x="2320" y="464" width="32" height="32"/>
+  <object id="5" x="2320.5" y="464" width="31.5" height="32.5"/>
   <object id="6" x="2096" y="624" width="128" height="1"/>
   <object id="7" x="2304" y="528" width="48" height="16"/>
   <object id="8" x="2256" y="576" width="16" height="16"/>
@@ -72,7 +72,7 @@
   <object id="23" name="tien" x="2224" y="503" width="16" height="16"/>
   <object id="24" name="tien" x="2176" y="503" width="16" height="16"/>
   <object id="25" name="maro" x="2106" y="496" width="13" height="27"/>
-  <object id="26" x="2320.24" y="483.576" width="16.6667" height="15"/>
+  <object id="26" x="2325.74" y="505.576" width="16.6667" height="15"/>
   <object id="27" x="1431" y="159.333" width="18.6667" height="31.3333"/>
   <object id="28" x="352" y="361.5" width="31" height="3.5"/>
   <object id="29" x="353" y="399" width="29" height="14"/>

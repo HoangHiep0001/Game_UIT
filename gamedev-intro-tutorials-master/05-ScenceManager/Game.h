@@ -55,9 +55,9 @@ public:
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 256);
 
-	void SetSceneProperties(int l, int s, int level, int a, int t,int n)
+	void SetSceneProperties(int l, int s, int level, int a,int n)
 	{
-		sceneporperties->SetSceneProperties(l, s, level, a, t,n);
+		sceneporperties->SetSceneProperties(l, s, level, a,n);
 	}
 	SceneProperties* GetProperties() {
 		return this->sceneporperties;

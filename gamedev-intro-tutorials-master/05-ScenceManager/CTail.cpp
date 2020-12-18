@@ -5,19 +5,33 @@
 CTail::CTail(CScene* scene,int dir)
 {
 	nx = dir;
+	this->tailHead = new CTailPoint(dir);
+	this->tailLast = new CTailPoint(dir);
+
 }
 
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + TAIL_BBOX_WIDTH;
-	bottom = y + TAIL_BBOX_HEIGHT;
-
 	if (isDestroy)
+		return;
+	float xh, yh, xl, yl;
+
+	tailHead->GetPosition(xh, yh);
+	tailLast->GetPosition(xl, yl);
+
+	if (xh < xl)
 	{
-		right = 0;
-		bottom = 0;
+		left = xh;
+		top = yh;
+		right = xl;
+		bottom = top + TAIL_BBOX_HEIGHT;
+	}
+	else
+	{
+		left = xl;
+		top = yl;
+		right = xh;
+		bottom = top + TAIL_BBOX_HEIGHT;
 	}
 }
 
@@ -27,28 +41,25 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 	CMario* mario = pc->GetPlayer();
-	if (mario->GetIsTail())
-	{
-		if (mario->GetLevel() == MARIO_LEVEL_BIG)
-		{
-			if (mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE)
-			{
-				if (mario->nx > 0)
-				{
-					x = mario->x - 8;
-					y = mario->y + 19;
-				}
-				else
-				{
-					x = mario->x + MARIO_BIG_BBOX_WIDTH;
-					y = mario->y + 19;
-				}
 
-			}
-		}
-	}
-	
 	CGameObject::Update(dt, scene, coObjects);
+
+	float xh, yh, xl, yl;
+	
+	tailHead->GetPosition(xh, yh);
+	tailLast->GetPosition(xl, yl);
+
+	if (xh < xl)
+	{
+		x = xh;
+		y = yh;
+	}
+	else
+	{
+		x = xl;
+		y = yl;
+	}
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -96,9 +107,9 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 				if (e->nx != 0)
 				{
-					if (goomba->GetState() == GOOMBA_STATE_WALKING)
+					if (goomba->state == GOOMBA_STATE_WALKING)
 					{
-						SetState(GOOMBA_STATE_WALKING_DOWN);
+						goomba->SetState(GOOMBA_STATE_WALKING_DOWN);
 					}
 					else if (goomba->GetState() == GOOMBA_STATE_FLYLING)
 					{
@@ -108,10 +119,6 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						SetState(GOOMBA_STATE_WALKING_WING_DOWN);
 					}
-				}
-				if(e->ny!=0)
-				{
-					vy = 0;
 				}
 			}
 			else if(dynamic_cast<CBrick*>(e->obj))
@@ -135,6 +142,7 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CQuestionMark*>(e->obj))
 			{
 				CQuestionMark* question = dynamic_cast<CQuestionMark*>(e->obj);
+				
 				if (question->GetState() == MARK_STATE_QUESTION || question->GetState() == MARK_STATE_N_EMPTY)
 				{
 					question->SetItemCount(question->GetItemCount() - 1);

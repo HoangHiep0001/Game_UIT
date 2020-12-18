@@ -46,20 +46,25 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		isQuestionBroken = true;
 	}
-	if (state==BRICK_ANI_BRICK)
+	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	/*if (state==BRICK_ANI_BRICK)
 	{
 		CBroken* topLeftPiece = new CBroken({ x - 1, y - 2 }, -1, -1);
 		CBroken* topRightPiece = new CBroken({ x + 9, y - 2 }, 1, -1);
 		CBroken* bottomLeftPiece = new CBroken({ x - 1, y + 10 }, -1, 1);
 		CBroken* bottomRightPiece = new CBroken({ x + 9, y + 10 }, 1, 1);
-		
+		pc->SpawnObject(topLeftPiece);
+		pc->SpawnObject(topRightPiece);
+		pc->SpawnObject(bottomLeftPiece);
+		pc->SpawnObject(bottomRightPiece);
+
 		is_broken = true;
-	}
+	}*/
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
 	y += dy;
 
-	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+
 	
 	if (this->item_state == 0)
 	{
