@@ -241,32 +241,35 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (e->nx != 0)
 					{
-						if (goomba->GetState() != GOOMBA_STATE_DIE)
+						if (state != MARIO_STATE_ATTACK)
 						{
-							if (level > MARIO_LEVEL_SMALL)
+							if (goomba->GetState() == GOOMBA_STATE_FLYLING || goomba->GetState() == GOOMBA_STATE_WALKING || goomba->GetState() == GOOMBA_STATE_WALKING_WING)
 							{
-								if (apperance == MARIO_NORMAL)
+								if (level > MARIO_LEVEL_SMALL)
 								{
-									level = MARIO_LEVEL_SMALL;
-									StartUntouchable();
+									if (apperance == MARIO_NORMAL)
+									{
+										level = MARIO_LEVEL_SMALL;
+										StartUntouchable();
+									}
+									else if (apperance == MARIO_FOX)
+									{
+										apperance = MARIO_NORMAL;
+										level = MARIO_LEVEL_BIG;
+										StartUntouchable();
+									}
+									else if (apperance == MARIO_FIRE)
+									{
+										apperance = MARIO_NORMAL;
+										level = MARIO_LEVEL_SMALL;
+										StartUntouchable();
+									}
 								}
-								else if (apperance == MARIO_FOX)
+								else
 								{
-									apperance = MARIO_NORMAL;
-									level = MARIO_LEVEL_BIG;
-									StartUntouchable();
+									this->score += goomba->GetScore();
+									SetState(MARIO_STATE_DIE);
 								}
-								else if (apperance == MARIO_FIRE)
-								{
-									apperance = MARIO_NORMAL;
-									level = MARIO_LEVEL_SMALL;
-									StartUntouchable();
-								}
-							}
-							else
-							{
-								this->score += goomba->GetScore();
-								SetState(MARIO_STATE_DIE);
 							}
 						}
 					}
@@ -368,7 +371,17 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								koopas->nx = -nx;
 								koopas->SetState(KOOPAS_STATE_TORTOISESHELL_DOWN);
 							}
-							else if (koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_UP || koopas->GetState() ==KOOPAS_STATE_TORTOISESHELL_DOWN|| koopas->GetState()==KOOPAS_STATE_WALKING  ||koopas->GetState() == KOOPAS_STATE_FLYLING )
+						}
+						else if (state == MARIO_STATE_HOLD)
+						{
+							if (koopas->state == (KOOPAS_STATE_LIVING_UP) || koopas->state == (KOOPAS_STATE_LIVING_DOWN))
+							{
+								koopas->SetIsPick(true);
+							}
+						}
+						else if (state != MARIO_STATE_ATTACK)
+						{
+							if (koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_UP || koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_DOWN || koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState() == KOOPAS_STATE_FLYLING)
 							{
 								if (level > MARIO_LEVEL_SMALL)
 								{
@@ -391,14 +404,9 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 									}
 								}
 								else
+								{
 									SetState(MARIO_STATE_DIE);
-							}
-						}
-						else if (state == MARIO_STATE_HOLD)
-						{
-							if (koopas->state == (KOOPAS_STATE_LIVING_UP) || koopas->state == (KOOPAS_STATE_LIVING_DOWN))
-							{
-								koopas->SetIsPick(true);
+								}
 							}
 						}
 					}
@@ -605,12 +613,16 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					this->life++;
 					mushrooms->Destroy();
-				}	
+				}
 				if (e->nx != 0)
 					x += dx;
 				if (e->ny < 0)
- 					y += dy;
-            }
+				{
+					y += dy;
+				}
+				
+
+            }			
 			else if(dynamic_cast<CLeaves*>(e->obj))
 			{
 				CLeaves* leaves = dynamic_cast<CLeaves*>(e->obj);
@@ -775,29 +787,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	bool flagOnGround = false;
-	//for (std::size_t i = 0; i < coObjects->size(); i++)
-	//{
-	//	LPGAMEOBJECT e = coObjects->at(i);
-	//	if (dynamic_cast<Ground*>(e) && !flagOnGround)
-	//	{
-	//		Ground* f = dynamic_cast<Ground*> (e);
-
-	//		float l, t, r, b, el, et, er, eb;
-	//		this->GetBoundingBox(l, t, r, b);
-	//		b = b + 15;
-	//		f->GetBoundingBox(el, et, er, eb);
-	//		if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
-	//		{
-	//			flagOnGround = true;
-	//		}
-	//	}
-	//}
-
-	//if (!flagOnGround && this->state != MARIO_STATE_JUMP
-	//	&& this->state != MARIO_STATE_FLYLING)
-	//{
-	//	this->state = MARIO_STATE_IDLE;
-	//}
 	if (level == MARIO_LEVEL_BIG)
 	{
 		if (apperance == MARIO_FOX||apperance== MARIO_FOX_FIRE)
@@ -809,14 +798,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				if (nx > 0)
 				{
 					CTailPoint* head = tail->GettailHead();
-					head->SetPosition(x + 10 - TAIL_BBOX_WIDTH, y + 19);
+					head->SetPosition(x + TAIL_POINT_WIDTH - TAIL_BBOX_WIDTH, y + TAIL_POINT_HEIGHT);
 					head->SetState(TAIL_HEAD);
-					head->SetStartX(x + 10 - TAIL_BBOX_WIDTH);
-
+					head->SetStartX(x + TAIL_POINT_WIDTH - TAIL_BBOX_WIDTH);
 					CTailPoint* last = tail->GettailLast();
-					last->SetPosition(x + 10, y + 19);
+					last->SetPosition(x + TAIL_POINT_WIDTH, y + TAIL_POINT_HEIGHT);
 					last->SetState(TAIL_LAST);
-
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 					pc->SpawnObject(head);
 					pc->SpawnObject(last);
@@ -826,11 +813,12 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					CTailPoint* head = tail->GettailHead();
-					head->SetPosition(x + 8 + TAIL_BBOX_WIDTH, y + 19);
-
+					head->SetPosition(x + TAIL_POINT_WIDTH + TAIL_BBOX_WIDTH, y + TAIL_POINT_HEIGHT);
+					head->SetState(TAIL_HEAD);
+					head->SetStartX(x + TAIL_POINT_WIDTH + TAIL_BBOX_WIDTH);
 					CTailPoint* last = tail->GettailLast();
-					last->SetPosition(x+8, y + 19);
-
+					last->SetPosition(x+ TAIL_POINT_WIDTH, y + TAIL_POINT_HEIGHT);
+					last->SetState(TAIL_LAST);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 					pc->SpawnObject(head);
 					pc->SpawnObject(last);

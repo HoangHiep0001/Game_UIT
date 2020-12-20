@@ -190,11 +190,11 @@ void CGameObject::RenderBoundingBox()
 			{
 				if (isSit == false)
 				{
-					CGame::GetInstance()->Draw(x + TIAL_BBOX_OFFSET, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+					CGame::GetInstance()->Draw(x + TIAL_BBOX_OFFSET, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 180);
 				}
 				else
 				{
-					CGame::GetInstance()->Draw(x + TIAL_BBOX_OFFSET, y + SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+					CGame::GetInstance()->Draw(x + TIAL_BBOX_OFFSET, y + SIT_BBOX_OFFSET, bbox, rect.left, rect.top, rect.right, rect.bottom, 180);
 				}
 			}
 		}
@@ -202,7 +202,7 @@ void CGameObject::RenderBoundingBox()
 		{
 			if (isStatemario == false)
 			{
-				CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 180);
+				CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
 			}
 			else
 			{

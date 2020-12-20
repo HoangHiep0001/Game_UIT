@@ -2,8 +2,8 @@
 #include "GameObject.h"
 #include "CTailPoint.h"
 
-#define TAIL_BBOX_WIDTH 16
-#define TAIL_BBOX_HEIGHT 4
+#define TAIL_BBOX_WIDTH 10
+#define TAIL_BBOX_HEIGHT 1
 
 
 class CTail : public CGameObject

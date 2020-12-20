@@ -713,7 +713,7 @@
   <object id="31" x="208" y="80" width="16" height="16"/>
   <object id="32" x="224" y="80" width="16" height="16"/>
   <object id="33" x="240" y="80" width="16" height="16"/>
-  <object id="34" x="160" y="96" width="16" height="16"/>
+  <object id="34" x="160.125" y="95.5" width="16" height="16"/>
   <object id="35" x="176" y="96" width="16" height="16"/>
   <object id="36" x="32" y="112" width="16" height="16"/>
   <object id="37" x="224" y="32" width="16" height="16"/>
@@ -750,6 +750,6 @@
   <object id="68" name="4" x="144" y="80" width="16" height="1"/>
   <object id="69" name="4" x="80" y="112" width="16" height="1"/>
   <object id="70" name="4" x="80" y="147" width="16" height="1"/>
-  <object id="71" x="80.3333" y="32.3333" width="15.3333" height="14.3333"/>
+  <object id="71" x="80.3333" y="32.3333" width="16" height="16"/>
  </objectgroup>
 </map>

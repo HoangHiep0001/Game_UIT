@@ -68,10 +68,10 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (state == GOOMBA_STATE_DIE||state==GOOMBA_STATE_FLYLING_DOWN|| state == GOOMBA_STATE_WALKING_DOWN||state==GOOMBA_STATE_WALKING_WING_DOWN)
 	{
-		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
+		/*if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
 		{
 			Destroy();
-		}
+		}*/
 	}
 	
 	CGameObject::Update(dt, scene,coObjects);
@@ -114,37 +114,45 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
+				if (state==GOOMBA_STATE_FLYLING||state==GOOMBA_STATE_WALKING||state== GOOMBA_STATE_WALKING_WING)
 				{
-					if (e->ny > 0)
+					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 1)
 					{
-						y += dy;
-						vy = 0;
+						if (e->ny > 0)
+						{
+							y += dy;
+							vy = 0;
+						}
+						if (e->nx != 0)
+						{
+							this->nx = -this->nx;
+							vx = -vx;
+
+						}
+						if (e->ny < 0)
+						{
+							vy = 0;
+							Updateflyling();
+						}
 					}
-					if (e->nx != 0)
+					if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
 					{
-						this->nx = -this->nx;
-						vx = -vx;
-						
-					}
-					if (e->ny < 0)
-					{
-						vy = 0;
-						Updateflyling();
+						if (e->ny < 0)
+						{
+							vy = 0;
+							Updateflyling();
+						}
+						if (e->nx != 0)
+						{
+							this->nx = -this->nx;
+							vx = -vx;
+						}
 					}
 				}
-				if (dynamic_cast<Ground*>(e->obj)->GetGroundState() == 0)
+				else
 				{
-					if (e->ny < 0)
-					{
-						vy = 0;
-						Updateflyling();
-					}
-					if (e->nx != 0)
-					{
-						this->nx = -this->nx;
-						vx = -vx;
-					}
+					x += dx;
+					y += dy;
 				}
 		
 			}

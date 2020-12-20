@@ -148,10 +148,12 @@ void CMushrooms::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable
 			}
 			else
 			{
-				if (e->nx != 0)
 					x += dx;
 				if (e->ny != 0)
+				{
+					vy = 0;
 					y += dy;
+				}
 			}
 		}
 	}

@@ -289,8 +289,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-				if (state == KOOPAS_STATE_LIVING_UP || state == KOOPAS_STATE_LIVING_DOWN
-					|| state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+				if (state == KOOPAS_STATE_LIVING_UP || state == KOOPAS_STATE_LIVING_DOWN|| state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
 				{
 					koopas->SetState(KOOPAS_STATE_DIE_DOWN);
 					if (GetTickCount64()-time> KOOPAS_TIME_DIE)
@@ -308,10 +307,8 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				if (e->nx != 0)
-					x += dx;
-				if (e->ny != 0)
-					y += dy;
+				x += dx;
+				y += dy;
 			}
 		}
 	}

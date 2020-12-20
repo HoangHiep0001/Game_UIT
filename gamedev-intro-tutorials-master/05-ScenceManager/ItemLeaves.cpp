@@ -64,7 +64,7 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
 
-	vy = LEAVES_SPEED_Y;
+	vy = LEAVES_GRAVITY;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -87,13 +87,8 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		x = 14 * sin(y * 0.2f) + ox;;
+		x = 18 * sin(y * 0.25f) + ox;;
 		y += dy;
-
-	}
-	if (y >= start_y - LEAVES_Y)
-	{
-		//vy = -LEAVES_SPEED_Y;
 
 	}
 	for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -106,16 +101,12 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 		}
 		else if (dynamic_cast<CBrick*>(e->obj))
 		{
-			if (e->nx != 0)
 				x += dx;
-			if (e->ny != 0)
 				y += dy;
 		}
 		else if (dynamic_cast<CQuestionMark*>(e->obj))
 		{
-			if (e->nx != 0)
 				x += dx;
-			if (e->ny != 0)
 				y += dy;
 		}
 		else
