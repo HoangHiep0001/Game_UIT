@@ -4,6 +4,7 @@
 #include "QuestionMark.h"
 #include "Utils.h"
 #include "Koopas.h"
+#include "PlayScence.h"
 
 CGoomba::CGoomba(int appe)
 {
@@ -54,24 +55,32 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 }
 void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 {
-	if (isDestroy)
-	{
-		return;
-	}
 	if (!CheckInCamera())
 	{
+		if (isDestroy)
+		{
+			this->SetState(state_goomba);
+			isDestroy = false;
+		}
 		return;
 	}
+
+	if (isDestroy)
+	{
+		this->SetPosition(startx, starty);
+		return;
+	}
+
 	if (time_die > 0)
 	{
 		DebugOut(L"[ERROR] Sprite ID %d cannot be found!\n", (GetTickCount64()-time_die));
 	}
 	if (state == GOOMBA_STATE_DIE||state==GOOMBA_STATE_FLYLING_DOWN|| state == GOOMBA_STATE_WALKING_DOWN||state==GOOMBA_STATE_WALKING_WING_DOWN)
 	{
-		/*if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
+		if ((GetTickCount64() - time_die) >= GOOMBA_TIME_DIE&&time_die>0)
 		{
 			Destroy();
-		}*/
+		}
 	}
 	
 	CGameObject::Update(dt, scene,coObjects);
@@ -87,10 +96,13 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 
 	vy += GOOMBA_GRAVITY * dt;
 
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+
+
 
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
@@ -149,11 +161,7 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 						}
 					}
 				}
-				else
-				{
-					x += dx;
-					y += dy;
-				}
+
 		
 			}
 			else if (dynamic_cast<CBrick*>(e->obj))
@@ -195,7 +203,24 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+	for (std::size_t i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT e = coObjects->at(i);
+		if (dynamic_cast<Ground*>(e))
+		{
+			Ground* f = dynamic_cast<Ground*> (e);
 
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			f->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (b > et && state!=GOOMBA_STATE_FLYLING)
+					vy = 0;
+			}
+		}
+	}
 
 }
 

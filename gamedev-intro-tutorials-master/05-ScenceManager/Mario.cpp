@@ -109,7 +109,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	if (GetIntro()==0)
 	{
-		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN)
+		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN )
 		{
 			vy += MARIO_GRAVITY * dt;
 		}
@@ -316,14 +316,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						}
 						if (koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_UP)
 						{
-							if (koopas->GetApperance() == KOOPAS_RED)
-							{
-								koopas->SetState(KOOPAS_STATE_LIVING_UP);
-							}
-							if (koopas->GetApperance() == KOOPAS_BULE)
-							{
-								koopas->SetState(KOOPAS_STATE_LIVING_UP);
-							}
+							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
 					}
@@ -661,7 +654,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CFireBallCacTus*>(e->obj))
 			{
-				if (untouchable == 0)
+				/*if (untouchable == 0)
 				{
 					CFireBallCacTus* FireBall = dynamic_cast<CFireBallCacTus*>(e->obj);
 
@@ -690,14 +683,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						SetState(MARIO_STATE_DIE);
 						FireBall->Destroy();
 					}
-				}
-				else
+				}*/
+				/*else
 				{
 					if (e->nx != 0)
 						x += dx;
 					if (e->ny != 0)
 						y += dy;
-				}
+				}*/
 			}
 			else if (dynamic_cast<CCheckStop*>(e->obj))
 			{
@@ -787,6 +780,46 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	bool flagOnGround = false;
+	for (std::size_t i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT e = coObjects->at(i);
+		if (dynamic_cast<Ground*>(e) && !flagOnGround)
+		{
+			Ground* f = dynamic_cast<Ground*> (e);
+
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b ;
+			f->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (b > et && state != MARIO_STATE_JUMP && state!=MARIO_STATE_FLYLING)
+				{
+					flagOnGround = true;
+				}
+			}
+		}
+		if (dynamic_cast<CLeaves*>(e))
+		{
+			CLeaves* leaves = dynamic_cast<CLeaves*>(e);
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			leaves->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (level == MARIO_LEVEL_BIG)
+				{
+					this->y -= MARIO_FOX_BBOX;
+					ChangeApperance(MARIO_FOX);
+					leaves->Destroy();
+					this->score += leaves->GetScore();
+				}
+			}
+		}
+	}
+
+
 	if (level == MARIO_LEVEL_BIG)
 	{
 		if (apperance == MARIO_FOX||apperance== MARIO_FOX_FIRE)
@@ -798,12 +831,13 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				if (nx > 0)
 				{
 					CTailPoint* head = tail->GettailHead();
-					head->SetPosition(x + TAIL_POINT_WIDTH - TAIL_BBOX_WIDTH, y + TAIL_POINT_HEIGHT);
-					head->SetState(TAIL_HEAD);
-					head->SetStartX(x + TAIL_POINT_WIDTH - TAIL_BBOX_WIDTH);
 					CTailPoint* last = tail->GettailLast();
-					last->SetPosition(x + TAIL_POINT_WIDTH, y + TAIL_POINT_HEIGHT);
+					last->SetPosition(x + TAIL_POINT_RIGHT, y + TAIL_POINT_HEIGHT);
 					last->SetState(TAIL_LAST);
+					head->SetPosition(x - TAIL_POINT_RIGHT, y + TAIL_POINT_HEIGHT);
+					head->SetState(TAIL_HEAD);
+					head->SetStartX(x);
+					
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 					pc->SpawnObject(head);
 					pc->SpawnObject(last);
@@ -813,12 +847,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					CTailPoint* head = tail->GettailHead();
-					head->SetPosition(x + TAIL_POINT_WIDTH + TAIL_BBOX_WIDTH, y + TAIL_POINT_HEIGHT);
-					head->SetState(TAIL_HEAD);
-					head->SetStartX(x + TAIL_POINT_WIDTH + TAIL_BBOX_WIDTH);
-					CTailPoint* last = tail->GettailLast();
-					last->SetPosition(x+ TAIL_POINT_WIDTH, y + TAIL_POINT_HEIGHT);
+				    CTailPoint* last = tail->GettailLast();
+					last->SetPosition(x+ TAIL_POINT_LEFT, y + TAIL_POINT_HEIGHT);
 					last->SetState(TAIL_LAST);
+					head->SetPosition(x- TAIL_POINT_WIDTH, y + TAIL_POINT_HEIGHT);
+					head->SetState(TAIL_HEAD);
 					CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 					pc->SpawnObject(head);
 					pc->SpawnObject(last);
@@ -2158,5 +2191,5 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

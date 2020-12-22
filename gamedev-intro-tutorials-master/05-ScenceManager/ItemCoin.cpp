@@ -73,22 +73,49 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 			this->Destroy();
 		}
 	}
-
 	
 	if (state==ITEM_COIN_STATE_COIN)
-	{
+	{ 
+		
 		vy = -COIN_FLY_Y;
-
-		if (GetTickCount64() - time >= 200 )
+		if (y <= startcoin_y - 48)
+		{
+			vy = COIN_FLY_Y;
+		}
+		if (startcoin_y -y >= 48)
 		{
 			mario->SetScore(score+ mario->GetScore());
 			mario->SetCoin_number(coin_number + mario->GetCoin_number());
 			Destroy();
 		}
-		
 	}
-	x += dx;
-	y += dy;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+	}
+	coEvents.clear();
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+		if (!dynamic_cast<CQuestionMark*>(e->obj))
+		{
+			x += dx;
+			y += dy;
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CItemCoin::SetState(int state)

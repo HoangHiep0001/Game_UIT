@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define TAIL_POINT_BBOX_WIDTH 5
-#define TAIL_POINT_BBOX_HEIGHT 5
+#define TAIL_POINT_BBOX_WIDTH 0
+#define TAIL_POINT_BBOX_HEIGHT 0
 
 #define TAIL_HEAD 1
 #define	TAIL_LAST 2
@@ -10,9 +10,6 @@
 #define TAIL_ROTATE_VX 0.16f
 #define CIRCLE_DIAMETER 28
 #define TIME_ROTATE_TAIL 200
-
-#define TAIL_POINT_WIDTH 8
-#define TAIL_POINT_HEIGHT 19
 
 class CTailPoint : public CGameObject
 {

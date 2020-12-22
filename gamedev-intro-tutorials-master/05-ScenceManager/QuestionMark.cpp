@@ -1,6 +1,7 @@
 #include "QuestionMark.h"
 #include "Item.h"
 #include "PlayScence.h"
+#include "ItemCoin.h"
 
 
 void CQuestionMark::Render()
@@ -75,7 +76,8 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 		}
 		else
 		{
-			item->SetPosition(x, y - (b - t));
+			item->SetPosition(x, y - (b - t)-16);
+			coin->GetStartCoinY();
 		}
 		CPlayScene* p = dynamic_cast<CPlayScene*>(scene);
 		p->SpawnObject(item);

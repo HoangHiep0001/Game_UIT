@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "ItemCoin.h"
 
 #define MARK_BBOX_WIDTH  16
 #define MARK_BBOX_HEIGHT 16
@@ -18,9 +19,9 @@
 #define MAX_RANGE_Y	2
 class CQuestionMark : public CGameObject
 {
+	CItemCoin* coin;
 	int item_id;
 	int item_count;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	float start_y;
@@ -28,6 +29,7 @@ class CQuestionMark : public CGameObject
 	
 public:
 	CQuestionMark();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
 	bool getIsUp() { return this->is_up; }
 	void SetIsUp(bool x) { this->is_up = x; }
@@ -36,6 +38,8 @@ public:
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }
 	void SetItemCount(int count) { this->item_count = count; }
+	CItemCoin* GetItemCoin() { return this->coin; }
+
 	
 };
 

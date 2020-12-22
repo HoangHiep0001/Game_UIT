@@ -195,7 +195,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int app = atof(tokens[4].c_str());
 		int state = atof(tokens[5].c_str());
 		obj = new CGoomba(app);
-		obj->SetState(state); 
+		CGoomba* q = dynamic_cast<CGoomba*>(obj);
+		q->SetState(state); 
+		q->SetStartPoint(x, y);
+		q->SetStatePoint(state);
+		
 	}
 	break;
 	case OBJECT_TYPE_BRICK:
@@ -243,6 +247,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int count = atof(tokens[6].c_str());
 		q->SetItemCount(count);
 		obj->SetState(state);
+
 		break;
 	}
 	case OBJECT_TYPE_GROUND: 

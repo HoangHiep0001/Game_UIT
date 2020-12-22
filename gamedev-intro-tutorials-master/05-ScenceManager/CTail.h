@@ -2,15 +2,20 @@
 #include "GameObject.h"
 #include "CTailPoint.h"
 
-#define TAIL_BBOX_WIDTH 10
-#define TAIL_BBOX_HEIGHT 1
+#define TAIL_BBOX_WIDTH 24
+#define TAIL_BBOX_HEIGHT 5
 
+#define TAIL_POINT_LEFT 24
+#define TAIL_POINT_RIGHT 12
+#define TAIL_POINT_WIDTH 6
+#define TAIL_POINT_HEIGHT 19
 
 class CTail : public CGameObject
 {
 	int score = 0;
 	CTailPoint* tailHead; 
 	CTailPoint* tailLast;
+	bool is_broken = false;
 public:
 	CTail( CScene* scene, int dir);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

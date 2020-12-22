@@ -23,7 +23,6 @@ protected:
 	RECT camera;
 	RECT mapCamera;
 	CMario *player;					// A play scene has to have player, right? 
-	
 	vector<LPGAMEOBJECT> objects;
 
 	Map* tileMap;
@@ -62,6 +61,7 @@ public:
 	void SpawnObject(LPGAMEOBJECT object) { objects.push_back(object); }
 
 	CMario * GetPlayer() { return player; } 
+
     int GetWord() { return word; }
 	int GetTime() { return time; }
 	int GetIntro() { return intro; }

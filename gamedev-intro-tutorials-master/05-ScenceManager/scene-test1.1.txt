@@ -9,7 +9,7 @@
 24	textures\smb3_map.png	255	255	255
 25	textures\fireball_left.png	0	255	255
 26	textures\SuperMarioBros3.png	255	255	255
-27	textures\effect.png	176	224	248
+27	textures\misc2.png	176	224	248
 -20	source\Map1.1\SuperMarioBros3Map1-1.1BG_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Scene1.1.txt
@@ -325,7 +325,7 @@ flyling up left   (mario fox)
 #==========---Brick---======
 300001	146	71	162	87	20
 #broken brick
-300002	20	120	28	128	27
+300002	38	109	46	117	27
 #QUESTIONMARK
 40001	29	71	45	87	20
 40002	48	71	64	87	20
@@ -1176,8 +1176,8 @@ cầm rùa trái
 4	2240	592	0	16	16	0
 # --- CAMERA ---
 #type x	y	ani_set_id	w	h
-5	0	240	0	176	192	0
-5	0	464	0	176	192	1
+5	0	240	0	176	208	0
+5	1968	464	0	176	208	1
 # --- MAP CAMERA ---
 #type x	y	ani_set_id	w	h id_camera
 6	0	0	0	2816	432	0

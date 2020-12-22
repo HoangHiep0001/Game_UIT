@@ -1,6 +1,7 @@
 #include "ItemLeaves.h"
 #include "PlayScence.h"
 #include "Ground.h"
+#include "Mario.h"
 
 CLeaves::CLeaves()
 {
@@ -94,27 +95,10 @@ void CLeaves::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_ob
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (dynamic_cast<Ground*>(e->obj))
+		if (!dynamic_cast<CMario*>(e->obj))
 		{
-				x += dx;
-				y += dy;
-		}
-		else if (dynamic_cast<CBrick*>(e->obj))
-		{
-				x += dx;
-				y += dy;
-		}
-		else if (dynamic_cast<CQuestionMark*>(e->obj))
-		{
-				x += dx;
-				y += dy;
-		}
-		else
-		{
-			if (e->nx != 0)
-				x += dx;
-			if (e->ny != 0)
-				y += dy;
+			x += dx;
+			y += dy;
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

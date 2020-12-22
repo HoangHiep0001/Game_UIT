@@ -15,7 +15,7 @@ CBroken::CBroken(D3DXVECTOR2 position, int nx, int ny)
 void CBroken::Render()
 {
 	animation_set->at(0)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
@@ -24,7 +24,7 @@ void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
-	vy += 0.004 * dt;
+	vy += 0.004;
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
 	y += dy; 

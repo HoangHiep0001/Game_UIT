@@ -21,7 +21,8 @@
 		DWORD time = 0;
 		bool isBornByBrick = false;
 		int score = ITEMCOIN_SCORE;
-		int coin_number=1;
+		int coin_number = 1;
+		float startcoin_y;
 	public:
 		CItemCoin(int nsta);
 		virtual void Render();
@@ -29,6 +30,7 @@
 		virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 		void SetState(int state);
 		int GetnState() { return state; }
+		float GetStartCoinY() {return this->startcoin_y; }
 		bool GetIsBornByBrick() { return this->isBornByBrick; }
 		void SetIsBornByBrick(bool x) { isBornByBrick = x; }
 		int GetScore() { return this->score; }

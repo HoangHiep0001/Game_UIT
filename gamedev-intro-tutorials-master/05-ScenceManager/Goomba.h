@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define GOOMBA_WALKING_SPEED 0.03f;
+#define GOOMBA_WALKING_SPEED 0.035f;
 #define GOOMBA_JUMP_FLY_SPEED_Y	0.3f
 #define GOOMBA_JUMP_SPEED_Y	0.25f
 #define GOOMBA_GRAVITY			0.001f
@@ -51,12 +51,16 @@ class CGoomba : public CGameObject
 	int score = GOOMBA_SCORE;
 	DWORD time_die = 0;
 	DWORD time = 0;
+	float startx, starty;
+	int state_goomba;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 
 public: 	
+	void SetStartPoint(float x0, float y0) { startx = x0; starty = y0; }
 
+	void SetStatePoint(int sta) { state_goomba = sta; }
 	int GetApperance() { return apperance; }
 	CGoomba(int appe);
 	virtual void SetState(int state);

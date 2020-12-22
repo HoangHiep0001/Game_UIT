@@ -2,8 +2,8 @@
 #include "GameObject.h"
 #include "Item.h"
 
-#define MUSHROOMS_SPEED_X 0.05f
-#define MUSHROOMS_GRAVITY			0.001f
+#define MUSHROOMS_SPEED_X 0.035f
+#define MUSHROOMS_GRAVITY	0.001f
 // BBOX
 #define MUSHROOMS_BBOX_X_Y 16
 
