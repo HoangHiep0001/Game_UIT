@@ -74,10 +74,16 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 			item->SetPosition(x, y - (b - t) - 15);
 			item->SetOX(x + MARK_BBOX_WIDTH / 2);
 		}
-		else
+		else if(item_id == COIN_ID_WALK)
 		{
 			item->SetPosition(x, y - (b - t)-16);
-			coin->GetStartCoinY();
+			CItemCoin* coin = dynamic_cast<CItemCoin*>(item);
+			coin->SetStartCoinY(y);
+			coin->SetState(ITEM_COIN_STATE_COIN);
+		}
+		else
+		{
+			item->SetPosition(x, y - (b - t) - 16);
 		}
 		CPlayScene* p = dynamic_cast<CPlayScene*>(scene);
 		p->SpawnObject(item);

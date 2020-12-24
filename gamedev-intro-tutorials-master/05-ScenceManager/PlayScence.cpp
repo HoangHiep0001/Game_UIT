@@ -222,7 +222,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int app = atof(tokens[4].c_str());
 		int state = atof(tokens[5].c_str());
 		obj = new CKoopas(app);
-		obj->SetState(state);
+		
+		CKoopas* q = dynamic_cast<CKoopas*>(obj);
+		q->SetStartPoint(x, y);
+		q->SetStatePoint(state);
+		q->SetState(state);
+
 	}
 	break;
 	case OBJECT_TYPE_COIN:
@@ -541,7 +546,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 
 		//khoa cam y
-		if ((y_mario > camera.top + (game->GetScreenHeight() * 1 / 4)))
+		if ((y_mario > camera.top))
 		{
 			CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
 		}
@@ -629,7 +634,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		switch (KeyCode)
 		{
-		case DIK_SPACE:
+		/*case DIK_SPACE:
 			if (((abs(mario->GetV()) >= MARIO_WALKING_SPEED_MAX &&
 				(mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE)))
 				|| mario->GetState() == MARIO_STATE_FLYLING || mario->GetState() == MARIO_STATE_LANDING)
@@ -637,7 +642,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FLYLING);
 			}
 			break;
-		
+		*/
 		case DIK_W:
 			mario->Reset();
 			break;
@@ -656,16 +661,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_M:
 			mario->SetState(MARIO_STATE_FLY);
 			break;
-		case DIK_B:
+		case DIK_D:
 			mario->SetState(MARIO_STATE_HOLD);
 			break;
 		case DIK_A:
-			if (mario->GetApperance() == MARIO_FIRE)
-			{
-				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
-			}
-			break;
-		case DIK_D:
 			if (mario->GetApperance() == MARIO_FIRE)
 			{
 				if (mario->GetCountFireBall() < 2)
@@ -678,7 +677,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_ATTACK);
 			}
 			break;
-
+		case DIK_S:
+			if (((abs(mario->GetV()) >= MARIO_WALKING_SPEED_MAX &&
+				(mario->GetApperance() == MARIO_FOX || mario->GetApperance() == MARIO_FOX_FIRE)))
+				|| mario->GetState() == MARIO_STATE_FLYLING || mario->GetState() == MARIO_STATE_LANDING)
+			{
+				mario->SetState(MARIO_STATE_FLYLING);
+			}
+			break;
 		}
 	}
 	else
@@ -761,7 +767,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 						{
 							if (mario->GetState() != MARIO_STATE_JUMP)
 							{
-								if (game->IsKeyDown(DIK_LSHIFT))
+								if (game->IsKeyDown(DIK_A))
 								{
 									mario->SetState(MARIO_STATE_WALKING_RIGHT_FAST);
 								}
@@ -769,7 +775,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 								{
 									mario->SetState(MARIO_STATE_WALKING_RIGHT);
 								}
-								if (game->IsKeyDown(DIK_B))
+								if (game->IsKeyDown(DIK_D))
 								{
 									mario->SetState(MARIO_STATE_HOLD);
 								}
@@ -778,7 +784,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					}
 				}
 			}
-			if (game->IsKeyDown(DIK_SPACE))
+			if (game->IsKeyDown(DIK_S))
 			{
 				if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 					&&mario->GetState() != MARIO_STATE_FLYLING && mario->GetState()!=MARIO_STATE_LANDING)
@@ -790,7 +796,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				}
 			}
 		}
-		else if (game->IsKeyDown(DIK_SPACE))
+		else if (game->IsKeyDown(DIK_S))
 		{
 			if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
 			{
@@ -816,12 +822,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 						{
 							if (mario->GetState() != MARIO_STATE_JUMP)
 							{
-								if (game->IsKeyDown(DIK_LSHIFT))
+								if (game->IsKeyDown(DIK_A))
 								{
 									mario->SetState(MARIO_STATE_WALKING_LEFT_FAST);
 								}
 								else mario->SetState(MARIO_STATE_WALKING_LEFT);
-								if (game->IsKeyDown(DIK_B))
+								if (game->IsKeyDown(DIK_D))
 								{
 									mario->SetState(MARIO_STATE_HOLD);
 								}
@@ -830,7 +836,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					}
 				}
 			}
-			if (game->IsKeyDown(DIK_SPACE))
+			if (game->IsKeyDown(DIK_S))
 			{
 				if (mario->GetState() != MARIO_STATE_WALKING_RIGHT_FAST && mario->GetState() != MARIO_STATE_WALKING_LEFT_FAST
 					&& mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)
@@ -849,12 +855,19 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				mario->SetState(MARIO_STATE_UP);
 			}
 		}
+		else if(game->IsKeyDown(DIK_A))
+		{
+			if (mario->GetApperance() == MARIO_FIRE)
+			{
+				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+			}
+		}
 		else
 		{
-			if ((mario->GetState() != MARIO_STATE_JUMP&& mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE && mario->GetState() != MARIO_STATE_UP&&mario->GetState()!=MARIO_STATE_DOWN)
-				&& (!mario->GetIsAttack()) && !mario->GetIsFireBall()&& mario->GetIntro()==0)
+			if (mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE && mario->GetState() != MARIO_STATE_UP&&mario->GetState()!=MARIO_STATE_DOWN
+				&& (!mario->GetIsAttack()) && !mario->GetIsFireBall()&& mario->GetIntro()==0 && mario->GetState() != MARIO_STATE_IDLE&& mario->GetState() != MARIO_STATE_LANDING)
 			{
-				mario->SetState(MARIO_STATE_IDLE);
+ 				mario->SetState(MARIO_STATE_FALL_DOWN);
 			}
 		}
 	}

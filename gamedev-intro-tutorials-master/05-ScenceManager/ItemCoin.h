@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Item.h"
 
-#define COIN_FLY_Y			0.15f
+#define COIN_FLY_Y	0.15f
 // BBOX
 #define COIN_BBOX_X_Y 16
 //state
@@ -30,7 +30,7 @@
 		virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 		void SetState(int state);
 		int GetnState() { return state; }
-		float GetStartCoinY() {return this->startcoin_y; }
+		void SetStartCoinY(float y) { startcoin_y = y; }
 		bool GetIsBornByBrick() { return this->isBornByBrick; }
 		void SetIsBornByBrick(bool x) { isBornByBrick = x; }
 		int GetScore() { return this->score; }

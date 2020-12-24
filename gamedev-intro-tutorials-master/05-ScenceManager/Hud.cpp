@@ -77,7 +77,23 @@ void Hud::Update()
 		}
 		else 
 		{
-			maxv = 0;
+			if (maxv > 0)
+			{
+				if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX)
+				{
+					maxv = 6;
+				}
+				else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 5 / 6)
+					maxv = 5;
+				else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 4 / 6)
+					maxv = 4;
+				else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 3 / 6)
+					maxv = 3;
+				else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 2 / 6)
+					maxv = 2;
+				else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 1 / 6)
+					maxv = 1;
+			}
 		}
 	}
 	

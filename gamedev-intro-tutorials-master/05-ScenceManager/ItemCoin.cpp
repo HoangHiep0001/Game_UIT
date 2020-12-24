@@ -76,13 +76,11 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 	
 	if (state==ITEM_COIN_STATE_COIN)
 	{ 
-		
-		vy = -COIN_FLY_Y;
-		if (y <= startcoin_y - 48)
+		if ( startcoin_y - y>= 48)
 		{
 			vy = COIN_FLY_Y;
 		}
-		if (startcoin_y -y >= 48)
+		if (y> startcoin_y)
 		{
 			mario->SetScore(score+ mario->GetScore());
 			mario->SetCoin_number(coin_number + mario->GetCoin_number());
@@ -124,6 +122,7 @@ void CItemCoin::SetState(int state)
 	switch (state)
 	{
 	case ITEM_COIN_STATE_COIN:
+		vy = -COIN_FLY_Y;
 		time = GetTickCount64();
 		break;
 	case ITEM_COIN_STATE_IDE:

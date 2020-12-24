@@ -89,7 +89,8 @@ void CTailPoint::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects
 	}
 
  	x += vx*dt;
-	y += dy;  
+	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	y = pc->GetPlayer()->y + TAIL_POINT_HEIGHT;
 
 	
 }

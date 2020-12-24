@@ -19,7 +19,6 @@
 #define MAX_RANGE_Y	2
 class CQuestionMark : public CGameObject
 {
-	CItemCoin* coin;
 	int item_id;
 	int item_count;
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
@@ -38,8 +37,7 @@ public:
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }
 	void SetItemCount(int count) { this->item_count = count; }
-	CItemCoin* GetItemCoin() { return this->coin; }
-
+	
 	
 };
 

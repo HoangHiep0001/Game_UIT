@@ -69,10 +69,17 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!CheckInCamera())
 	{
+		if (isDestroy)
+		{
+			this->SetState(state_koopas);
+			isDestroy = false;
+		}
+		return;
 		return;
 	}
 	if (isDestroy)
 	{
+		this->SetPosition(startx, starty);
 		return;
 	}
 
@@ -286,6 +293,14 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			else if (dynamic_cast<CMario*>(e->obj))
+			{
+				if (e->ny > 0)
+				{
+					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+						vy = 0;
+				}
+			}
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
@@ -313,6 +328,24 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	for (std::size_t i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT e = coObjects->at(i);
+		if (dynamic_cast<Ground*>(e))
+		{
+			Ground* f = dynamic_cast<Ground*> (e);
+
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			f->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (b > et && state != KOOPAS_STATE_FLYLING)
+					vy = 0;
+			}
+		}
+	}
 }
 
 void CKoopas::Render()
@@ -426,7 +459,6 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_LIVING_UP:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
 		vx = 0;
 		vy = 0;
 		time = GetTickCount64();
@@ -437,7 +469,7 @@ void CKoopas::SetState(int state)
 		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_LIVING_DOWN:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_LIVING;
+		
 		vx = 0;
 		vy = -KOOPAS_DIE_VY;
 		break;

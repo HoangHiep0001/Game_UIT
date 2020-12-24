@@ -63,13 +63,17 @@ class CKoopas : public CGameObject
 	DWORD time = 0;
 	int apperance;
 	int score = KOOPAS_SCORE;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	bool ispickup= false;
 	bool iskoopas = false;
+	float startx, starty;
+	int state_koopas;
 
 public:
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void SetStatePoint(int sta) { state_koopas = sta; }
+	void SetStartPoint(float x0, float y0) { startx = x0; starty = y0; }
 	int GetApperance() { return apperance; }
 	CKoopas(int appe);
 	void SetState(int state);

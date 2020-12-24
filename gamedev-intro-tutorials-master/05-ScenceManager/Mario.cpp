@@ -80,6 +80,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt, scene);
 
+
 	if (a == 0 && a_stop != 0)
 	{
 		vx -= a_stop * dt;
@@ -101,6 +102,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+
+
 	if (abs(vx) > MARIO_WALKING_SPEED_MAX)
 		vx = vx;
 	else
@@ -109,7 +112,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	if (GetIntro()==0)
 	{
-		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN )
+		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN&&state!=MARIO_STATE_LANDING )
 		{
 			vy += MARIO_GRAVITY * dt;
 		}
@@ -153,7 +156,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == MARIO_STATE_FIRE_BALL)
 	{
-		isFireBall = CheckFrameFireBall();
+		isFireBall = CheckLastFrameAttack();
 	}
 
 
@@ -456,9 +459,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 						y += dy;
 					}
+					if (state == MARIO_STATE_FALL_DOWN && state!=MARIO_STATE_FIRE_BALL)
+					{
+						SetState(MARIO_STATE_IDLE);
+					}
 					vy = 0;
 					time_jump = 0;
 					is_colii_top = false; 
+
 				}
 				else if (e->ny > 0)
 				{
@@ -473,7 +481,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 				else 
-				{
+				{ 
 					vy = 0;
 				}
 				if (e->nx != 0)
@@ -759,24 +767,16 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<Trigger*>(e->obj))
 			{
-				Trigger* trigger = dynamic_cast<Trigger*>(e->obj);
-				if (trigger->GetTriggerState() == TRIGGER_DIRECTION_UP &&!isUpPipe)
-				{
-					this->isUpPipe = true;
+				if (e->nx != 0)
 					x += dx;
-					y -= dy;
-				}
-				else if (trigger->GetTriggerState() == TRIGGER_DIRECTION_DOWN  )
-				{
-					this->isDownPipe = true;
-					x += dx;
+				if (e->ny != 0)
 					y += dy;
-				}
 			}
 		}
 	}
 
-
+	isUpPipe = false;
+	isDownPipe = false;
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	bool flagOnGround = false;
@@ -795,6 +795,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (b > et && state != MARIO_STATE_JUMP && state!=MARIO_STATE_FLYLING)
 				{
+				
 					flagOnGround = true;
 				}
 			}
@@ -814,6 +815,26 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					ChangeApperance(MARIO_FOX);
 					leaves->Destroy();
 					this->score += leaves->GetScore();
+				}
+			}
+		}
+
+		if (dynamic_cast<Trigger*>(e))
+		{
+			Trigger* trigger = dynamic_cast<Trigger*>(e);
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			trigger->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (trigger->GetTriggerState() == TRIGGER_DIRECTION_UP && !isUpPipe)
+				{
+					this->isUpPipe = true;
+				}
+				else if (trigger->GetTriggerState() == TRIGGER_DIRECTION_DOWN)
+				{
+					this->isDownPipe = true;
 				}
 			}
 		}
@@ -1075,6 +1096,10 @@ void CMario::SetState(int state)
 				isFireBall = true;
 				vy = -MARIO_FIRE_JUMP_SPEED_Y;
 				time_doubleshot = GetTickCount64();
+				if (time_jump == 0)
+				{
+					time_jump = GetTickCount64();
+				}
 				break;
 			case MARIO_STATE_STONE_KOOPAS:
 				break;
@@ -1203,19 +1228,6 @@ void CMario::SetState(int state)
 				vy = -MARIO_FLYLING_SPEED_Y;
 				time_fly = GetTickCount64();
 				break;
-			case MARIO_STATE_LANDING:
-				a_stop = 0;
-				if (nx > 0)
-				{
-					vx = MARIO_LANDING_SPEED_X;
-				}
-				else vx = -MARIO_FLYING_SPEED_X;
-				vy = MARIO_LANGDING_SPEED_Y;
-				break;
-			case MARIO_STATE_ATTACK:
-				isAttack = true;
-				vx = 0;
-				break;
 			case MARIO_STATE_FIRE_BALL:
 				isFireBall = true;
 				break;
@@ -1223,6 +1235,10 @@ void CMario::SetState(int state)
 				isFireBall = true;
 				vy = -MARIO_FIRE_JUMP_SPEED_Y;
 				time_doubleshot = GetTickCount64();
+				if (time_jump == 0)
+				{
+					time_jump = GetTickCount64();
+				}
 				break;
 			case MARIO_STATE_STONE_KOOPAS:
 				break;
@@ -1338,37 +1354,6 @@ void CMario::SetState(int state)
 		case MARIO_STATE_STOP:
 			time_stop = GetTickCount64();
 			vx = 0;
-			break;
-		case MARIO_STATE_FLYLING:
-			a_stop = 0;
-			if (nx > 0)
-			{
-				vx = MARIO_FLYING_SPEED_X;
-			}
-			else vx = -MARIO_FLYING_SPEED_X;
-			vy = -MARIO_FLYLING_SPEED_Y;
-			time_fly = GetTickCount64();
-			break;
-		case MARIO_STATE_LANDING:
-			a_stop = 0;
-			if (nx > 0)
-			{
-				vx = MARIO_LANDING_SPEED_X;
-			}
-			else vx = -MARIO_FLYING_SPEED_X;
-			vy = MARIO_LANGDING_SPEED_Y;
-			break;
-		case MARIO_STATE_ATTACK:
-			isAttack = true;
-			vx = 0;
-			break;
-		case MARIO_STATE_FIRE_BALL:
-			isFireBall = true;
-			break;
-		case MARIO_STATE_FIRE_BALL_DOUBLE:
-			isFireBall = true;
-			vy = -MARIO_FIRE_JUMP_SPEED_Y;
-			time_doubleshot = GetTickCount64();
 			break;
 		case MARIO_STATE_STONE_KOOPAS:
 			break;
@@ -1497,6 +1482,7 @@ bool CMario::CheckFrameFireBall()
 		{
 			return true;
 		}
+
 	}
 	else
 	{
@@ -1505,6 +1491,7 @@ bool CMario::CheckFrameFireBall()
 		{
 			return true;
 		}
+
 	}
 	return false;
 }
@@ -1650,7 +1637,6 @@ void CMario::Render()
 			{
 				switch (state)
 				{
-				case MARIO_STATE_FALL_DOWN:
 				case MARIO_STATE_IDLE:
 					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_IDLE_LEFT;
@@ -1687,6 +1673,12 @@ void CMario::Render()
 						ani = MARIO_ANI_BIG_JUMP_IDLE_RIGHT;
 					else
 						ani = MARIO_ANI_BIG_JUMP_IDLE_LEFT;
+					break;
+				case MARIO_STATE_FALL_DOWN:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FALL_DOWN_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FALL_DOWN_LEFT;
 					break;
 				case MARIO_STATE_SIT:
 					if (nx > 0) ani = MARIO_ANI_BIG_SIT_RIGHT;
@@ -1744,6 +1736,11 @@ void CMario::Render()
 				switch (state)
 				{
 				case MARIO_STATE_FALL_DOWN:
+					if (nx > 0)
+						ani = MARIO_ANI_SMALL_FALL_DOWN_RIGHT;
+					else
+						ani = MARIO_ANI_SMALL_FALL_DOWN_LEFT;
+					break;
 				case MARIO_STATE_IDLE:
 					if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 					else ani = MARIO_ANI_SMALL_IDLE_LEFT;
@@ -1835,6 +1832,11 @@ void CMario::Render()
 				switch (state)
 				{
 				case MARIO_STATE_FALL_DOWN:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FALL_DOWN_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FALL_DOWN_LEFT;
+					break;
 				case MARIO_STATE_IDLE:
 					if (nx > 0) ani = MARIO_ANI_BIG_FOX_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_FOX_IDLE_LEFT;
@@ -1958,6 +1960,11 @@ void CMario::Render()
 				switch (state)
 				{
 				case MARIO_STATE_FALL_DOWN:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FIRE_FALL_DOWN_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FIRE_FALL_DOWN_LEFT;
+					break;
 				case MARIO_STATE_IDLE:
 					if (nx > 0) ani = MARIO_ANI_BIG_FIRE_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_FIRE_IDLE_LEFT;
@@ -2070,6 +2077,11 @@ void CMario::Render()
 				switch (state)
 				{
 				case MARIO_STATE_FALL_DOWN:
+					if (nx > 0)
+						ani = MARIO_ANI_BIG_FOX_FIRE_FALL_DOWN_RIGHT;
+					else
+						ani = MARIO_ANI_BIG_FOX_FIRE_FALL_DOWN_LEFT;
+					break;
 				case MARIO_STATE_IDLE:
 					if (nx > 0) ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_RIGHT;
 					else ani = MARIO_ANI_BIG_FOX_FIRE_IDLE_LEFT;
