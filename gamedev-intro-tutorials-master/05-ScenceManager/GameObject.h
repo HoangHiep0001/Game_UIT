@@ -55,7 +55,8 @@ public:
 	float vx;
 	float vy;
 
-	int nx;	 
+	int nx;	
+	int ny;
 
 	int state;
 

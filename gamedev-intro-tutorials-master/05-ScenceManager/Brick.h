@@ -26,7 +26,6 @@
 
 class CBrick : public CGameObject
 {
-	vector<LPGAMEOBJECT> listBrick;
 
 	int item_id;
 	int item_count;

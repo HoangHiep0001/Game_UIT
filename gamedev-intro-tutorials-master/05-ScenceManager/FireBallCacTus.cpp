@@ -7,8 +7,8 @@ void CFireBallCacTus::GetBoundingBox(float& left, float& top, float& right, floa
 		return;
 	left = x;
 	top = y;
-	right = x + FIREBAL_CACTUS_BBOX_WIDTH;
-	bottom = y + FIREBAL_CACTUS_BBOX_HEIGHT;
+	right = x + FIREBALL_CACTUS_BBOX_WIDTH;
+	bottom = y + FIREBALL_CACTUS_BBOX_HEIGHT;
 }
 
 CFireBallCacTus::CFireBallCacTus(int dir)
@@ -20,11 +20,11 @@ CFireBallCacTus::CFireBallCacTus(int dir)
 	nx = dir;
 	if (nx > 0)
 	{
-		SetState(FIREBAL_CACTUS_STATE_DOWN_RIGHT);
+		SetState(FIREBALL_CACTUS_STATE_DOWN_RIGHT);
 	}
 	else
 	{
-		SetState(FIREBAL_CACTUS_STATE_DOWN_LEFT);
+		SetState(FIREBALL_CACTUS_STATE_DOWN_LEFT);
 	}
 
 }
@@ -37,13 +37,13 @@ void CFireBallCacTus::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case FIREBAL_CACTUS_STATE_DOWN_RIGHT:
+	case FIREBALL_CACTUS_STATE_DOWN_RIGHT:
 		break;
-	case FIREBAL_CACTUS_STATE_DOWN_LEFT:
+	case FIREBALL_CACTUS_STATE_DOWN_LEFT:
 		break;
-	case FIREBAL_CACTUS_STATE_UP_RIGHT:
+	case FIREBALL_CACTUS_STATE_UP_RIGHT:
 		break;
-	case FIREBAL_CACTUS_STATE_UP_LEFT:
+	case FIREBALL_CACTUS_STATE_UP_LEFT:
 		break;
 	}
 }
@@ -116,13 +116,13 @@ void CFireBallCacTus::Render()
 		int ani = -1;
 		switch (state)
 		{
-		case FIREBAL_CACTUS_STATE_DOWN_LEFT:
-		case FIREBAL_CACTUS_STATE_UP_LEFT:
-			ani = FIREBAL_CACTUS_ANI_LEFT;
+		case FIREBALL_CACTUS_STATE_DOWN_LEFT:
+		case FIREBALL_CACTUS_STATE_UP_LEFT:
+			ani = FIREBALL_CACTUS_ANI_LEFT;
 			break;
-		case FIREBAL_CACTUS_STATE_DOWN_RIGHT:
-		case FIREBAL_CACTUS_STATE_UP_RIGHT:
-			ani = FIREBAL_CACTUS_ANI_RIGHT;
+		case FIREBALL_CACTUS_STATE_DOWN_RIGHT:
+		case FIREBALL_CACTUS_STATE_UP_RIGHT:
+			ani = FIREBALL_CACTUS_ANI_RIGHT;
 			break;
 		}
 

@@ -52,6 +52,12 @@
     <Filter Include="Object\StaticOject\Trigger">
       <UniqueIdentifier>{7ed8effe-9b34-4ef5-a30f-96a5b9c6923b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\StaticOject\effect">
+      <UniqueIdentifier>{9840c856-7d78-4ee8-bac1-b6f09bbeb649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\StaticOject\brick">
+      <UniqueIdentifier>{cc189727-da3c-48d9-af97-7a6b28ab3f22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -77,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Object\Mario</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Object\StaticOject</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Object\StaticOject</Filter>
@@ -153,9 +156,6 @@
     <ClCompile Include="CTail.cpp">
       <Filter>Object\Mario</Filter>
     </ClCompile>
-    <ClCompile Include="CBroken.cpp">
-      <Filter>Object\StaticOject</Filter>
-    </ClCompile>
     <ClCompile Include="CCheckStop.cpp">
       <Filter>Object\StaticOject\Trigger</Filter>
     </ClCompile>
@@ -164,6 +164,18 @@
     </ClCompile>
     <ClCompile Include="CTailPoint.cpp">
       <Filter>Object\Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>Object\StaticOject\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClCompile>
+    <ClCompile Include="CBroken.cpp">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectChangeMario.cpp">
+      <Filter>Object\StaticOject\effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Object\Mario</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Object\StaticOject</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Object\StaticOject</Filter>
@@ -266,9 +275,6 @@
     <ClInclude Include="CTail.h">
       <Filter>Object\Mario</Filter>
     </ClInclude>
-    <ClInclude Include="CBroken.h">
-      <Filter>Object\StaticOject</Filter>
-    </ClInclude>
     <ClInclude Include="CCheckStop.h">
       <Filter>Object\StaticOject\Trigger</Filter>
     </ClInclude>
@@ -277,6 +283,18 @@
     </ClInclude>
     <ClInclude Include="CTailPoint.h">
       <Filter>Object\Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>Object\StaticOject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClInclude>
+    <ClInclude Include="CBroken.h">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectChangeMario.h">
+      <Filter>Object\StaticOject\effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

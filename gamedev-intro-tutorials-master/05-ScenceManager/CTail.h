@@ -16,12 +16,14 @@ class CTail : public CGameObject
 	CTailPoint* tailHead; 
 	CTailPoint* tailLast;
 	bool is_broken = false;
+	DWORD time_effect;
 public:
 	CTail( CScene* scene, int dir);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	int GetScore() { return this->score; }
+	void Effect(CScene* scene);
 	CTailPoint* GettailHead() { return this->tailHead; }
 	CTailPoint* GettailLast() { return this->tailLast; }
 };

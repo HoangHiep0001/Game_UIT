@@ -129,6 +129,8 @@
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="CBroken.cpp" />
     <ClCompile Include="CCheckStop.cpp" />
+    <ClCompile Include="CEffect.cpp" />
+    <ClCompile Include="CEffectChangeMario.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CPortalintro.cpp" />
     <ClCompile Include="CTail.cpp" />
@@ -168,6 +170,8 @@
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="CBroken.h" />
     <ClInclude Include="CCheckStop.h" />
+    <ClInclude Include="CEffect.h" />
+    <ClInclude Include="CEffectChangeMario.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CPortalintro.h" />
     <ClInclude Include="CTail.h" />

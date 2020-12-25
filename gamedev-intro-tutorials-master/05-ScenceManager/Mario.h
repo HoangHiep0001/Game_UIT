@@ -24,7 +24,7 @@
 #define MARIO_JUMP_DEFLECT_SPEED 0.25f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
-#define MARIO_FIRE_JUMP_SPEED_Y	0.45f
+#define MARIO_FIRE_JUMP_SPEED_Y	0.35f
 #define MARIO_FALL_DOWN_SLOW_VY	0.1f
 
 //state
@@ -45,6 +45,7 @@
 #define MARIO_STATE_LANDING	1200
 #define MARIO_STATE_HOLD 1300
 #define MARIO_STATE_FIRE_BALL 1400
+#define MARIO_STATE_FIRE_DOUBLE 2400
 #define MARIO_STATE_FIRE_BALL_DOUBLE 1500
 #define MARIO_STATE_STONE_KOOPAS 1700
 #define MARIO_STATE_FALL_DOWN	1800
@@ -162,6 +163,8 @@
 #define MARIO_ANI_BIG_FIRE_HOLD_LEFT 96
 #define MARIO_ANI_BIG_FIRE_BALL_RIGHT 99
 #define MARIO_ANI_BIG_FIRE_BALL_LEFT 100
+#define MARIO_ANI_BIG_FIRE_DOUBLE_RIGHT 99
+#define MARIO_ANI_BIG_FIRE_DOUBLE_LEFT 100
 #define MARIO_ANI_BIG_FIRE_BALL_DOUBLE_RIGHT 101
 #define MARIO_ANI_BIG_FIRE_BALL_DOUBLE_LEFT 102
 #define MARIO_ANI_BIG_FIRE_STONE_KOOPAS_RIGHT 109
@@ -241,7 +244,9 @@
 
 #define TIME_STOP_MARIO 400
 #define TIME_FLYLING_MARIO	800
-#define TIME_JUMP_MARIO 220
+#define TIME_JUMP_MARIO 200
+#define TIME_JUMP_MARIO_FIRE 140
+
 
 #define CHECK_FAME_FIRE 1
 
@@ -272,7 +277,7 @@ class CMario : public CGameObject
 	bool isFireBall = false;
 	bool isSpawnFireBall = false;
 	DWORD time_jump = 0;
-
+	DWORD time_effect;
 	int CountFireball = 0;
 
 	bool isP = false;
@@ -356,6 +361,8 @@ public:
 	bool CheckFrameFireBallDouble();
 	int GetCountFireBall() { return this->CountFireball; }
 	void SetCountFireBall(int count) { this->CountFireball = count; }
+	void Effect(CScene* scene);
+	void EffectChangeMario(CScene* scene);
 	void SetMarioProperties()
 	{
 		this->level = CGame::GetInstance()->GetProperties()->GetLevel();

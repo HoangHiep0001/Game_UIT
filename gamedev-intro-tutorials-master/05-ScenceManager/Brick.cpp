@@ -34,8 +34,6 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
-	int num_vanishPiece = 0;
-
 	if (this->Isbroken)
 	{
 		if (this->GetState() == BRICK_STATE_BRICK)
@@ -57,16 +55,7 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	for (LPGAMEOBJECT piece : listBrick)
-	{
-		piece->Update(dt, scene, coObjects);
-		if (piece->isQuestionBroken)
-			num_vanishPiece++;
-	}
-	if (num_vanishPiece == 4)
-	{
-		isQuestionBroken = true;
-	}
+
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;

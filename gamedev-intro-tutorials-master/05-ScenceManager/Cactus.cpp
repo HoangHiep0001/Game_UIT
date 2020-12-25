@@ -123,13 +123,13 @@ void CCactus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						CFireBallCacTus* fireball = new CFireBallCacTus(this->nx);
 						if (nx > 0)
 						{
-							fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
+							fireball->SetPosition(x + FIREBALL_CACTUS_BALL, y + FIREBALL_CACTUS_BALL);
 							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 							pc->SpawnObject(fireball);
 						}
 						else
 						{
-							fireball->SetPosition(x, y + FIRE_BALL);
+							fireball->SetPosition(x, y + FIREBALL_CACTUS_BALL);
 							CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 							pc->SpawnObject(fireball);
 						}

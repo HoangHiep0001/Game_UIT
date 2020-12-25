@@ -21,7 +21,7 @@
 
 #define FIRE_BALL_MAX_Y	30
 #define FIRE_BALL	12
-#define TIME_FIRE_BALL	120
+#define TIME_FIRE_BALL	200
 class CFireBall : public CGameObject
 {
 	bool first_time = true;

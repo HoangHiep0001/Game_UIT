@@ -24,7 +24,7 @@ void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}
-	vy += 0.004;
+	vy += BROKEN_GRAVITY;
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
 	y += dy; 

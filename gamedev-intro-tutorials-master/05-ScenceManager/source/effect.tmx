@@ -27,9 +27,9 @@
  </layer>
  <objectgroup id="2" name="Object Layer 1">
   <object id="1" x="156" y="32" width="15" height="15"/>
-  <object id="2" x="139" y="32" width="15" height="15"/>
+  <object id="2" x="128" y="9" width="15" height="15"/>
   <object id="3" x="38" y="109" width="8" height="8"/>
-  <object id="4" x="28" y="9" width="15" height="15"/>
+  <object id="4" x="98" y="9" width="15" height="15"/>
   <object id="5" name="diem" x="3" y="223" width="12" height="8"/>
   <object id="6" name="diem" x="16" y="223" width="16" height="8"/>
   <object id="7" name="diem" x="3" y="232" width="12" height="8"/>
@@ -38,6 +38,6 @@
   <object id="10" name="diem" x="16" y="241" width="16" height="8"/>
   <object id="11" name="diem" x="3" y="250" width="12" height="8"/>
   <object id="12" name="diem" x="16" y="250" width="16" height="8"/>
-  <object id="13" x="44" y="9" width="15" height="15"/>
+  <object id="13" x="113" y="9" width="15" height="15"/>
  </objectgroup>
 </map>

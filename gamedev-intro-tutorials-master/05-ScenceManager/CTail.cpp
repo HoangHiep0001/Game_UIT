@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "PlayScence.h"
 #include "CBroken.h"
+#include "CEffect.h"
 
 CTail::CTail(CScene* scene,int dir)
 {
@@ -96,6 +97,7 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						koopas->SetState(KOOPAS_STATE_LIVING_DOWN);
 					}
+					Effect(scene);
 				}
 				if (e->ny != 0)
 				{
@@ -119,6 +121,7 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						SetState(GOOMBA_STATE_WALKING_WING_DOWN);
 					}
+					Effect(scene);
 				}
 			}
 			else
@@ -147,10 +150,12 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (brick->GetItemState() == 1)
 				{
+					Effect(scene);
 					brick->setIsBroken(true);
 				}
 				else
 				{
+					Effect(scene);
 					brick->setIsBroken(true);
 					brick->Destroy();
 				}
@@ -172,10 +177,12 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						question->SetItemCount(question->GetItemCount() - 1);
 						if (question->GetItemCount() == 0)
 						{
+							Effect(scene);
 							question->SetState(MARK_STATE_EMPTY);
 						}
 						else
 						{
+							Effect(scene);
 							question->SetState(MARK_STATE_N_EMPTY);
 						}
 					}
@@ -191,3 +198,39 @@ void CTail::Render()
 		return;
 	RenderBoundingBox();
 }
+
+void CTail::Effect(CScene* scene)
+{
+	float xh, yh, xl, yl;
+	tailHead->GetPosition(xh, yh);
+	tailLast->GetPosition(xl, yl);
+
+	if (xh < xl)
+	{
+		x = xh;
+		y = yh;
+	}
+	else
+	{
+		x = xl;
+		y = yl;
+	}
+	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	if (nx>0)
+	{
+		CEffect* effect = new CEffect({ x , y }, EFFECT_NX, EFFECT_NY);
+		pc->SpawnObject(effect);
+		time_effect = GetTickCount64();
+		effect->SetTimeEffect(time_effect);
+	}
+	else
+	{
+		CEffect* effect = new CEffect({ x , y },-EFFECT_NX, EFFECT_NY);
+		pc->SpawnObject(effect);
+		time_effect = GetTickCount64();
+		effect->SetTimeEffect(time_effect);
+	}
+}
+
+
+

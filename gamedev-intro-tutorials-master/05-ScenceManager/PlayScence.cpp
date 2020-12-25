@@ -663,6 +663,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			break;
 		case DIK_D:
 			mario->SetState(MARIO_STATE_HOLD);
+			if (mario->GetApperance() == MARIO_FIRE)
+			{
+				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+			}
 			break;
 		case DIK_A:
 			if (mario->GetApperance() == MARIO_FIRE)
@@ -855,11 +859,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				mario->SetState(MARIO_STATE_UP);
 			}
 		}
-		else if(game->IsKeyDown(DIK_A))
+		else if (game->IsKeyDown(DIK_Z))
 		{
 			if (mario->GetApperance() == MARIO_FIRE)
 			{
-				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
+				mario->SetState(MARIO_STATE_FIRE_DOUBLE);
 			}
 		}
 		else

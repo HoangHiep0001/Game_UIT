@@ -10,8 +10,6 @@ Item* Item::SpawnItem(int id, CScene* scene)
 {
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 	CMario* mario = pc->GetPlayer();
-	CItemSign* sign = dynamic_cast<CItemSign*>(pc->GetPlayer());
-	CBrick* brick = dynamic_cast<CBrick*>(pc->GetPlayer());
 	switch (id)
 	{
 	case MUSHROOMS_ID_BULE:
