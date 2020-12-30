@@ -18,7 +18,7 @@
 
 #define ITEM_SIGN_ANI_SET	11
 //time
-#define SIGN_TIME 3000
+#define SIGN_TIME 6000
 
 class CItemSign : public Item
 {

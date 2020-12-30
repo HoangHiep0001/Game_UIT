@@ -175,7 +175,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="rùa xanh nhỏ" visible="0">
+ <objectgroup id="2" name="rùa xanh nhỏ">
   <object id="1" name="phai ko canh" x="215" y="98" width="16" height="27"/>
   <object id="2" name="phai ko canh" x="255" y="98" width="16" height="27"/>
   <object id="3" name="trai ko canh" x="125" y="98" width="16" height="27"/>

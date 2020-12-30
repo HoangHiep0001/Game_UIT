@@ -95,7 +95,6 @@ void CFireBallCacTus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coll
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				{
-					vy = 0;
 					if (e->nx != 0)
 						x += dx;
 					if (e->ny != 0)

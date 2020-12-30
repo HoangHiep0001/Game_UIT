@@ -13,8 +13,9 @@
 #define ITEM_COIN_ANI_IDE 1
 
 #define ITEMCOIN_ANI_SET	9
-#define ITEMCOIN_SCORE 100;
-
+#define ITEMCOIN_SCORE 100
+#define ITEMCOIN_S 48
+#define ITEMCOIN_TIME 5000
 	class CItemCoin : public Item
 	{
 		int state;
@@ -34,6 +35,7 @@
 		bool GetIsBornByBrick() { return this->isBornByBrick; }
 		void SetIsBornByBrick(bool x) { isBornByBrick = x; }
 		int GetScore() { return this->score; }
+		void SetTimeCoin(DWORD t) { time = t; }
 		int GetCoin_number() { return this->coin_number; }
 	};
 

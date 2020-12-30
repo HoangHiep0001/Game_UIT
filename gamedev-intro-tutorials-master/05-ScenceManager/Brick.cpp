@@ -71,6 +71,8 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			this->GetPosition(x, y);
 			this->Destroy();
 			CItemCoin* coin = new CItemCoin(ITEM_COIN_STATE_IDE);
+			time = GetTickCount64();
+			coin->SetTimeCoin(time);
 			coin->SetPosition(x, y);
 			coin->SetIsBornByBrick(true);
 			pc->SpawnObject(coin);
@@ -80,18 +82,18 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 		if (state == BRICK_STATE_EMPTY && this->item_count > 0)
-	{
-		if (item_state != 0)
 		{
-			Item* item = new Item();
-			item = item->SpawnItem(item_id, scene);
-			float l, t, r, b;
-			item->GetBoundingBox(l, t, r, b);
-			item->SetPosition(x, y -(b-t));
-			pc->SpawnObject(item);
-			this->item_count--;
+			if (item_state != 0)
+			{
+				Item* item = new Item();
+				item = item->SpawnItem(item_id, scene);
+				float l, t, r, b;
+				item->GetBoundingBox(l, t, r, b);
+				item->SetPosition(x, y -(b-t));
+				pc->SpawnObject(item);
+				this->item_count--;
+			}
 		}
-	}
 		if (isDestroy)
 		{
 			if (item_count != 0 && GetState() == BRICK_STATE_BRICK)

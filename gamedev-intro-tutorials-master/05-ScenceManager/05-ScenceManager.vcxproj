@@ -131,6 +131,7 @@
     <ClCompile Include="CCheckStop.cpp" />
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEffectChangeMario.cpp" />
+    <ClCompile Include="CEffectItem.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CPortalintro.cpp" />
     <ClCompile Include="CTail.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="CCheckStop.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectChangeMario.h" />
+    <ClInclude Include="CEffectItem.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CPortalintro.h" />
     <ClInclude Include="CTail.h" />
@@ -216,7 +218,6 @@
     <Text Include="scene3.1.txt" />
     <Text Include="scene3.2.txt" />
     <Text Include="scene4.1.txt" />
-    <Text Include="scene4.2.txt" />
     <Text Include="scene5.1.txt" />
     <Text Include="scene5.2.txt" />
   </ItemGroup>

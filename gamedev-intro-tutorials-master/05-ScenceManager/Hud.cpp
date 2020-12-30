@@ -17,13 +17,24 @@ void Hud::Render()
 	CMario* mario = PlayScene->GetPlayer();
 	if (mario->GetState() != MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_LEFT)
 	{
-		if (mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST || mario->GetState() == MARIO_FLYLING_SPEED_Y)
+		if (mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST )
 		{
 			for (int i = 0; i < maxv;i++) 
 			{
 				CSprites::GetInstance()->Get(HUB_SPIRE_ARROW)->Draw(x + HUB_LOCATION_HUB_X + HUB_LOCATION_ARROW_X1+(i)*8, y + HUB_LOCATION_HUB_Y + HUB_LOCATION_ARROW_Y, 255);
 			}
 			if (maxv >= 6)
+			{
+				CSprites::GetInstance()->Get(HUB_SPIRE_MAX_P)->Draw(x + HUB_LOCATION_HUB_X + HUB_LOCATION_P_X, y + HUB_LOCATION_HUB_Y + HUB_LOCATION_ARROW_Y, 255);
+			}
+		}
+		if(mario->GetState() == MARIO_STATE_FLYLING)
+		{
+			for (int i = 0; i < maxv1; i++)
+			{
+				CSprites::GetInstance()->Get(HUB_SPIRE_ARROW)->Draw(x + HUB_LOCATION_HUB_X + HUB_LOCATION_ARROW_X1 + (i) * 8, y + HUB_LOCATION_HUB_Y + HUB_LOCATION_ARROW_Y, 255);
+			}
+			if (maxv1 >= 6)
 			{
 				CSprites::GetInstance()->Get(HUB_SPIRE_MAX_P)->Draw(x + HUB_LOCATION_HUB_X + HUB_LOCATION_P_X, y + HUB_LOCATION_HUB_Y + HUB_LOCATION_ARROW_Y, 255);
 			}
@@ -44,6 +55,18 @@ void Hud::Render()
 	}
 	CSprites::GetInstance()->Get(drawNumber(life1))->Draw(x + HUB_LOCATION_HUB_X + 29, y + HUB_LOCATION_HUB_Y + 15, 255);
 	CSprites::GetInstance()->Get(drawNumber(life2))->Draw(x + HUB_LOCATION_HUB_X + 37, y + HUB_LOCATION_HUB_Y + 15, 255);
+	switch (effectitem)
+	{
+	case 0:
+		CSprites::GetInstance()->Get(HUB_SPIRE_MUSHROOMS)->Draw(x + HUB_LOCATION_HUB_X+162, y + HUB_LOCATION_HUB_Y+3, 255);
+		break;
+	case 1:
+		CSprites::GetInstance()->Get(HUB_SPIRE_STAR)->Draw(x + HUB_LOCATION_HUB_X+186, y + HUB_LOCATION_HUB_Y+3, 255);
+		break;
+	case 2:
+		CSprites::GetInstance()->Get(HUB_SPIRE_TREE)->Draw(x + HUB_LOCATION_HUB_X+210, y + HUB_LOCATION_HUB_Y+3, 255);
+		break;
+	}
 }
 
 
@@ -58,12 +81,10 @@ void Hud::Update()
 	CMario*  mario = PlayScene->GetPlayer();
 	if (mario->GetState() != MARIO_STATE_WALKING_RIGHT || mario->GetState() == MARIO_STATE_WALKING_LEFT)
 	{
-		if (mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST || mario->GetState() == MARIO_FLYLING_SPEED_Y)
+		if (mario->GetState() == MARIO_STATE_WALKING_RIGHT_FAST || mario->GetState() == MARIO_STATE_WALKING_LEFT_FAST )
 		{
 			if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX)
-			{
 				maxv = 6;
-			}
 			else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 5 / 6)
 				maxv = 5;
 			else if (abs(mario->vx) > MARIO_WALKING_SPEED_MAX * 4 / 6)
@@ -96,6 +117,21 @@ void Hud::Update()
 			}
 		}
 	}
+	else if(mario->GetState()==MARIO_STATE_FLYLING)
+	{
+		if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y)
+			maxv1 = 6;
+		else if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y * 5 / 6)
+			maxv1 = 5;
+		else if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y * 4 / 6)
+			maxv1 = 4;
+		else if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y * 3 / 6)
+			maxv1 = 3;
+		else if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y * 2 / 6)
+			maxv1 = 2;
+		else if (abs(mario->vx) > MARIO_FLYLING_SPEED_Y * 1 / 6)
+			maxv1 = 1;
+	}
 	
 	if (time>=0)
 	{
@@ -113,6 +149,7 @@ void Hud::Update()
 		life1 = PlayScene->GetPlayer()->GetLife() / 10;
 		life2 = PlayScene->GetPlayer()->GetLife() % 10;
 	}
+
 }
 
 int Hud::drawNumber(int num)

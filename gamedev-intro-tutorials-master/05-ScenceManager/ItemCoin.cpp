@@ -1,5 +1,6 @@
 #include "ItemCoin.h"
 #include "PlayScence.h"
+#include "ItemSign.h"
 
 CItemCoin::CItemCoin(int nsta)
 {
@@ -59,28 +60,31 @@ void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 	CMario* mario = pc->GetPlayer();
 	if (this->isBornByBrick)
 	{
-		
-		if (pc->GetPlayer()->GetIsP() == false)
+		if (GetTickCount64() - time >= ITEMCOIN_TIME)
 		{
-			float x, y;
-			this->GetPosition(x, y);
-			this->Destroy();
-			CBrick* brick = new CBrick();
-			brick->SetAnimationSet();
-			brick->SetPosition(x, y);
-			brick->SetItemState(0);
-			pc->SpawnObject(brick);
-			this->Destroy();
+			if (pc->GetPlayer()->GetIsP() == false)
+			{
+				float x, y;
+				this->GetPosition(x, y);
+				this->Destroy();
+				CBrick* brick = new CBrick();
+				brick->SetAnimationSet();
+				brick->SetPosition(x, y);
+				brick->SetItemState(0);
+				pc->SpawnObject(brick);
+				this->Destroy();
+			}
+			time = 0;
 		}
 	}
 	
 	if (state==ITEM_COIN_STATE_COIN)
 	{ 
-		if ( startcoin_y - y>= 48)
+		if ( startcoin_y - y>= ITEMCOIN_S)
 		{
 			vy = COIN_FLY_Y;
 		}
-		if (y> startcoin_y)
+		if (y> (startcoin_y- COIN_BBOX_X_Y))
 		{
 			mario->SetScore(score+ mario->GetScore());
 			mario->SetCoin_number(coin_number + mario->GetCoin_number());

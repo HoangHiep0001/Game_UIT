@@ -61,11 +61,6 @@ void CItemSign::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_
 		return;
 	}
 	CGameObject::Update(dt, scene, colliable_objects);
-
-	/*if (GetTickCount64() - time >= 200 && time > 0)
-	{
-		Destroy();
-	}*/
 	if (state == ITEM_SIGN_STATE_SIGN)
 	{
 		if (GetTickCount64() - time >= SIGN_TIME && time > 0)

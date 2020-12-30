@@ -74,6 +74,7 @@ class Hud
 	int cam;
 	int word;
 	int maxv=0;
+	int maxv1 = 0;
 	int time;
 	int time1;
 	int time2;
@@ -83,6 +84,7 @@ class Hud
 	int life1;
 	int life2;
 	int score[7];
+	int effectitem = -1;
 public:
 	void Destroy() { this->isDestroy = true; }
 	Hud(CPlayScene* Scene);
@@ -90,5 +92,6 @@ public:
 	void Update();
 	int drawNumber(int num);
 	void GetScore();
+	void setEffectITem(int x) { effectitem = x; }
 };
 

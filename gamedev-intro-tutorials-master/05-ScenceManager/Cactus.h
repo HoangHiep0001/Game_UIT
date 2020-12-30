@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define CACTUS_SPEED_Y	0.07f
-#define CACTUS_VY	0.01f
+#define CACTUS_VY	0.03f
 /// BBOX
 #define CACTUS_BBOX_ONE_X 16
 #define CACTUS_BBOX_ONE_Y 24
@@ -63,11 +63,12 @@ class CCactus: public CGameObject
 
 	DWORD time_die = 0;
 	DWORD time = 0;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
 public:
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetNumber(int num) { number = num; }
 	int GetApperance() { return apperance; }
 	int GetSewerPipes() { return sewer_pipes; }

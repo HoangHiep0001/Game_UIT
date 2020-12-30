@@ -30,6 +30,7 @@ class CBrick : public CGameObject
 	int item_id;
 	int item_count;
 	int item_state;
+	DWORD time;
 	int score = BRICK_SCORE;
 	bool Isbroken = false;
 	virtual void Render();

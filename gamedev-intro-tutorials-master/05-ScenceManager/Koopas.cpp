@@ -49,6 +49,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + KOOPAS_BBOX_LIVING;
 		bottom = y + KOOPAS_BBOX_LIVING;
 		break;
+	case KOOPAS_STATE_LIVE_FOOT_DOWN:
 	case KOOPAS_STATE_LIVE_FOOT_UP:
 		right = x + KOOPAS_BBOX_LIVING;
 		bottom = y + KOOPAS_BBOX_LIVING;
@@ -69,13 +70,17 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!CheckInCamera())
 	{
+		if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
+		{
+			Destroy();
+		}
 		if (isDestroy)
 		{
 			this->SetState(state_koopas);
 			isDestroy = false;
 		}
 		return;
-		return;
+
 	}
 	if (isDestroy)
 	{
@@ -126,28 +131,21 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			if (state==KOOPAS_STATE_LIVING_UP)
+			if (state == KOOPAS_STATE_LIVING_UP)
 			{
 				nx = mario->nx;
 				SetState(KOOPAS_STATE_TORTOISESHELL_UP);
 				ispickup = false;
 			}
-			else if(state==KOOPAS_STATE_LIVING_DOWN)
+			else if (state == KOOPAS_STATE_LIVING_DOWN)
 			{
 				nx = mario->nx;
 				SetState(KOOPAS_STATE_TORTOISESHELL_DOWN);
 				ispickup = false;
 			}
-			
 		}
+		
 	}
-	/*if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
-	{
-		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVING)
-		{
-			Destroy();
-		}
-	}*/
 	if (GetState() == KOOPAS_STATE_LIVING_UP && time>0 && ispickup == false)
 	{
 		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
@@ -157,6 +155,23 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	if (GetState() == KOOPAS_STATE_LIVE_FOOT_UP && time>0)
+	{
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE_FOOT)
+		{
+			y -= KOOPAS_Y;
+			SetState(KOOPAS_STATE_WALKING);
+			time = 0;
+		}
+	}
+	if (GetState() == KOOPAS_STATE_LIVING_DOWN && time > 0 && ispickup == false)
+	{
+		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE)
+		{
+
+			state = KOOPAS_STATE_LIVE_FOOT_DOWN;
+		}
+	}
+	if (GetState() == KOOPAS_STATE_LIVE_FOOT_DOWN && time > 0)
 	{
 		if ((GetTickCount64() - time) >= KOOPAS_TIME_LIVE_FOOT)
 		{
@@ -230,51 +245,6 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					vy = -KOOPAS_JUMP_SPEED_Y;
 				}
 			}
-			else if (dynamic_cast<CBrick*>(e->obj))
-			{
-				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (e->ny < 0)
-				{
-					vy = 0;
-				}
-				if (e->nx != 0)
-				{
-					if (state==KOOPAS_STATE_TORTOISESHELL_UP||state==KOOPAS_STATE_TORTOISESHELL_DOWN)
-					{
-						brick->Destroy();
-					}
-					nx = -nx;
-					vx = -vx;
-				}
-			}
-			else if (dynamic_cast<CQuestionMark*>(e->obj))
-			{
-				CQuestionMark* question = dynamic_cast<CQuestionMark*>(e->obj);
-				if (e->ny < 0)
-				{
-					vy = 0;
-				}
-				if (e->nx != 0)
-				{
-					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
-					{
-						if (question->GetState() == MARK_STATE_QUESTION || question->GetState() == MARK_STATE_N_EMPTY)
-						{
-							question->SetItemCount(question->GetItemCount() - 1);
-							if (question->GetItemCount() == 0)
-							{
-								question->SetState(MARK_STATE_EMPTY);
-							}
-							else
-							{
-								question->SetState(MARK_STATE_N_EMPTY);
-							}
-						}
-					}
-					nx = -nx;
-					vx = -vx;
-				}
-			}
 			else if(dynamic_cast<CGoomba*>(e->obj))
 			{
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -345,6 +315,78 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					vy = 0;
 			}
 		}
+		else if (dynamic_cast<CBrick*>(e))
+		{
+			CBrick* brick = dynamic_cast<CBrick*> (e);
+
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			brick->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+					{
+						if (brick->GetItemState() == 1)
+						{
+							//Effect(scene);
+							brick->setIsBroken(true);
+						}
+						else
+						{
+							//Effect(scene);
+							brick->setIsBroken(true);
+							brick->Destroy();
+						}
+					}
+					nx = -nx;
+					vx = -vx;
+				}
+			}
+		}
+		else if (dynamic_cast<CQuestionMark*>(e))
+		{
+			CQuestionMark* question = dynamic_cast<CQuestionMark*>(e);
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			question->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				if (e->nx != 0)
+				{
+					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+					{
+						if (question->GetState() == MARK_STATE_QUESTION || question->GetState() == MARK_STATE_N_EMPTY)
+						{
+							question->SetItemCount(question->GetItemCount() - 1);
+							if (question->GetItemCount() == 0)
+							{
+								//Effect(scene);
+								question->SetState(MARK_STATE_EMPTY);
+							}
+							else
+							{
+								//Effect(scene);
+								question->SetState(MARK_STATE_N_EMPTY);
+							}
+						}
+						nx = -nx;
+						vx = -vx;
+					}
+					if (e->ny < 0)
+					{
+						vy = 0;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -397,6 +439,9 @@ void CKoopas::Render()
 		case KOOPAS_STATE_LIVE_FOOT_UP:
 			ani = KOOPAS_ANI_RED_LIVE_FOOT_UP;
 			break;
+		case KOOPAS_STATE_LIVE_FOOT_DOWN:
+			ani = KOOPAS_ANI_RED_LIVE_FOOT_DOWN;
+			break;
 		}
 	}
 	else if (apperance == KOOPAS_BULE)
@@ -441,6 +486,9 @@ void CKoopas::Render()
 		case KOOPAS_STATE_LIVE_FOOT_UP:
 			ani = KOOPAS_ANI_BULE_LIVE_FOOT_UP;
 			break;
+		case KOOPAS_STATE_LIVE_FOOT_DOWN:
+			ani = KOOPAS_ANI_BULE_LIVE_FOOT_DOWN;
+			break;
 		}
 	}
 
@@ -469,9 +517,8 @@ void CKoopas::SetState(int state)
 		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_LIVING_DOWN:
-		
 		vx = 0;
-		vy = -KOOPAS_DIE_VY;
+		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_WALKING:
 		nx = -1;
@@ -501,9 +548,18 @@ void CKoopas::SetState(int state)
 		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_DOWN:
-		vx = KOOPAS_TORTOISESHELL;
+		if (nx > 0)
+		{
+			vx = KOOPAS_TORTOISESHELL;
+		}
+		else
+		{
+			vx = -KOOPAS_TORTOISESHELL;
+		}
+		time = GetTickCount64();
 		break;
 	case KOOPAS_STATE_LIVE_FOOT_UP:
+	case KOOPAS_STATE_LIVE_FOOT_DOWN:
 		break;
 	}
 

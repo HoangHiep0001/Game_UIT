@@ -24,6 +24,8 @@
 #include "CTailPoint.h"
 #include "CEffect.h"
 #include "CEffectChangeMario.h"
+#include "Cactus.h"
+#include "CEffectItem.h"
 
 
 CMario::CMario(int intro, float x, float y) : CGameObject()
@@ -114,7 +116,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	if (GetIntro()==0)
 	{
-		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN&&state!=MARIO_STATE_LANDING )
+		if (state != MARIO_STATE_FLYLING && state != MARIO_STATE_UP&& state!= MARIO_STATE_DOWN && state!=MARIO_STATE_LANDING )
 		{
 			vy += MARIO_GRAVITY * dt;
 		}
@@ -164,7 +166,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == MARIO_STATE_FLYLING)
 	{
-		if (GetTickCount64() - time_fly > TIME_FLYLING_MARIO)
+		if (GetTickCount64() - time_fly >= TIME_FLYLING_MARIO)
 			SetState(MARIO_STATE_LANDING);
 	}
 
@@ -327,9 +329,25 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						}
 						if (koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_UP)
 						{
+							if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+							{
+								SetState(MARIO_STATE_IDLE);
+								vx = 0;
+							}
 							koopas->SetState(KOOPAS_STATE_LIVING_UP);
 							Effect(scene);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
+						else if (koopas->GetState() == KOOPAS_STATE_TORTOISESHELL_DOWN)
+						{
+							if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+							{
+								SetState(MARIO_STATE_IDLE);
+							}
+							koopas->SetState(KOOPAS_STATE_LIVING_DOWN);
+							Effect(scene);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							
 						}
 					}
 					else if (ny > 0)
@@ -426,6 +444,43 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						y += dy;
 				}
 			}
+			else if (dynamic_cast<CCactus*>(e->obj))
+			{
+			CCactus* Cactus = dynamic_cast<CCactus*>(e->obj);
+				if (e->nx != 0|| e->ny != 0)
+				{
+					if (state != MARIO_STATE_ATTACK)
+					{
+						if (level > MARIO_LEVEL_SMALL)
+						{
+							if (apperance == MARIO_NORMAL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							else if (apperance == MARIO_FOX)
+							{
+								apperance = MARIO_NORMAL;
+								EffectChangeMario(scene);
+								level = MARIO_LEVEL_BIG;
+								StartUntouchable();
+							}
+							else if (apperance == MARIO_FIRE)
+							{
+								apperance = MARIO_NORMAL;
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+						}
+						else
+						{
+							SetState(MARIO_STATE_DIE);
+						}
+					}
+
+				}
+
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -473,6 +528,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					if (state == MARIO_STATE_FALL_DOWN && state!=MARIO_STATE_FIRE_BALL)
 					{
 						SetState(MARIO_STATE_IDLE);
+						vx = 0;
 					}
 					vy = 0;
 					time_jump = 0;
@@ -546,6 +602,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					vy = 0;
 				}
+				if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+				{
+					SetState(MARIO_STATE_IDLE);
+					vx = 0;
+				}
 				if (e->nx != 0)
 				{
 					vx = 0;
@@ -582,6 +643,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+				if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+				{
+					SetState(MARIO_STATE_IDLE);
+					vx = 0;
+				}
 				if (e->nx != 0)
 				{
 					vx = 0;
@@ -596,7 +662,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					coin->Destroy();
 					x += dx;
-					y += dy;
 					this->score += coin->GetScore();
 					this->coin_number += coin->GetCoin_number();
 				}
@@ -609,7 +674,6 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				coin->Destroy();
 				x += dx;
-				y += dy;
 				this->score += coin->GetScore();
 				this->coin_number += coin->GetCoin_number();
 			}
@@ -669,6 +733,10 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					isP = true;
 					isP_time = GetTickCount64();
 				}
+				if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+				{
+					SetState(MARIO_STATE_IDLE);
+				}
 				if (e->nx != 0)
 				{
 					vx = 0;
@@ -677,7 +745,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CFireBallCacTus*>(e->obj))
 			{
-				/*if (untouchable == 0)
+				if (untouchable == 0)
 				{
 					CFireBallCacTus* FireBall = dynamic_cast<CFireBallCacTus*>(e->obj);
 
@@ -707,14 +775,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						SetState(MARIO_STATE_DIE);
 						FireBall->Destroy();
 					}
-				}*/
-				/*else
+				}
+				else
 				{
 					if (e->nx != 0)
 						x += dx;
 					if (e->ny != 0)
 						y += dy;
-				}*/
+				}
 			}
 			else if (dynamic_cast<CCheckStop*>(e->obj))
 			{
@@ -780,6 +848,24 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					x += dx;
 					y += dy;
 				}
+			}
+			else if(dynamic_cast<CEffectItem*>(e->obj))
+			{
+			CEffectItem* effectitem = dynamic_cast<CEffectItem*>(e->obj);
+			int frame = CAnimations::GetInstance()->Get(EFFECTITEM_ANI)->GetCurrentFrame();
+			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+			pc->getHub()->setEffectITem(frame);
+			switch (frame)
+			{
+			case 1:
+			case 2:
+			case 3:
+				break;
+			}
+			x += dx;
+			y += dy;
+			vy = 0;
+			effectitem->vy = - 0.3;
 			}
 			else if (dynamic_cast<Trigger*>(e->obj))
 			{
@@ -854,6 +940,8 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+
+
 	}
 
 
@@ -935,7 +1023,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-						if (CountFireball < 2)
+						if (CountFireball < FIRE_BALL_N)
 						{
 							pc->SpawnObject(fireball);
 							this->CountFireball++;
@@ -945,7 +1033,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						fireball->SetPosition(x, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-						if (CountFireball < 2)
+						if (CountFireball < FIRE_BALL_N)
 						{
 							pc->SpawnObject(fireball);
 							this->CountFireball++;
@@ -961,7 +1049,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						fireball->SetPosition(x + FIRE_BALL, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-						if (CountFireball < 2)
+						if (CountFireball < FIRE_BALL_N)
 						{
 							pc->SpawnObject(fireball);
 							this->CountFireball++;
@@ -971,7 +1059,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						fireball->SetPosition(x, y + FIRE_BALL);
 						CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-						if (CountFireball < 2)
+						if (CountFireball < FIRE_BALL_N)
 						{
 							pc->SpawnObject(fireball);
 							this->CountFireball++;
@@ -1214,6 +1302,7 @@ void CMario::SetState(int state)
 				{
 					vx = 0;
 				}
+				pickingup = false;
 				isSpawnFireBall = false;
 				break;
 			case MARIO_STATE_WALKING_RIGHT_FAST:
@@ -1359,6 +1448,7 @@ void CMario::SetState(int state)
 			{
 				vx = 0;
 			}
+			pickingup = false;
 			isSpawnFireBall = false;
 			break;
 		case MARIO_STATE_DIE:

@@ -4,6 +4,7 @@
 
 CCactus::CCactus(int appe,int stype,int sewer, float pipes)
 {
+
 	pipes_y = pipes;
 	sewer_pipes = sewer;
 	type = stype;
@@ -12,6 +13,9 @@ CCactus::CCactus(int appe,int stype,int sewer, float pipes)
 }
 void CCactus::SetState(int state)
 {
+
+	if (isDestroy)
+		return;
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -34,19 +38,22 @@ void CCactus::SetState(int state)
 }
 void CCactus::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+
+	if (isDestroy)
+		return;
 	left = x;
 	top = y;
 	
-		if (number==CACTUS_NUMBER_ONE)
-		{
-			right = x + CACTUS_BBOX_ONE_X;
-			bottom = y + CACTUS_BBOX_ONE_Y;
-		}
-		else
-		{
-			right = x + CACTUS_BBOX_TWO_X;
-			bottom = y + CACTUS_BBOX_TWO_Y;
-		}
+	if (number==CACTUS_NUMBER_ONE)
+	{
+		right = x + CACTUS_BBOX_ONE_X;
+		bottom = y + CACTUS_BBOX_ONE_Y;
+	}
+	else
+	{
+		right = x + CACTUS_BBOX_TWO_X;
+		bottom = y + CACTUS_BBOX_TWO_Y;
+	}
 	if (isDestroy)
 	{
 		right = 0;
@@ -280,6 +287,6 @@ void CCactus::Render()
 
 	animation_set->at(ani)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 

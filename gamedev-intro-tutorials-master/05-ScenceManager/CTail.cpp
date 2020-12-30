@@ -3,6 +3,7 @@
 #include "PlayScence.h"
 #include "CBroken.h"
 #include "CEffect.h"
+#include "Cactus.h"
 
 CTail::CTail(CScene* scene,int dir)
 {
@@ -96,6 +97,7 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					if (koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState() == KOOPAS_STATE_FLYLING)
 					{
 						koopas->SetState(KOOPAS_STATE_LIVING_DOWN);
+						vy = -KOOPAS_DIE_VY;
 					}
 					Effect(scene);
 				}
@@ -189,6 +191,21 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+		else if(dynamic_cast<CCactus*>(e))
+		{
+			CCactus* Cactus = dynamic_cast<CCactus*> (e);
+
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			Cactus->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				Effect(scene);
+				Cactus->Destroy();
+				
+			}
+		}
 	}
 }
 
@@ -196,7 +213,7 @@ void CTail::Render()
 {
 	if (isDestroy)
 		return;
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CTail::Effect(CScene* scene)

@@ -177,6 +177,9 @@
     <ClCompile Include="CEffectChangeMario.cpp">
       <Filter>Object\StaticOject\effect</Filter>
     </ClCompile>
+    <ClCompile Include="CEffectItem.cpp">
+      <Filter>Object\StaticOject\effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -296,6 +299,9 @@
     <ClInclude Include="CEffectChangeMario.h">
       <Filter>Object\StaticOject\effect</Filter>
     </ClInclude>
+    <ClInclude Include="CEffectItem.h">
+      <Filter>Object\StaticOject\effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="scene-test.txt">
@@ -320,9 +326,6 @@
       <Filter>SceneText</Filter>
     </Text>
     <Text Include="scene4.1.txt">
-      <Filter>SceneText</Filter>
-    </Text>
-    <Text Include="scene4.2.txt">
       <Filter>SceneText</Filter>
     </Text>
     <Text Include="scene5.1.txt">

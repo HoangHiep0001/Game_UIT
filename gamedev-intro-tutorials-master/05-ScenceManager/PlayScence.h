@@ -15,6 +15,7 @@
 
 
 #define GAME_TIME 1000
+
 class Hud;
 
 class CPlayScene: public CScene
@@ -43,6 +44,8 @@ protected:
 public: 
 	CPlayScene(int id, LPCWSTR filePath, int word, int time, int intro);
 	
+	Hud* getHub() { return this->hud; }
+
 	RECT GetCamera() { return this->camera; }
 	
 	void SetMapCamera(RECT map) { this->mapCamera = map; }
