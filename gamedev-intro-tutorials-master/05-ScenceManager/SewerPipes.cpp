@@ -17,6 +17,16 @@ void SewerPipes::Render()
 	case SEWERPIPES_STATE_TWO:
 		ani = SEWERPIPES_ANI_TWO;
 		break;
+	case SEWERPIPES_STATE_THREE:
+		ani = SEWERPIPES_ANI_THREE;
+		break;
+	case SEWERPIPES_STATE_FOUR:
+		ani = SEWERPIPES_ANI_FOUR;
+		break;
+	case SEWERPIPES_STATE_FIVE:
+		ani = SEWERPIPES_ANI_FIVE;
+		break;
+	
 	}
 	animation_set->at(ani)->Render(x, y);
 	//RenderBoundingBox();
@@ -37,6 +47,9 @@ void SewerPipes::SetState(int state)
 	{
 	case SEWERPIPES_STATE_ONE:
 	case SEWERPIPES_STATE_TWO:
+	case SEWERPIPES_STATE_THREE:
+	case SEWERPIPES_STATE_FOUR:
+	case SEWERPIPES_STATE_FIVE:
 		vx = 0;
 		vy = 0;
 		break;

@@ -159,9 +159,6 @@
     <ClCompile Include="CCheckStop.cpp">
       <Filter>Object\StaticOject\Trigger</Filter>
     </ClCompile>
-    <ClCompile Include="CPortalintro.cpp">
-      <Filter>Object\StaticOject</Filter>
-    </ClCompile>
     <ClCompile Include="CTailPoint.cpp">
       <Filter>Object\Mario</Filter>
     </ClCompile>
@@ -179,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="CEffectItem.cpp">
       <Filter>Object\StaticOject\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CPortalintro.cpp">
+      <Filter>Object\StaticOject\Trigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +281,6 @@
     <ClInclude Include="CCheckStop.h">
       <Filter>Object\StaticOject\Trigger</Filter>
     </ClInclude>
-    <ClInclude Include="CPortalintro.h">
-      <Filter>Object\StaticOject</Filter>
-    </ClInclude>
     <ClInclude Include="CTailPoint.h">
       <Filter>Object\Mario</Filter>
     </ClInclude>
@@ -301,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="CEffectItem.h">
       <Filter>Object\StaticOject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CPortalintro.h">
+      <Filter>Object\StaticOject\Trigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

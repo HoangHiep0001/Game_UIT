@@ -582,10 +582,11 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						{
 							if (brick->GetItemCount() >= 0)
 							{
-								brick->SetState(BRICK_STATE_EMPTY);
+								Effect(scene);
+								brick->setIsBroken(true);
 							}
 						}
-						Effect(scene);
+						
 					}
 					else
 					{
@@ -594,6 +595,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 							if (state == MARIO_STATE_JUMP)
 							{
 								Effect(scene);
+								brick->setIsBroken(true);
 								brick->Destroy();
 								this->score = brick->GetScore();
 

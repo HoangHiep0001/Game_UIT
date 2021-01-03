@@ -57,11 +57,11 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
+	CMario* mario = pc->GetPlayer();
 	CGameObject::Update(dt, scene, coObjects);
 	x += dx;
 	y += dy;
-
-
+	
 	
 	if (this->item_state == 0)
 	{
@@ -89,7 +89,22 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				item = item->SpawnItem(item_id, scene);
 				float l, t, r, b;
 				item->GetBoundingBox(l, t, r, b);
-				item->SetPosition(x, y -(b-t));
+				if (item_id == LEAVES_ID && mario->GetLevel() == MARIO_LEVEL_BIG)
+				{
+					item->SetPosition(x, y - (b - t) - 15);
+					item->SetOX(x + MARK_BBOX_WIDTH / 2);
+				}
+				else if (item_id == COIN_ID_WALK)
+				{
+					item->SetPosition(x, y - (b - t) - 16);
+					CItemCoin* coin = dynamic_cast<CItemCoin*>(item);
+					coin->SetStartCoinY(y);
+					coin->SetState(ITEM_COIN_STATE_COIN);
+				}
+				else
+				{
+					item->SetPosition(x, y - (b - t) - 16);
+				}
 				pc->SpawnObject(item);
 				this->item_count--;
 			}

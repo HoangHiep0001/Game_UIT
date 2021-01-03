@@ -14,6 +14,7 @@
 #define BRICK_ANI_EMPTY 1
 #define BRICK_ANI_BROKEN 2
 #define BRICK_ANIMATION_SET_ID	3
+
 #define BRICK_SCORE 10
 
 

@@ -157,7 +157,6 @@ void CTail::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else
 				{
-					Effect(scene);
 					brick->setIsBroken(true);
 					brick->Destroy();
 				}
