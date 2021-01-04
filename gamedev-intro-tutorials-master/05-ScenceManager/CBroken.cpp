@@ -14,6 +14,8 @@ CBroken::CBroken(D3DXVECTOR2 position, int nx, int ny)
 
 void CBroken::Render()
 {
+	if (isDestroy)
+		return;
 	animation_set->at(0)->Render(x, y);
 	//RenderBoundingBox();
 }
@@ -22,7 +24,8 @@ void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!CheckInCamera())
 	{
-		return;
+		if (isDestroy)
+			return;
 	}
 	vy += BROKEN_GRAVITY;
 	CGameObject::Update(dt, scene, coObjects);

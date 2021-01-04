@@ -87,7 +87,22 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 		this->SetPosition(startx, starty);
 		return;
 	}
-
+	if (GetDirection() == 1)
+	{
+		if (state ==KOOPAS_STATE_WALKING)
+		{
+			if (this->x<=GetDistance_a())
+			{
+				nx =- nx;
+				vx =- vx;
+			}
+			else if (this->x >= GetDistance_b())
+			{
+				nx =- nx;
+				vx =- vx;
+			}
+		}
+	}
 	if (ispickup)
 	{
 		CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);

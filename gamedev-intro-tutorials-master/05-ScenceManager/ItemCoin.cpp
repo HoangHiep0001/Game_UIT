@@ -40,8 +40,8 @@ void CItemCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 	l = x;
 	t = y;
-	r = l + 0;
-	b = t + 0;
+	r = l + 14;
+	b = t + 14;
 }
 
 void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects)

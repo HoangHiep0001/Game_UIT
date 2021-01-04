@@ -103,7 +103,7 @@ void CBrick::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else
 				{
-					item->SetPosition(x, y - (b - t) - 16);
+					item->SetPosition(x, y - (b - t));
 				}
 				pc->SpawnObject(item);
 				this->item_count--;

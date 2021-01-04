@@ -311,6 +311,10 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 							{
 								koopas->SetState(KOOPAS_STATE_LIVING_UP);
 							}
+							if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+							{
+								SetState(MARIO_STATE_IDLE);
+							}
 							Effect(scene);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
@@ -501,6 +505,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				Trigger_ChangeCamera* trigger = dynamic_cast<Trigger_ChangeCamera*>(e->obj);
 				CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
 				pc->SetMapCamera(pc->GetListMapCamera().at(trigger->getCameraMapID()));
+				pc->SetSpecialCamera(pc->GetSpecialCamera().at(trigger->getCameraMapID()));
 				this->SetPosition(trigger->getMarioX(), trigger->getMarioY());
 				pc->SetCamera(pc->GetListCamera().at(trigger->getCameraMapID()));
 				SetisDownPipe(false);
@@ -670,15 +675,14 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CItemCoin*>(e->obj))
 			{
-			CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
-			CItemCoin* coin = dynamic_cast<CItemCoin*>(e->obj);
-			if (e->ny != 0 || e->nx != 0)
-			{
-				coin->Destroy();
-				x += dx;
-				this->score += coin->GetScore();
-				this->coin_number += coin->GetCoin_number();
-			}
+				CItemCoin* coin = dynamic_cast<CItemCoin*>(e->obj);
+				if (e->ny != 0 || e->nx != 0)
+				{
+					coin->Destroy();
+					x += dx;
+					this->score += coin->GetScore();
+					this->coin_number += coin->GetCoin_number();
+				}
 			}
 			else if (dynamic_cast<CMushrooms*>(e->obj))
 			{
@@ -747,7 +751,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CFireBallCacTus*>(e->obj))
 			{
-				if (untouchable == 0)
+				/*if (untouchable == 0)
 				{
 					CFireBallCacTus* FireBall = dynamic_cast<CFireBallCacTus*>(e->obj);
 
@@ -784,7 +788,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					if (e->ny != 0)
 						y += dy;
-				}
+				}*/
 			}
 			else if (dynamic_cast<CCheckStop*>(e->obj))
 			{
@@ -904,7 +908,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-		if (dynamic_cast<CLeaves*>(e))
+		else if (dynamic_cast<CLeaves*>(e))
 		{
 			CLeaves* leaves = dynamic_cast<CLeaves*>(e);
 			float l, t, r, b, el, et, er, eb;
@@ -922,8 +926,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-
-		if (dynamic_cast<Trigger*>(e))
+		else if (dynamic_cast<Trigger*>(e))
 		{
 			Trigger* trigger = dynamic_cast<Trigger*>(e);
 			float l, t, r, b, el, et, er, eb;
@@ -940,6 +943,21 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					this->isDownPipe = true;
 				}
+			}
+		}
+		else if (dynamic_cast<CItemCoin*>(e))
+		{
+			CItemCoin* coin = dynamic_cast<CItemCoin*>(e);
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			coin->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				coin->Destroy();
+				x += dx;
+				this->score += coin->GetScore();
+				this->coin_number += coin->GetCoin_number();
 			}
 		}
 
@@ -1015,6 +1033,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					isSpawnFireBall = true;
 				}
+				vx = 0;
 			}
 			else
 			{

@@ -72,12 +72,19 @@ class CKoopas : public CGameObject
 	bool ispickup= false;
 	bool iskoopas = false;
 	float startx, starty;
+	float distance_a, distance_b;
 	int state_koopas;
+	int direction;
 
 public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetStatePoint(int sta) { state_koopas = sta; }
 	void SetStartPoint(float x0, float y0) { startx = x0; starty = y0; }
+	void SetDistance(float a, float b) { distance_a = a; distance_b = b; }
+	void SetDirection(int dir) { direction = dir; }
+	float GetDistance_a() {return distance_a;}
+	float GetDistance_b() { return distance_b; }
+	int GetDirection() { return direction; }
 	int GetApperance() { return apperance; }
 	CKoopas(int appe);
 	void SetState(int state);

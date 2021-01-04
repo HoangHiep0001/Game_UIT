@@ -1191,7 +1191,7 @@ cầm rùa trái
 5	0	0	0	260	224	0
 # --- MAP CAMERA ---
 #type x	y	ani_set_id	w	h
-6	0	0	0	320	260	0
+6	0	0	0	320	260	0	0
 # --- PORTALINTRO ----
 # type	l	t	ani_set_id	r	b	scene_id
 49	80	32	0	96	48	1	1900	360

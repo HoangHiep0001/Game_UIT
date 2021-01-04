@@ -194,8 +194,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA:
 	{
-		int app = atof(tokens[4].c_str());
-		int state = atof(tokens[5].c_str());
+		int app = atoi(tokens[4].c_str());
+		int state = atoi(tokens[5].c_str());
 		obj = new CGoomba(app);
 		CGoomba* q = dynamic_cast<CGoomba*>(obj);
 		q->SetState(state); 
@@ -223,12 +223,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		int app = atof(tokens[4].c_str());
 		int state = atof(tokens[5].c_str());
+		float diriction = atof(tokens[6].c_str());
+		float distance_a= atof(tokens[7].c_str());
+		float distance_b = atof(tokens[8].c_str());
 		obj = new CKoopas(app);
-		
 		CKoopas* q = dynamic_cast<CKoopas*>(obj);
 		q->SetStartPoint(x, y);
 		q->SetStatePoint(state);
 		q->SetState(state);
+		q->SetDirection(diriction);
+		q->SetDistance(distance_a, distance_b);
 
 	}
 	break;
@@ -284,6 +288,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		cam.right = x + w;
 		cam.bottom = y + h;
 		Cameras[id] = cam;
+
 		break;
 	}
 	case OBJECT_TYPE_MAP_CAMERA:
@@ -291,11 +296,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
 		int id= atoi(tokens[6].c_str());
+		int n = atoi(tokens[7].c_str());
 		mapCamera.left = x;
 		mapCamera.top = y;
 		mapCamera.right = x + w;
 		mapCamera.bottom = y + h;
 		mapCameras[id] = mapCamera;
+		isSpecialCamera[id] = n;
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
@@ -499,6 +506,7 @@ void CPlayScene::Load()
 
 	hud = new Hud(this);
 	mapCamera = mapCameras.at(0);
+	isSpecialMap = isSpecialCamera.at(0);
 	camera = Cameras.at(0);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -532,39 +540,65 @@ void CPlayScene::Update(DWORD dt)
 	cx -= (float)game->GetScreenWidth() / 2;
 	cy -= (float)game->GetScreenHeight() / 2;
 
+	if (cy < mapCamera.top)
+	{
+		cy = mapCamera.top;
+	}
 	float x_cam;	//0	0
 	float y_cam;
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 
 	//khoa cam x
+
 	if (this->intro == 1)
 	{
 		CGame::GetInstance()->SetCamPos(camera.left, camera.top/*cy*/);
-
 	}
 	else
 	{
-		if (cx < mapCamera.left)
+		if (isSpecialMap == 0)
 		{
-			cx = mapCamera.left;
-		}
-		else if (cx > mapCamera.right - game->GetScreenWidth())
-		{
-			cx = mapCamera.right - game->GetScreenWidth();
-		}
+			if (cx < mapCamera.left)
+			{
+				cx = mapCamera.left;
+			}
+			else if (cx > mapCamera.right - game->GetScreenWidth())
+			{
+				cx = mapCamera.right - game->GetScreenWidth();
+			}
 
-		//khoa cam y
-		if ((y_mario > camera.top))
-		{
-			CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
-		}
-		else if (y_cam <= mapCamera.top)
-		{
-			CGame::GetInstance()->SetCamPos(cx, y_cam/*cy*/);
+			//khoa cam y
+			if ((y_mario > camera.top))
+			{
+				CGame::GetInstance()->SetCamPos(cx, camera.top/*cy*/);
+			}
+			else if (y_cam <= mapCamera.top)
+			{
+				CGame::GetInstance()->SetCamPos(cx, mapCamera.top/*cy*/);
+			}
+			else
+			{
+				CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);
+			}
 		}
 		else
 		{
-			CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);
+			x_specialcamera += 1;
+
+			//khoa cam y
+			if ((y_mario > camera.top))
+			{
+				CGame::GetInstance()->SetCamPos(x_specialcamera, camera.top/*cy*/);
+			}
+			else if (y_cam <= mapCamera.top)
+			{
+				CGame::GetInstance()->SetCamPos(x_specialcamera, mapCamera.top/*cy*/);
+			}
+			else
+			{
+				CGame::GetInstance()->SetCamPos(x_specialcamera, cy/*cy*/);
+			}
+
 		}
 	}
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
@@ -672,9 +706,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_A:
 			if (mario->GetApperance() == MARIO_FIRE)
 			{
-				if (mario->GetCountFireBall() < 2)
+				if (mario->GetState() == MARIO_STATE_IDLE)
 				{
-					mario->SetState(MARIO_STATE_FIRE_BALL);
+					if (mario->GetCountFireBall() < 2)
+					{
+						mario->SetState(MARIO_STATE_FIRE_BALL);
+					}
 				}
 			}
 			else if (mario->GetApperance() == MARIO_FOX)
@@ -879,7 +916,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 		{
-			if  (mario->GetState()!=MARIO_STATE_FIRE_BALL_DOUBLE && mario->GetState() != MARIO_STATE_UP&&mario->GetState()!=MARIO_STATE_DOWN
+			if  (mario->GetState() != MARIO_STATE_UP&&mario->GetState()!=MARIO_STATE_DOWN
 				&& (!mario->GetIsAttack()) && !mario->GetIsFireBall()&& mario->GetIntro()==0 && mario->GetState() != MARIO_STATE_IDLE&& mario->GetState() != MARIO_STATE_LANDING )
 			{
 				if (mario->GetState() != MARIO_STATE_FLYLING && mario->GetState() != MARIO_STATE_LANDING)

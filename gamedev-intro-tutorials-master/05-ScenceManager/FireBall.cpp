@@ -27,6 +27,10 @@ CFireBall::CFireBall(int dir)
 
 void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	if (isDestroy)
+	{
+		return;
+	}
 	left = x;
 	top = y;
 	right = x + FIREBALL_BBOX_WIDTH;
@@ -205,7 +209,7 @@ void CFireBall::Render()
 
 		animation_set->at(ani)->Render(x, y, 255);
 
-		//RenderBoundingBox();
+		RenderBoundingBox();
 	}
 }
 
