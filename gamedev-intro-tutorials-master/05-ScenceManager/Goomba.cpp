@@ -220,6 +220,22 @@ void CGoomba::Update(DWORD dt, CScene* scene,vector<LPGAMEOBJECT> *coObjects)
 					vy = 0;
 			}
 		}
+		else if (dynamic_cast<CBrick*>(e))
+		{
+			CBrick* brick = dynamic_cast<CBrick*> (e);
+
+			float l, t, r, b, el, et, er, eb;
+			this->GetBoundingBox(l, t, r, b);
+			b = b;
+			brick->GetBoundingBox(el, et, er, eb);
+			if (CGameObject::AABB(l, t, r, b, el, et, er, eb))
+			{
+				vy = 0;
+				Updateflyling();
+				this->nx = -this->nx;
+				vx = -vx;
+			}
+		}
 	}
 
 }
@@ -286,7 +302,7 @@ void CGoomba::Render()
 	
 	animation_set->at(ani)->Render(x,y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CGoomba::SetState(int state)

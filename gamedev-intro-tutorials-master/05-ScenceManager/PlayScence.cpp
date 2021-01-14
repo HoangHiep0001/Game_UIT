@@ -24,6 +24,7 @@
 #include "CCheckStop.h"
 #include "CPortalintro.h"
 #include "CEffectItem.h"
+#include "CCheckUpdate.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):CScene(id, filePath, word, time, intro)
@@ -60,7 +61,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):C
 #define OBJECT_TYPE_ITEM_SIGN	12
 #define OBJECT_TYPE_BROKEN	13
 #define OBJECT_TYPE_CHECKSTOP 15
-
+#define OBJECT_TYPE_CHECKUPDATE	35
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_EFFECTITEM 22
@@ -268,6 +269,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int state = atof(tokens[6].c_str());
 		obj = new Ground(x, y, w, h, state);
 		break; 
+	}
+	case OBJECT_TYPE_CHECKUPDATE:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		float mariox = atof(tokens[7].c_str());
+		float marioy = atof(tokens[8].c_str());
+		obj = new CCheckUpdate(x, y, w, h, scene_id, mariox, marioy);
+		break;
 	}
 	case OBJECT_TYPE_CHECKSTOP:
 	{
@@ -550,21 +561,21 @@ void CPlayScene::Update(DWORD dt)
 
 	//khoa cam x
 
-	if (this->intro == 1)
+	if (this->intro == INTRO_MAP_MAP)
 	{
 		CGame::GetInstance()->SetCamPos(camera.left, camera.top/*cy*/);
 	}
 	else
 	{
-		if (isSpecialMap == 0)
+		if (isSpecialMap==SPECIAL_MAP_STATIC)
 		{
 			if (cx < mapCamera.left)
 			{
 				cx = mapCamera.left;
 			}
-			else if (cx > mapCamera.right - game->GetScreenWidth())
+			if (cx > mapCamera.right - CGame::GetInstance()->GetScreenWidth())
 			{
-				cx = mapCamera.right - game->GetScreenWidth();
+				cx = mapCamera.right - CGame::GetInstance()->GetScreenWidth();
 			}
 
 			//khoa cam y
@@ -583,8 +594,14 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			x_specialcamera += 1;
-
+			if (x_specialcamera <= (mapCamera.right- CGame::GetInstance()->GetScreenWidth()))
+			{
+				x_specialcamera += INTRO_NX;
+			}
+			else
+			{
+				x_specialcamera = (mapCamera.right - CGame::GetInstance()->GetScreenWidth());
+			}
 			//khoa cam y
 			if ((y_mario > camera.top))
 			{
@@ -653,7 +670,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_S:
 		if ( mario->GetState()==MARIO_STATE_FLYLING)
 		{
 			mario->SetState(MARIO_STATE_LANDING);
@@ -676,6 +693,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		switch (KeyCode)
 		{
+		case DIK_E:
+			mario->SetPosition(470,288);
+			break;
+		case DIK_5:
+			DebugOut(L"Hello!", KeyCode);
+			break;
 		case DIK_W:
 			mario->Reset();
 			break;
@@ -694,15 +717,17 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_M:
 			mario->SetState(MARIO_STATE_FLY);
 			break;
-		case  DIK_Q:
+		case DIK_Q:
 			if (mario->GetApperance() == MARIO_FIRE)
 			{
 				mario->SetState(MARIO_STATE_FIRE_BALL_DOUBLE);
 			}
 			break;
-		case  DIK_D:
+		case DIK_D:
+			{
 				mario->SetState(MARIO_STATE_HOLD);
-		break;	
+			}
+			break;
 		case DIK_A:
 			if (mario->GetApperance() == MARIO_FIRE)
 			{
@@ -817,10 +842,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 								}
 								if (game->IsKeyDown(DIK_D))
 								{
-									
 									mario->SetState(MARIO_STATE_HOLD);
-									
-									
 								}
 								
 							}

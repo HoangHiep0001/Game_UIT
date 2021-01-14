@@ -121,7 +121,7 @@ void CCactus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				SetState(CACTUS_STATE_FIRE_DOWN);
 			}
-			if (GetState() == CACTUS_STATE_FIRE_DOWN || GetState() == CACTUS_STATE_FIRE_UP)
+			/*if (GetState() == CACTUS_STATE_FIRE_DOWN || GetState() == CACTUS_STATE_FIRE_UP)
 			{
 				if (isSpawnFireBall == false)
 				{
@@ -143,7 +143,7 @@ void CCactus::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						isSpawnFireBall = true;
 					}
 				}
-			}
+			}*/
 
 		}
 		if (GetTickCount64() - time >= 1000 && time > 0)

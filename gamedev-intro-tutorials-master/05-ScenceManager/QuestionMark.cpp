@@ -71,19 +71,27 @@ void CQuestionMark::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObje
 		item->GetBoundingBox(l, t, r, b);
 		if (item_id == LEAVES_ID && mario->GetLevel() == MARIO_LEVEL_BIG)
 		{
-			item->SetPosition(x, y - (b - t) - 15);
-			item->SetOX(x + MARK_BBOX_WIDTH / 2);
+			if (mario->GetApperance()==MARIO_NORMAL)
+			{
+				item->SetPosition(x, y - (b - t) - ITEM_POSITION);
+				item->SetOX(x + MARK_BBOX_WIDTH / 2);
+			}
+			else
+			{
+				item->SetPosition(x, y - (b - t ) + ITEM_POSITION_Y);
+			}
+			
 		}
 		else if(item_id == COIN_ID_WALK)
 		{
-			item->SetPosition(x, y - (b - t)-16);
+			item->SetPosition(x, y - (b - t)- ITEM_POSITION);
 			CItemCoin* coin = dynamic_cast<CItemCoin*>(item);
 			coin->SetStartCoinY(y);
 			coin->SetState(ITEM_COIN_STATE_COIN);
 		}
 		else
 		{
-			item->SetPosition(x, y - (b - t) - 16);
+			item->SetPosition(x, y - (b - t));
 		}
 		CPlayScene* p = dynamic_cast<CPlayScene*>(scene);
 		p->SpawnObject(item);

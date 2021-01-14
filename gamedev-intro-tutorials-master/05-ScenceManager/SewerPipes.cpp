@@ -26,7 +26,6 @@ void SewerPipes::Render()
 	case SEWERPIPES_STATE_FIVE:
 		ani = SEWERPIPES_ANI_FIVE;
 		break;
-	
 	}
 	animation_set->at(ani)->Render(x, y);
 	//RenderBoundingBox();
@@ -34,10 +33,10 @@ void SewerPipes::Render()
 
 void SewerPipes::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + 1;
-	b = y + 1;
+	l = 0;
+	t = 0;
+	r = 0;
+	b = 0;
 }
 
 void SewerPipes::SetState(int state)

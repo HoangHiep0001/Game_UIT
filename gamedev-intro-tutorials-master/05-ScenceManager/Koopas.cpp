@@ -11,6 +11,19 @@ CKoopas::CKoopas(int appe)
 	//SetState(KOOPAS_STATE_WALKING);
 }
 
+bool CKoopas::CheckPosition()
+{
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	float width = CGame::GetInstance()->GetScreenWidth();
+	float height = CGame::GetInstance()->GetScreenHeight();
+	if (startx > cx && startx < (cx + width) && starty > cy && starty < (cy + height))
+	{
+		return false;
+	}
+	return true;
+}
+
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -70,21 +83,22 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!CheckInCamera())
 	{
-		if (GetState() == KOOPAS_STATE_TORTOISESHELL_UP && time > 0 && ispickup == false)
+		if ((GetState() == KOOPAS_STATE_TORTOISESHELL_UP|| GetState() == KOOPAS_STATE_TORTOISESHELL_DOWN) && time > 0 && ispickup == false)
 		{
 			Destroy();
 		}
-		if (isDestroy)
+		
+		if (CheckPosition())
 		{
+			this->SetPosition(startx, starty);
 			this->SetState(state_koopas);
 			isDestroy = false;
 		}
 		return;
-
 	}
+	
 	if (isDestroy)
 	{
-		this->SetPosition(startx, starty);
 		return;
 	}
 	if (GetDirection() == 1)
@@ -100,6 +114,22 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 			{
 				nx =- nx;
 				vx =- vx;
+			}
+		}
+	}
+	else if (GetDirection() == 2)
+	{
+		if (state == KOOPAS_STATE_FLYLING)
+		{
+			if (this->y <= GetDistance_a())
+			{
+				ny = -ny;
+				vy = -vy;
+			}
+			else if (this->y >= GetDistance_b())
+			{
+				ny = -ny;
+				vy = -vy;
 			}
 		}
 	}
@@ -197,9 +227,13 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	CGameObject::Update(dt, scene, coObjects);
+
 	if (!ispickup)
 	{
-		vy += KOOPAS_GRAVITY * dt;
+		if (GetDirection() != 2)
+		{
+			vy += KOOPAS_GRAVITY * dt;
+		}
 	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -284,6 +318,33 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
 						vy = 0;
+				}
+			}
+			else if (dynamic_cast<CBrick*>(e->obj))
+			{
+				CBrick* brick = dynamic_cast<CBrick*> (e->obj);
+				if (e->ny < 0)
+				{
+					vy = 0;
+				}
+				if (e->nx != 0)
+				{
+					if (state == KOOPAS_STATE_TORTOISESHELL_UP || state == KOOPAS_STATE_TORTOISESHELL_DOWN)
+					{
+						if (brick->GetItemState() == 1)
+						{
+							//Effect(scene);
+							brick->setIsBroken(true);
+						}
+						else
+						{
+							//Effect(scene);
+							brick->setIsBroken(true);
+							brick->Destroy();
+						}
+					}
+					nx = -nx;
+					vx = -vx;
 				}
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj))
@@ -509,7 +570,7 @@ void CKoopas::Render()
 
 	animation_set->at(ani)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CKoopas::SetState(int state)
@@ -548,8 +609,17 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_FLYLING:
 		nx = -1;
-		vy = -KOOPAS_JUMP_SPEED_Y;
-		vx = -KOOPAS_WALKING_SPEED;
+		if (GetDirection() == 2)
+		{
+			vy = -0.04f;
+			vx = 0;
+		}
+		else
+		{
+			vy = -KOOPAS_JUMP_SPEED_Y;
+			vx = -KOOPAS_WALKING_SPEED;
+		}
+		
 		break;
 	case KOOPAS_STATE_TORTOISESHELL_UP:
 		if (nx>0)

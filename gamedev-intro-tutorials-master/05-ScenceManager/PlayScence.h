@@ -15,7 +15,12 @@
 
 
 #define GAME_TIME 1000
+#define SPECIAL_MAP_STATIC 0
+#define SPECIAL_MAP_MOVING 1
+#define INTRO_MAP_START 0
+#define INTRO_MAP_MAP 1
 
+#define INTRO_NX 5
 class Hud;
 
 class CPlayScene: public CScene

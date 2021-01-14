@@ -7,7 +7,10 @@
 #define COIN_ID_IDE	3
 #define LEAVES_ID 4
 #define SIGN_ID 5
+#define FLOWER_FIRE 6
 
+#define ITEM_POSITION 16
+#define ITEM_POSITION_Y 2
 #define COIN_SCORE 100
 class Item : public CGameObject
 {

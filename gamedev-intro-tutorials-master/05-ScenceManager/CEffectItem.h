@@ -3,6 +3,7 @@
 /// BBOX
 #define EFFECTITEM_BBOX 16
 
+#define EFFECTITEM_VY 0.03
 //state
 #define EFFECTITEM_ANI_SET	0
 

@@ -11,7 +11,7 @@ Trigger::Trigger(float l, float t, float r, float b, int state)
 
 void Trigger::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Trigger::GetBoundingBox(float& l, float& t, float& r, float& b)

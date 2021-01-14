@@ -11,7 +11,7 @@ CCheckStop::CCheckStop(float l, float t, float r, float b, int direction)
 
 void CCheckStop::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CCheckStop::GetBoundingBox(float& l, float& t, float& r, float& b)

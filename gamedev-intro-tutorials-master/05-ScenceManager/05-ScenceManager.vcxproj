@@ -129,6 +129,7 @@
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="CBroken.cpp" />
     <ClCompile Include="CCheckStop.cpp" />
+    <ClCompile Include="CCheckUpdate.cpp" />
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEffectChangeMario.cpp" />
     <ClCompile Include="CEffectItem.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemCoin.cpp" />
+    <ClCompile Include="ItemFlowerFire.cpp" />
     <ClCompile Include="ItemLeaves.cpp" />
     <ClCompile Include="ItemSign.cpp" />
     <ClCompile Include="Koopas.cpp" />
@@ -171,6 +173,7 @@
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="CBroken.h" />
     <ClInclude Include="CCheckStop.h" />
+    <ClInclude Include="CCheckUpdate.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectChangeMario.h" />
     <ClInclude Include="CEffectItem.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemCoin.h" />
+    <ClInclude Include="ItemFlowerFire.h" />
     <ClInclude Include="ItemLeaves.h" />
     <ClInclude Include="ItemSign.h" />
     <ClInclude Include="Koopas.h" />

@@ -14,7 +14,7 @@ Trigger_ChangeCamera::Trigger_ChangeCamera(float l, float t, float r, float b, i
 
 void Trigger_ChangeCamera::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Trigger_ChangeCamera::GetBoundingBox(float& l, float& t, float& r, float& b)

@@ -6,6 +6,7 @@
 #include "PlayScence.h"
 #include "Mario.h"
 #include "Brick.h"
+#include "ItemFlowerFire.h"
 Item* Item::SpawnItem(int id, CScene* scene)
 {
 	CPlayScene* pc = dynamic_cast<CPlayScene*>(scene);
@@ -23,7 +24,14 @@ Item* Item::SpawnItem(int id, CScene* scene)
 	case LEAVES_ID:
 		if (mario->GetLevel() == MARIO_LEVEL_BIG)
 		{
-			return new CLeaves();
+			if (mario->GetApperance() == MARIO_FOX)
+			{
+				return new CFlowerFire();
+			}
+			else
+			{
+				return new CLeaves();
+			}
 		}
 		else
 		{

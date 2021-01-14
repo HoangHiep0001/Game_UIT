@@ -1,9 +1,18 @@
 #pragma once
 #include "GameObject.h"
+
+
+
+
+//#cong32*4
 #define SEWERPIPES_STATE_ONE 1
+//cong32 * 32
 #define SEWERPIPES_STATE_TWO 2
+//cong32 * 208
 #define SEWERPIPES_STATE_THREE 3
+//cong32 * 48 den trang
 #define SEWERPIPES_STATE_FOUR 4
+//cong32 * 64
 #define SEWERPIPES_STATE_FIVE 5
 
 

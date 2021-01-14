@@ -29,7 +29,7 @@ void CItemCoin::Render()
 		ani = ITEM_COIN_ANI_IDE;
 	}
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CItemCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -40,8 +40,8 @@ void CItemCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	}
 	l = x;
 	t = y;
-	r = l + 14;
-	b = t + 14;
+	r = l + COIN_BBOX_X_Y;
+	b = t + COIN_BBOX_X_Y;
 }
 
 void CItemCoin::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* colliable_objects)

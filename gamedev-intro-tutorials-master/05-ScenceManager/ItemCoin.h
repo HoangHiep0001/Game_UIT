@@ -4,7 +4,7 @@
 
 #define COIN_FLY_Y	0.15f
 // BBOX
-#define COIN_BBOX_X_Y 16
+#define COIN_BBOX_X_Y 15
 //state
 #define ITEM_COIN_STATE_COIN 0
 #define ITEM_COIN_STATE_IDE 1
@@ -15,7 +15,7 @@
 #define ITEMCOIN_ANI_SET	9
 #define ITEMCOIN_SCORE 100
 #define ITEMCOIN_S 48
-#define ITEMCOIN_TIME 5000
+#define ITEMCOIN_TIME 10000
 	class CItemCoin : public Item
 	{
 		int state;

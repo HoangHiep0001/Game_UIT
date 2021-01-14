@@ -10,7 +10,7 @@
 //BBOX
 #define KOOPAS_BBOX_WIDTH 16
 #define KOOPAS_BBOX_HEIGHT 27
-#define KOOPAS_BBOX_LIVING 16
+#define KOOPAS_BBOX_LIVING 15.7
 //STATE
 #define KOOPAS_STATE_WALKING 0
 #define KOOPAS_STATE_FLYLING 1
@@ -87,6 +87,7 @@ public:
 	int GetDirection() { return direction; }
 	int GetApperance() { return apperance; }
 	CKoopas(int appe);
+	bool CheckPosition();
 	void SetState(int state);
 	void SetIsPick(bool flag) {
 		this->ispickup = flag;
