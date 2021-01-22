@@ -230,7 +230,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 	if (!ispickup)
 	{
-		if (GetDirection() != 2)
+		if (GetDirection() != 2 )
 		{
 			vy += KOOPAS_GRAVITY * dt;
 		}
@@ -333,8 +333,19 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (brick->GetItemState() == 1)
 						{
-							//Effect(scene);
-							brick->setIsBroken(true);
+							if (brick->GetState() == BRICK_STATE_BRICK || brick->GetState() == BRICK_STATE_N_EMPTY)
+							{
+								SetState(BRICK_STATE_N_EMPTY);
+								brick->SetItemCount(brick->GetItemCount() - 1);
+								if (brick->GetItemCount() == 0)
+								{
+									brick->SetState(BRICK_STATE_EMPTY);
+								}
+								else if (brick->GetItemCount() > 0)
+								{
+									brick->SetState(BRICK_STATE_N_EMPTY);
+								}
+							}
 						}
 						else
 						{
@@ -343,6 +354,7 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 							brick->Destroy();
 						}
 					}
+					
 					nx = -nx;
 					vx = -vx;
 				}
@@ -411,8 +423,19 @@ void CKoopas::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (brick->GetItemState() == 1)
 						{
-							//Effect(scene);
-							brick->setIsBroken(true);
+							if (brick->GetState() == BRICK_STATE_BRICK || brick->GetState() == BRICK_STATE_N_EMPTY)
+							{
+								SetState(BRICK_STATE_N_EMPTY);
+								brick->SetItemCount(brick->GetItemCount() - 1);
+								if (brick->GetItemCount() == 0)
+								{
+									brick->SetState(BRICK_STATE_EMPTY);
+								}
+								else if (brick->GetItemCount() > 0)
+								{
+									brick->SetState(BRICK_STATE_N_EMPTY);
+								}
+							}
 						}
 						else
 						{

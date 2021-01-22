@@ -9,6 +9,8 @@
 24	textures\smb3_map.png	255	255	255
 25	textures\fireball_left.png	0	255	255
 26	textures\SuperMarioBros3.png	255	255	255
+27	textures\misc2.png	176	224	248
+28	textures\effect_x1.png	255	255	255
 -100	source\Start\Start_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Start.txt
@@ -1063,7 +1065,7 @@ cầm rùa trái
 #cong4
 20603	50853	100
 #cong5
-20604	50855	100
+20604	50854	100
 #------------------------------------------------------------------------------------------------------------------------------------
 #
 # ==== MARIO big =========
@@ -1142,12 +1144,13 @@ cầm rùa trái
 21	5100
 #effectitem
 22	5110
+[GRID]
+source\Grid\scene-start.txt
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger 42 trigger_changecamera
 # MARIO
 0	48	64	1
-
 #----- coin------
 #type   x	y	andi	width	height	state
 

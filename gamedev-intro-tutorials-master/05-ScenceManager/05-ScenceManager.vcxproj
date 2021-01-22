@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BoomerangBrothers.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="CBroken.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="CTree.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FireBallCacTus.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -150,6 +152,7 @@
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mushrooms.cpp" />
+    <ClCompile Include="PlatformWood.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionMark.cpp" />
     <ClCompile Include="SceneProperties.cpp" />
@@ -169,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BoomerangBrothers.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="CBroken.h" />
@@ -184,6 +188,7 @@
     <ClInclude Include="CTree.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FireBallCacTus.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Item.h" />
@@ -194,6 +199,7 @@
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mushrooms.h" />
+    <ClInclude Include="PlatformWood.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionMark.h" />
     <ClInclude Include="SceneProperties.h" />

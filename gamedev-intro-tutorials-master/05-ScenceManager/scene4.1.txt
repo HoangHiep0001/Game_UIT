@@ -10,6 +10,7 @@
 25	textures\fireball_left.png	0	255	255
 26	textures\SuperMarioBros3.png	255	255	255
 27	textures\misc2.png	176	224	248
+28	textures\effect_x1.png	255	255	255
 -7	source\Map1.4\SuperMarioBros3Map1-4BG_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Scene1.4.txt
@@ -662,6 +663,17 @@ flyling up left   (mario fox)
 1252	181	4	197	20	20
 #--------==== HOA LUA=======-----------------
 50730	181	4	197	20	20
+#--------==== Gach di chuyen=======-----------------
+1300	237	338	285	354	21
+#---------====BOOMERANGBROTHERS========----------
+#TRAI
+#1310	115	900	131	924	1
+#1311	65	900	81	924	1
+#1312	15	900	31	924	1
+#PHAI
+#1315	165	900	181	924	1
+#1316	215	900	231	924	1
+#1317	265	900	281	924	1
 #===============================================================================================================================
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -1102,6 +1114,13 @@ cầm rùa trái
 5110	1250	100	1251	100	1252	100
 #--------==== HOA LUA=======-----------------
 5120	50730	100
+#--------==== Gach di chuyen=======-----------------
+5130	1300	100
+#---------====BOOMERANGBROTHERS========----------
+#TRAI
+#5140	1310	100	1311	100	1312	100
+#PHAI
+#5141	1315	100	1316	100	1317	100
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
@@ -1139,10 +1158,16 @@ cầm rùa trái
 15	5102
 # HOA LUA
 16	5120
+#Plaformwood
+23	5130
+#---------====BOOMERANGBROTHERS========----------
+#24	5140	5141
 #TREE
 21	5100
 #effectitem
 22	5110
+[GRID]
+source\Grid\scene4.1.txt
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger 42 trigger_changecamera
@@ -1193,19 +1218,19 @@ cầm rùa trái
 4	2064	0	0	512	0.1	0 
 #======----- CHECKUPDATE------========== 
 #type   x	y	andi	width	height
-35	0	432	0	2048	1	0	80	32
+#35	0	432	0	2048	1	0	80	32
 # --- CAMERA ---
 #type x	y	ani_set_id	w	h id_came
 5	0	240	0	176	208	0
 5	2100	240	0	176	208	1
 # --- MAP CAMERA ---
 #type x	y	ani_set_id	w	h id_camera n
-6	0	0	0	2048	432	0	1
+6	0	0	0	2048	432	0	0
 6	2064	0	0	512	432	1	0
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
 #50	2792	368	0	2816	416	0	80	32
-#50	110	370	0	130	380	1	110	370
+50	2003	258	0	2020	270	2	1984	278
 #Question
 #type   x	y	andi	state	item_id	item_count
 # =====------BRICK----======
@@ -1245,7 +1270,7 @@ cầm rùa trái
 1	976	400	3	0	3	0	0
 1	992	400	3	0	3	0	0
 1	1008	400	3	0	3	0	0
-1	1008	352	3	0	2	1	1
+1	1008	352	3	0	2	11	1
 1	1024	352	3	0	3	0	0
 1	1040	352	3	0	3	0	0
 1	1056	352	3	0	3	0	0
@@ -1266,7 +1291,7 @@ cầm rùa trái
 1	1408	304	3	0	3	0	0
 1	1424	304	3	0	3	0	0
 1	1536	304	3	0	3	0	0
-1	1536	288	3	0	2	1	1
+1	1536	288	3	0	2	8	1
 1	1536	368	3	0	3	0	0
 1	1536	384	3	0	3	0	0
 1	1536	400	3	0	3	0	0
@@ -1283,6 +1308,8 @@ cầm rùa trái
 #===========KOOPAS=============
 # type	x	y	ani_set_id num	app	state	Distance distance_a distance_b
 3	1870	292	7	0	1	2	255	385
+3	1984	340	7	0	0	1	1968	2000
+3	1070	320	7	0	0	1	1008	1072
 #=================CACTUS----====
 # type	x	y	ani_set_id num	app	state	type sewer
 #============---trigger---======
@@ -1296,3 +1323,17 @@ cầm rùa trái
 40	2192	384	20	2
 #=============---EFFECT ITEM----======
 #22	2688	338	22	0
+#=============---gACH DI CHUYEN----======
+# type	x	y	ani_set_id state
+23	368	320	23	0
+23	560	352	23	0
+23	592	304	23	0
+23	752	336	23	0
+23	1088	384	23	0
+23	1200	320	23	0
+23	1376	352	23	0
+23	1408	336	23	0
+23	1552	304	23	0
+23	1744	384	23	0
+23	1776	336	23	0
+23	1792	416	23	0

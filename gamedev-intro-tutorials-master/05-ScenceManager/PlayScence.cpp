@@ -25,6 +25,8 @@
 #include "CPortalintro.h"
 #include "CEffectItem.h"
 #include "CCheckUpdate.h"
+#include "PlatformWood.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):CScene(id, filePath, word, time, intro)
@@ -45,6 +47,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):C
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_TILEMAP 7
+#define SCENE_SECTION_GRID 8
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -65,6 +68,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath, int word, int time,int intro):C
 #define OBJECT_TYPE_CACTUS 20
 #define OBJECT_TYPE_TREE 21
 #define OBJECT_TYPE_EFFECTITEM 22
+#define OBJECT_TYPE_PLATFORM_WOOD 23
 #define OBJECT_TYPE_SEWERPIPES 40
 #define OBJECT_TYPE_TRIGGERPIPES 41
 #define OBJECT_TYPE_TRIGGER_CHANGE_CAMERA 42
@@ -175,7 +179,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
 	int ani_set_id = atoi(tokens[3].c_str());
-
+	int colum = 0;
+	int row = 0;
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject *obj = NULL;
@@ -188,8 +193,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		
+		colum = atoi(tokens[4].c_str());
+		row = atoi(tokens[5].c_str());
 		obj = new CMario(this->intro,x,y); 
+		obj->SetIsAlwaysUpdate(true);
 		player = (CMario*)obj;  
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
@@ -197,11 +204,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int app = atoi(tokens[4].c_str());
 		int state = atoi(tokens[5].c_str());
+		colum= atoi(tokens[6].c_str());
+		row = atoi(tokens[7].c_str());
 		obj = new CGoomba(app);
 		CGoomba* q = dynamic_cast<CGoomba*>(obj);
 		q->SetState(state); 
 		q->SetStartPoint(x, y);
 		q->SetStatePoint(state);
+
 		
 	}
 	break;
@@ -215,8 +225,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int count = atof(tokens[6].c_str());
 		q->SetItemCount(count);
 		int nstate = atof(tokens[7].c_str());
+		colum = atoi(tokens[8].c_str());
+		row = atoi(tokens[9].c_str());
 		q->SetItemState(nstate);
 		obj->SetState(state);
+		q->SetStartY(y);
 	}
 	break;
 	case OBJECT_TYPE_KOOPAS:
@@ -227,6 +240,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float diriction = atof(tokens[6].c_str());
 		float distance_a= atof(tokens[7].c_str());
 		float distance_b = atof(tokens[8].c_str());
+		colum = atoi(tokens[9].c_str());
+		row = atoi(tokens[10].c_str());
 		obj = new CKoopas(app);
 		CKoopas* q = dynamic_cast<CKoopas*>(obj);
 		q->SetStartPoint(x, y);
@@ -239,12 +254,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_COIN:
 	{
+		colum = atoi(tokens[4].c_str());
+		row = atoi(tokens[5].c_str());
 		obj = new CCoin();	
 	}
 	break;
 	case OBJECT_TYPE_ITEM_COIN:
 	{
 		int nstate = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new CItemCoin(nstate);
 	}
 	break;
@@ -257,6 +276,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int id = atof(tokens[5].c_str());
 		q->SetItemID(id);
 		int count = atof(tokens[6].c_str());
+		colum = atoi(tokens[7].c_str());
+		row = atoi(tokens[8].c_str());
 		q->SetItemCount(count);
 		obj->SetState(state);
 
@@ -267,7 +288,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
 		int state = atof(tokens[6].c_str());
+		colum = atoi(tokens[7].c_str());
+		row = atoi(tokens[8].c_str());
 		obj = new Ground(x, y, w, h, state);
+		obj->SetIsAlwaysUpdate(true);
+		
 		break; 
 	}
 	case OBJECT_TYPE_CHECKUPDATE:
@@ -277,6 +302,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		float mariox = atof(tokens[7].c_str());
 		float marioy = atof(tokens[8].c_str());
+		colum = atoi(tokens[9].c_str());
+		row = atoi(tokens[10].c_str());
 		obj = new CCheckUpdate(x, y, w, h, scene_id, mariox, marioy);
 		break;
 	}
@@ -285,6 +312,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
 		int direction = atof(tokens[6].c_str());
+		colum = atoi(tokens[7].c_str());
+		row = atoi(tokens[8].c_str());
 		obj = new CCheckStop(x, y, w, h, direction);
 		break;
 	}
@@ -294,6 +323,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
 		int id = atoi(tokens[6].c_str());
+		colum = atoi(tokens[7].c_str());
+		row = atoi(tokens[8].c_str());
 		cam.left = x;
 		cam.top = y;
 		cam.right = x + w;
@@ -308,6 +339,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float h = atof(tokens[5].c_str());
 		int id= atoi(tokens[6].c_str());
 		int n = atoi(tokens[7].c_str());
+		colum = atoi(tokens[8].c_str());
+		row = atoi(tokens[9].c_str());
 		mapCamera.left = x;
 		mapCamera.top = y;
 		mapCamera.right = x + w;
@@ -323,6 +356,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		float mariox = atof(tokens[7].c_str());
 		float marioy = atof(tokens[8].c_str());
+		colum = atoi(tokens[9].c_str());
+		row = atoi(tokens[10].c_str());
 		obj = new CPortal(x, y, r, b, scene_id,mariox,marioy);
 	}
 	break;
@@ -333,6 +368,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		float mariox = atof(tokens[7].c_str());
 		float marioy = atof(tokens[8].c_str());
+		colum = atoi(tokens[9].c_str());
+		row = atoi(tokens[10].c_str());
 		obj = new CPortalintro(x, y, r, b, scene_id, mariox, marioy);
 	}
 	break;
@@ -340,12 +377,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MUSHROOMS:
 	{
 		int app = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new CMushrooms(app);	
 	}
 	break;
 	case OBJECT_TYPE_LEAVES:
 	{
 		int state = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new CLeaves();
 		obj->SetState(state);
 	}
@@ -358,6 +399,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int stype = atof(tokens[7].c_str());
 		int sewer = atof(tokens[8].c_str());
 		int pipes = atof(tokens[9].c_str());
+		colum = atoi(tokens[10].c_str());
+		row = atoi(tokens[11].c_str());
 		obj = new CCactus(app,stype,sewer,pipes);
 		CCactus* c= dynamic_cast<CCactus*>(obj);
 		obj->SetState(state);
@@ -368,6 +411,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SEWERPIPES:
 	{
 		int state = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new SewerPipes();
 		obj->SetState(state);
 		break;
@@ -377,6 +422,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float w = atof(tokens[4].c_str());
 		float h = atof(tokens[5].c_str());
 		int state = atof(tokens[6].c_str());
+		colum = atoi(tokens[7].c_str());
+		row = atoi(tokens[8].c_str());
 		obj = new Trigger(x, y, w, h, state);
 		break;
 	}
@@ -387,17 +434,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int id_camera = atof(tokens[6].c_str());
 		float mx = atof(tokens[7].c_str());
 		float my = atof(tokens[8].c_str());
+		colum = atoi(tokens[9].c_str());
+		row = atoi(tokens[10].c_str());
 		obj = new Trigger_ChangeCamera(x, y, w, h, id_camera,mx,my);
 	}
 		break;
 	case OBJECT_TYPE_ITEM_SIGN:
 	{
 		int nstate = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new CItemSign(nstate);
 	}
 	break;
 	case OBJECT_TYPE_TREE:
 	{
+		colum = atoi(tokens[4].c_str());
+		row = atoi(tokens[5].c_str());
 		obj = new CTree();
 	}
 	break;
@@ -405,23 +458,43 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_EFFECTITEM:
 	{
 		int state = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
 		obj = new CEffectItem(state);
+
+	}
+	break;
+	case OBJECT_TYPE_PLATFORM_WOOD:
+	{
+		int state = atof(tokens[4].c_str());
+		colum = atoi(tokens[5].c_str());
+		row = atoi(tokens[6].c_str());
+		obj = new CPlatformWood();
+		obj->SetState(state);
 	}
 	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-	
+
 	// General object setup
 	if (object_type != OBJECT_TYPE_CAMERA && object_type != OBJECT_TYPE_MAP_CAMERA)
 	{
+		obj->SetColum(colum);
+		obj->SetRow(row);
 		obj->SetPosition(x, y);
+		if (!obj->GetIsAlwaysUpdate())
+		{
+			grid->pushObject(obj, row, colum);
+		}
+		else
+		{
+			grid->pushAlwaysObject(obj);
+		}
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
-		objects.push_back(obj);
-
 	}
 
 }
@@ -436,6 +509,9 @@ void CPlayScene::_ParseSection_TILEMAP_DATA(string line)
 	int ID;
 	int rowMap, columnMap, columnTile, rowTile, totalTiles;
 	f >> ID >> rowMap >> columnMap >> rowTile >> columnTile >> totalTiles;
+
+	grid = new Grid(columnMap * TILE_SIZE, rowMap * TILE_SIZE);
+
 	//khoi tao ma tran data
 	std::vector<std::vector<int>> tileMapData;
 	tileMapData.resize(rowMap);
@@ -456,7 +532,30 @@ void CPlayScene::_ParseSection_TILEMAP_DATA(string line)
 	tileMap->SetTileMapData(tileMapData);
 }
 
+void CPlayScene::_ParseSection_GRID(string line)
+{
+	LPCWSTR path = ToLPCWSTR(line);
+	ifstream f;
 
+	f.open(path);
+
+	int section = SCENE_SECTION_UNKNOWN;
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string x=str;
+		_ParseSection_OBJECTS(x);
+	}
+
+	f.close();
+
+}
+
+void CPlayScene::GetListObjectFromGrid()
+{
+	objects.clear();
+	grid->GetListObject(objects);
+}
 
 void CPlayScene::Load()
 {
@@ -488,6 +587,10 @@ void CPlayScene::Load()
 		{
 			section = SCENE_SECTION_TILEMAP; continue;
 		}
+		if (line == "[GRID]")
+		{
+			section = SCENE_SECTION_GRID; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -499,8 +602,8 @@ void CPlayScene::Load()
 			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 			case SCENE_SECTION_TILEMAP: _ParseSection_TILEMAP_DATA(line); break;
+			case SCENE_SECTION_GRID: _ParseSection_GRID(line); break;
 		}
 	}
 
@@ -527,6 +630,7 @@ void CPlayScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	GetCountDown();
+	GetListObjectFromGrid();
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -621,6 +725,7 @@ void CPlayScene::Update(DWORD dt)
 	CGame::GetInstance()->GetCamPos(x_cam, y_cam);
 	tileMap->SetCamera(x_cam, y_cam);
 
+	UpdateGrid();
 	hud->Update();
 }
 
@@ -630,6 +735,17 @@ void CPlayScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 	hud->Render();
+}
+
+void CPlayScene::UpdateGrid()
+{
+	for (size_t i = 0; i < this->objects.size(); i++)
+	{
+		LPGAMEOBJECT obj = this->objects.at(i);
+		float x_, y_;
+		obj->GetPosition(x_, y_);
+		grid->Update(obj);
+	}
 }
 
 /*
@@ -694,7 +810,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		switch (KeyCode)
 		{
 		case DIK_E:
-			mario->SetPosition(470,288);
+			mario->SetPosition(1008,320);
+			break;
+		case DIK_R:
+			mario->SetPosition(1536, 330);
 			break;
 		case DIK_5:
 			DebugOut(L"Hello!", KeyCode);

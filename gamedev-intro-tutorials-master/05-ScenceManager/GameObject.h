@@ -57,6 +57,9 @@ public:
 
 	int nx;	
 	int ny;
+	
+	int colum;
+	int row;
 
 	int state;
 
@@ -72,6 +75,8 @@ public:
 	bool isDestroy = false;
 	bool isQuestionBroken = false;
 
+	bool isAlwaysUpdate = false;
+
 public: 
 	void Destroy() { this->isDestroy = true; }
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -79,8 +84,14 @@ public:
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
-	int GetState() { return this->state; }
+	void SetIsAlwaysUpdate(bool x) { this->isAlwaysUpdate = x; }
+	bool GetIsAlwaysUpdate() { return this->isAlwaysUpdate; }
 
+	int GetState() { return this->state; }
+	void SetColum(int colum) {this->colum = colum;}
+	void SetRow(int row) { this->row = row; }
+	int GetColum() { return this->colum; }
+	int GetRow() { return this->row; }
 	void RenderBoundingBox();
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }

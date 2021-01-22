@@ -1,6 +1,10 @@
 #pragma once
 #include "GameObject.h"
-#define BROKEN_GRAVITY			0.0035f
+#define BROKEN_GRAVITY 0.0035f
+
+#define BROKEN_VX 0.07f
+#define BROKEN_VY 0.17f
+
 #define BROKEN_ANIMATION_SET_ID	13
 class CBroken : public CGameObject
 {

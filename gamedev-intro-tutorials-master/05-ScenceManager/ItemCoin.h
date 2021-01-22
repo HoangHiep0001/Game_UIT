@@ -14,7 +14,7 @@
 
 #define ITEMCOIN_ANI_SET	9
 #define ITEMCOIN_SCORE 100
-#define ITEMCOIN_S 48
+#define ITEMCOIN_S 40
 #define ITEMCOIN_TIME 10000
 	class CItemCoin : public Item
 	{

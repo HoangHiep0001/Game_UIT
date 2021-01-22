@@ -28,6 +28,7 @@
 #include "CEffectItem.h"
 #include "ItemFlowerFire.h"
 #include "CCheckUpdate.h"
+#include "PlatformWood.h"
 
 CMario::CMario(int intro, float x, float y) : CGameObject()
 {
@@ -217,44 +218,44 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
-				if (untouchable == 0)
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				if (e->ny < 0)
 				{
-					CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-					if (e->ny < 0)
+					if (goomba->state == GOOMBA_STATE_WALKING)
 					{
-						if (goomba->state == GOOMBA_STATE_WALKING)
+						if (goomba->GetApperance() == GOOMBA_RED)
 						{
-							if (goomba->GetApperance() == GOOMBA_RED)
-							{
-								this->score += xcore*goomba->GetScore();
-								//xcore *= 2;
-								Effect(scene);
-								goomba->SetState(GOOMBA_STATE_DIE);
+							this->score += xcore*goomba->GetScore();
+							//xcore *= 2;
+							Effect(scene);
+							goomba->SetState(GOOMBA_STATE_DIE);
 
-							}
-							if (goomba->GetApperance() == GOOMBA_THERE)
-							{
-								this->score += goomba->GetScore();
-								Effect(scene);
-								goomba->SetState(GOOMBA_STATE_DIE);
-
-							}
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
-						else if ((goomba->state == GOOMBA_STATE_WALKING_WING) || (goomba->state == GOOMBA_STATE_FLYLING))
+						if (goomba->GetApperance() == GOOMBA_THERE)
 						{
 							this->score += goomba->GetScore();
 							Effect(scene);
-							goomba->SetState(GOOMBA_STATE_WALKING);
-							goomba->y += GOOMBA_BBOX_Y;
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							goomba->SetState(GOOMBA_STATE_DIE);
+
 						}
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
-					if (e->nx != 0)
+					else if ((goomba->state == GOOMBA_STATE_WALKING_WING) || (goomba->state == GOOMBA_STATE_FLYLING))
 					{
-						if (state != MARIO_STATE_ATTACK)
+						this->score += goomba->GetScore();
+						Effect(scene);
+						goomba->SetState(GOOMBA_STATE_WALKING);
+						goomba->y += GOOMBA_BBOX_Y;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+				if (e->nx != 0)
+				{
+					if (state != MARIO_STATE_ATTACK)
+					{
+						if (goomba->GetState() == GOOMBA_STATE_FLYLING || goomba->GetState() == GOOMBA_STATE_WALKING || goomba->GetState() == GOOMBA_STATE_WALKING_WING)
 						{
-							if (goomba->GetState() == GOOMBA_STATE_FLYLING || goomba->GetState() == GOOMBA_STATE_WALKING || goomba->GetState() == GOOMBA_STATE_WALKING_WING)
+							if (untouchable == 0)
 							{
 								if (level > MARIO_LEVEL_SMALL)
 								{
@@ -314,14 +315,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (koopas->GetState() == KOOPAS_STATE_FLYLING)
 					{
-						if (koopas->GetApperance() == KOOPAS_RED)
-						{
-							koopas->SetState(KOOPAS_STATE_WALKING);
-						}
-						if (koopas->GetApperance() == KOOPAS_BULE)
-						{
-							koopas->SetState(KOOPAS_STATE_WALKING);
-						}
+						koopas->SetState(KOOPAS_STATE_WALKING);
 						Effect(scene);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
@@ -342,6 +336,13 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 						
 					}
+					if (koopas->GetDirection() == 2 && koopas->GetState()!=KOOPAS_STATE_FLYLING)
+					{
+						koopas->SetDirection(1);
+						koopas->vy = 0.2;
+						koopas->vx = 0;
+					}
+
 				}
 				else if (ny > 0)
 				{
@@ -567,6 +568,33 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 				}
 				
 			}
+			else if (dynamic_cast<CPlatformWood*>(e->obj))
+			{
+			CPlatformWood* PlatformWood = dynamic_cast<CPlatformWood*>(e->obj);
+				if (e->ny < 0)
+				{
+					if (state == MARIO_STATE_FIRE_BALL_DOUBLE)
+					{
+						state = MARIO_STATE_IDLE;
+						isSpawnShot = false;
+					}
+					else if (state == MARIO_STATE_LANDING)
+					{
+						SetState(MARIO_STATE_IDLE);
+					}
+					if (state == MARIO_STATE_FALL_DOWN && state != MARIO_STATE_FIRE_BALL)
+					{
+						SetState(MARIO_STATE_IDLE);
+						vx = 0;
+					}
+					PlatformWood->vy = PLATFORM_WOOD_VY;
+					PlatformWood->vx = 0;
+					vy = 0;
+					time_jump = 0;
+					is_colii_top = false;
+
+				}
+			}
 			else if (dynamic_cast<CCheckUpdate*>(e->obj))
 			{
 				if (e->ny != 0)
@@ -593,22 +621,29 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 					is_colii_top = false;
 				}
 				else if (e->ny > 0)
-				{ 
-					if (brick->GetItemState()!=0)
+				{
+					if (level > MARIO_LEVEL_SMALL)
 					{
-						if (brick->GetState()==BRICK_STATE_BRICK)
+						is_colii_top = true;
+						if (brick->GetItemState() == 1)
 						{
-							if (brick->GetItemCount() >= 0)
+							if (brick->GetState() == BRICK_STATE_BRICK|| brick->GetState() == BRICK_STATE_N_EMPTY)
 							{
-								Effect(scene);
-								brick->setIsBroken(true);
+								SetState(BRICK_STATE_N_EMPTY);
+								brick->SetItemCount(brick->GetItemCount() - 1);
+								if (brick->GetItemCount() == 0)
+								{
+									Effect(scene);
+									brick->SetState(BRICK_STATE_EMPTY);
+								}
+								else if (brick->GetItemCount() > 0)
+								{
+									Effect(scene);
+									brick->SetState(BRICK_STATE_N_EMPTY);
+								}
 							}
 						}
-						
-					}
-					else
-					{
-						if (level > MARIO_LEVEL_SMALL)
+						else
 						{
 							if (state == MARIO_STATE_JUMP)
 							{
@@ -618,6 +653,7 @@ void CMario::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 								this->score = brick->GetScore();
 
 							}
+
 						}
 					}
 					vy = 0;
@@ -1184,22 +1220,6 @@ void CMario::SetState(int state)
 				{
 					vy = -MARIO_BIG_JUMP_SPEED_Y;
 				}
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
 				if (time_jump == 0)
 				{
 					time_jump = GetTickCount64();
@@ -1207,14 +1227,7 @@ void CMario::SetState(int state)
 				break;
 			case MARIO_STATE_JUMP_MAX:
 				vy = -MARIO_JUMP_SPEED_Y_MAX;
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx =- 0.1f;
-				}
+
 				break;
 			case MARIO_STATE_IDLE:
 				if (a_stop == 0)
@@ -1224,18 +1237,6 @@ void CMario::SetState(int state)
 				isSpawnFireBall = false;
 				break;
 			case MARIO_STATE_FALL_DOWN:
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
-				if (a_stop == 0)
-				{
-					vx = 0;
-				}
 				isDownPipe = false;
 				isSpawnFireBall = false;
 				break;
@@ -1368,14 +1369,6 @@ void CMario::SetState(int state)
 				{
 					vy = -MARIO_BIG_JUMP_SPEED_Y;
 				}
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
 				if (time_jump == 0)
 				{
 					time_jump = GetTickCount64();
@@ -1383,14 +1376,6 @@ void CMario::SetState(int state)
 				break;
 			case MARIO_STATE_JUMP_MAX:
 				vy = -MARIO_JUMP_SPEED_Y_MAX;
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
 				break;
 			case MARIO_STATE_IDLE:
 				if (a_stop == 0)
@@ -1400,18 +1385,6 @@ void CMario::SetState(int state)
 				isSpawnFireBall = false;
 				break;
 			case MARIO_STATE_FALL_DOWN:
-				if (nx > 0)
-				{
-					vx = 0.1f;
-				}
-				else
-				{
-					vx = -0.1f;
-				}
-				if (a_stop == 0)
-				{
-					vx = 0;
-				}
 				isSpawnFireBall = false;
 				break;
 			case MARIO_STATE_WALKING_RIGHT_FAST:
@@ -1537,14 +1510,6 @@ void CMario::SetState(int state)
 			}
 			else
 				vy = -MARIO_BIG_JUMP_SPEED_Y;
-			if (nx > 0)
-			{
-				vx = 0.1f;
-			}
-			else
-			{
-				vx = -0.1f;
-			}
 			if (time_jump == 0)
 			{
 				time_jump = GetTickCount64();
@@ -1552,14 +1517,7 @@ void CMario::SetState(int state)
 			break;
 		case MARIO_STATE_JUMP_MAX:
 			vy = -MARIO_JUMP_SPEED_Y_MAX;
-			if (nx > 0)
-			{
-				vx = 0.1f;
-			}
-			else
-			{
-				vx = -0.1f;
-			}
+			
 			break;
 		case MARIO_STATE_IDLE:
 			if (a_stop == 0)

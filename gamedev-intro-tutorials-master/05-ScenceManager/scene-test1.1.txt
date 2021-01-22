@@ -1143,6 +1143,8 @@ cầm rùa trái
 21	5100
 #effectitem
 22	5110
+[GRID]
+source\Grid\scene-test1.1.txt
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger 42 trigger_changecamera

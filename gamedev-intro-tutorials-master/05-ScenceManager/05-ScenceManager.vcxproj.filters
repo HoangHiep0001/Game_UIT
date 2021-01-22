@@ -58,6 +58,9 @@
     <Filter Include="Object\StaticOject\brick">
       <UniqueIdentifier>{cc189727-da3c-48d9-af97-7a6b28ab3f22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Grid">
+      <UniqueIdentifier>{a88cd199-0204-4baf-829e-590d88b3a051}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprites.cpp">
@@ -186,6 +189,15 @@
     <ClCompile Include="CCheckUpdate.cpp">
       <Filter>Object\StaticOject\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="PlatformWood.cpp">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClCompile>
+    <ClCompile Include="BoomerangBrothers.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -313,6 +325,15 @@
     </ClInclude>
     <ClInclude Include="CCheckUpdate.h">
       <Filter>Object\StaticOject\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformWood.h">
+      <Filter>Object\StaticOject\brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomerangBrothers.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Framework\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

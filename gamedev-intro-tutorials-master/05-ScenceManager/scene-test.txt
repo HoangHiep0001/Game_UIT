@@ -10,6 +10,8 @@
 -1	source\Map1.1\SuperMarioBros3Map1-1BG_bank.png	255	255	255
 [TILE_MAP_DATA]
 source\Scene\Scene1.1.1.txt
+[GRID]
+source\Grid\Scene1.1.1.txt
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 # ===-BIG MARIO HAVE FOX--===
@@ -1040,6 +1042,7 @@ cầm rùa trái
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Ground, 5 = Camera, 6 = Map camera ,7 = Coin, 8 = Question, 40=SewerPipes 41= trigger
+
 # MARIO
 0	30	360	1
 

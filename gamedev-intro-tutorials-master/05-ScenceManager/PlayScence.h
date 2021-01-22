@@ -12,6 +12,7 @@
 #include "COIN.h"
 #include "Hud.h"
 #include "Item.h"
+#include "Grid.h"
 
 
 #define GAME_TIME 1000
@@ -20,6 +21,7 @@
 #define INTRO_MAP_START 0
 #define INTRO_MAP_MAP 1
 
+#define TILE_SIZE	16
 #define INTRO_NX 5
 class Hud;
 
@@ -39,7 +41,9 @@ protected:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_TILEMAP_DATA(string line);
+	void _ParseSection_GRID(string line);
 
+	Grid* grid;
 	Hud* hud;
 	DWORD time_start;
 	int coin_number=0;
@@ -56,6 +60,10 @@ public:
 
 	RECT GetCamera() { return this->camera; }
 	
+	void GetListObjectFromGrid();
+
+	void UpdateGrid();
+
 	void SetMapCamera(RECT map) { this->mapCamera = map; }
 	void SetCamera(RECT cam) { this -> camera = cam; }
 	unordered_map<int, RECT> GetListMapCamera() {

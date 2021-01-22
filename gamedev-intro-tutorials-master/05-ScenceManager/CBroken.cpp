@@ -5,8 +5,8 @@ CBroken::CBroken(D3DXVECTOR2 position, int nx, int ny)
 {
 	x = position.x;
 	y = position.y;
-	vx = 0.07 * nx;
-	vy = -0.17 * ny;
+	vx = BROKEN_VX * nx;
+	vy = -BROKEN_VY * ny;
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(BROKEN_ANIMATION_SET_ID);
 	this->animation_set = ani_set;
@@ -24,11 +24,11 @@ void CBroken::Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!CheckInCamera())
 	{
-		if (isDestroy)
 			return;
 	}
 	vy += BROKEN_GRAVITY;
 	CGameObject::Update(dt, scene, coObjects);
+
 	x += dx;
 	y += dy; 
 }

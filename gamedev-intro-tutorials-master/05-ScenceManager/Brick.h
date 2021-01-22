@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+#define BRICK_CAKE_VY 0.05f
+
 #define BRICK_BBOX_WIDTH  16
 #define BRICK_BBOX_HEIGHT 16
 
@@ -8,6 +10,7 @@
 #define BRICK_STATE_BRICK 0
 #define BRICK_STATE_EMPTY 1
 #define BRICK_STATE_BROKEN 2
+#define BRICK_STATE_N_EMPTY 3
 
 // ani
 #define BRICK_ANI_BRICK 0
@@ -25,6 +28,7 @@
 #define BRICK_Y1 2
 #define BRICK_Y2 10
 
+#define MAX_RANGE_BRICK_Y	2
 class CBrick : public CGameObject
 {
 
@@ -32,8 +36,10 @@ class CBrick : public CGameObject
 	int item_count;
 	int item_state;
 	DWORD time;
+	float start_y;
 	int score = BRICK_SCORE;
 	bool Isbroken = false;
+	bool isSpawnItem = false;
 	virtual void Render();
 	virtual void Update(DWORD dt, CScene* scene, vector<LPGAMEOBJECT>* coObjects);
 	
@@ -43,6 +49,7 @@ public:
 	void SetBroken(bool broken) { this->Isbroken = broken; }*/
 	bool setIsBroken(bool x) {return this->Isbroken = x; }
 	CBrick();
+	void SetStartY(float y) { start_y = y; }
 	int GetItemID() { return this->item_id; }
 	void SetItemID(int id) { this->item_id = id; }
 	int GetItemCount() { return this->item_count; }
